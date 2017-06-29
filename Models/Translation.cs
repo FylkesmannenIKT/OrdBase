@@ -4,11 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace OrdBaseCore.Models 
 {   
     public class Translation
-    {
+    {   
         [ForeignKey("Client")]
         [StringLength(127)]
         public string ClientKey { get; set; } 
         protected virtual Client Client { get; set; }
+
 
         [ForeignKey("Language")]
         [StringLength(32)]
@@ -19,7 +20,6 @@ namespace OrdBaseCore.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string Container { get; set; }
         
-        [Column(Order = 4)]
         [StringLength(127)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string Key { get; set; } 

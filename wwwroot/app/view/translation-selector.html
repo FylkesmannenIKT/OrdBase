@@ -1,0 +1,42 @@
+<template id="translation-selector-view">
+	<style>
+    
+        translation-selector-view
+        main {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+    </style>
+	<header>
+        <button id="back-button">Back</button>
+        <h1>Ordbase - Select Translation</h1>
+        <button id="new-button">New </button>
+    </header>
+    <section id="container-list">
+
+
+    </section>
+	<main>
+
+
+	</main>
+	<footer></footer>
+</template>
+<script>
+    'use strict';
+    {
+        let template = document.currentScript
+                                .ownerDocument
+                                .querySelector("#translation-selector-view")
+                                .content;
+
+        class TranslationSelectorView extends HTMLElement {
+            connectedCallback() {
+                this.appendChild(
+                    document.importNode(template, true));
+            }
+        }
+        customElements.define('translation-selector-view', TranslationSelectorView);
+    }
+</script>

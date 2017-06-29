@@ -39,7 +39,7 @@ namespace OrdBaseCore.Services
         {
             _context.Client.Add(client);
             _context.SaveChanges();
-            return new NoContentResult{};
+            return new NoContentResult {};
         }
 
         //

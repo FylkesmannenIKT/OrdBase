@@ -60,7 +60,7 @@ namespace OrdBaseCore {
 
             services.AddDbContext<TranslationDb>(options => 
                // options.UseInMemoryDatabase()
-                options.UseSqlServer(
+                options.UseSqlServer (
                     sqlConnectionString,
                     b => b.MigrationsAssembly("OrdBaseCore") )
                 

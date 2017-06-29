@@ -39,8 +39,12 @@ namespace OrdBaseCore.Controllers
             if (language == null)
                 return  BadRequest();
             return _languageRepo.Create(language);
-        } 
+        }
 
+        //
+        // @note unsure if this should be part of the API, or that the languages should be hard-coded into the system
+        //        from the beginning.  - JSolsvik 26.06.17
+        /* 
         [HttpPut("api/language/update/{key}")]
         public IActionResult Update(string key, [FromBody]Language language) 
         {
@@ -55,5 +59,6 @@ namespace OrdBaseCore.Controllers
         {
             return _languageRepo.Delete(key);
         }
+        */
     }
 }

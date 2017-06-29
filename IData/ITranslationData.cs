@@ -14,6 +14,7 @@ namespace OrdBaseCore.IData
 		//
     	IEnumerable<Translation> Get(string client, string language, string container, string accessKey);
     	IEnumerable<Translation> GetOnClient(string client);
+		IEnumerable<object>      GetGroupOnClient(string client);
     	IEnumerable<Translation> GetOnContainer(string client, string container);
     	IEnumerable<KeyValuePair<string,string>> GetOnContainer(string client, string languaage, string container); // @optimize
     	IEnumerable<Translation> GetOnAccessKey(string client, string accesskey);

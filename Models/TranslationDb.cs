@@ -12,6 +12,7 @@ namespace OrdBaseCore.Models
             :base(options)
         {}
 
+        public DbSet<ClientLanguage> ClientLanguage { get; set; }
         public DbSet<Client> Client { get; set; }
         public DbSet<Language> Language { get; set; }
         public DbSet<Translation> Translation { get; set; }
@@ -34,6 +35,12 @@ namespace OrdBaseCore.Models
                     t.LanguageKey,
                     t.Container,
                     t.Key
+                });
+
+            modelBuilder.Entity<ClientLanguage>()
+                .HasKey(t => new {
+                    t.ClientId,
+                    t.LanguageId
                 });
         }
 

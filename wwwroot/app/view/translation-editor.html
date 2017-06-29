@@ -1,0 +1,35 @@
+<template id="translation-editor-view">
+    <style>
+    
+       
+        
+    </style>
+    <header>
+        <button id="back-button">Back</button>
+        <h1>Ordbase - Edit Translations</h1>
+        <button id="new-button">Save </button>
+    </header>
+    <section id="container-list"><li></li></section>
+    <main>
+        <br><label for="input-key">Key</label><br>
+        <input id="input-key" type="text" value=""><br><br>
+    </main>
+    <footer></footer>
+</template>
+<script>
+    'use strict';
+    {
+        let template = document.currentScript
+                                 .ownerDocument
+                                  .querySelector("#translation-editor-view")
+                                   .content; 
+                                
+        class TranslationEditorView extends HTMLElement {
+            connectedCallback() {
+                this.appendChild(
+                    document.importNode(template, true));
+            }
+        }
+        customElements.define('translation-editor-view', TranslationEditorView);
+    }
+</script>

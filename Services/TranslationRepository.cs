@@ -36,6 +36,18 @@ namespace OrdBaseCore.Services
                     select t)
                         .ToArray();
         }
+
+        public IEnumerable<object> GetGroupOnClient(string client)
+        {
+            return (from t in _context.Translation
+                    where t.ClientKey == client
+                    group t by t.Key
+                    into set
+                    select new {
+                        Key = set.Key,
+                        IsComplete = set.ToDictionary(o => o.LanguageKey, o => o.Done)
+                    });
+        }
         
         public IEnumerable<Translation> GetOnContainer (string client, string container) 
         {

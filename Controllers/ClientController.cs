@@ -39,7 +39,8 @@ namespace OrdBaseCore.Controllers
             if (client == null)
                 return  BadRequest();
 
-            return _clientRepo.Create(client);
+            _clientRepo.Create(client);
+            return StatusCode(201);
         } 
     }
 }

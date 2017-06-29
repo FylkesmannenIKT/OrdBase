@@ -1,0 +1,51 @@
+<template id="client-selector-view">
+	<style>
+        client-selector-view 
+        header {
+
+        }
+
+        client-selector-view
+        main {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        client-selector-view 
+        main button {
+            font-size: 100%;
+            margin: 10px;
+            height: 150px;
+            flex-basis: 150px;
+
+            flex-shrink: 0;
+            border-radius: 5px;
+        }
+    
+    </style>
+	    <header>
+            <h1>Ordbase - Select Client</h1>
+        </header>
+	<main>
+
+	</main>
+	<footer></footer>
+</template>
+<script>
+    'use strict';
+    {
+        let template = document.currentScript 
+                            .ownerDocument
+                            .querySelector("#client-selector-view")
+                            .content;
+
+        class ClientSelectorView extends HTMLElement {
+            
+            connectedCallback() {
+                this.appendChild(document.importNode(template, true));
+            }
+        }
+        customElements.define('client-selector-view', ClientSelectorView);
+    }
+</script>

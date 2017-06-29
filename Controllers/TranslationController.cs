@@ -30,7 +30,13 @@ namespace OrdBaseCore.Controllers
         {
             return _translationRepo.GetOnClient(client); 
         }
-        
+
+        [HttpGet("api/{client}/translation/group")]
+        public IEnumerable<object> GetGroupOnClient(string client)
+        {
+            return _translationRepo.GetGroupOnClient(client);
+        } 
+
         [HttpGet("api/{client}/translation/container/{container}")]
         public IEnumerable<object> GetOnContainer(string client, string container)
         {
