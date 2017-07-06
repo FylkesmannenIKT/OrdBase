@@ -1,6 +1,6 @@
 'use strict';
 
-export function OnSubmitForm_Client(event) {
+export function SubmitClient(event) {
         event.preventDefault();
         console.log('Default form "submit" event was prevented....');
 }

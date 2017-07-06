@@ -1,12 +1,13 @@
+'use strict'
 // 
 // @module Ajax
-// @file Ajax.js
+// @file ajax.js
 //
 
 // @doc Do research on using fetch instead -- https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 // @doc CORS - https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
 
-'use strict'
+
 import { mandatory } from './util.js';
 
 //
@@ -26,11 +27,9 @@ export function getJSON({ type = mandatory(), route = mandatory()} = {}) {
 //
 // @function getJSON_experiemental()
 //
-function getJSON_experiemental({ httpMethod = mandatory(), route = mandatory()} = {}) {
+export function getJSON_experimental({ type = mandatory(), route = mandatory()} = {}) {
 
-    fetch(route, { method: httpMethod })
-    .then((response) => {
-
+    fetch(route, { method: type }).then((response) => {
         let contentType = response.headers.get("content-type");
 
         if (contentType && contentType.indexOf("application/json") !== -1) {

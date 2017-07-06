@@ -1,0 +1,50 @@
+.fieldset-translation
+input { 
+    outline: none;
+    display: block; 
+    border-style: solid;
+    border-color: grey;
+
+    border-width: 0 0 1px 0;
+}
+
+.fieldset-translation
+input:focus {
+    box-shadow: 0 0 2px 2px #55b8ff;
+}
+
+.fieldset-translation
+input:disabled {
+    background: none;
+}
+
+.fieldset-translation
+.form-textinput {
+    font-size: 2em;
+    margin: 0px 20px 10px 4px;
+}
+
+.fieldset-translation
+.input-checkbox {
+    width: 25px;
+    height:25px;
+    border: 1px solid #4CAF50;
+}
+
+
+.fieldset-translation
+.input-lang-and-checkbox {
+    display: flex;
+}
+
+
+.fieldset-translation
+.input-label {
+    font-size: 1.2em;
+}
+
+
+.fieldset-translation
+.input-checkbox-div {
+    background-color: white;
+}

@@ -1,6 +1,6 @@
 'use strict';
 
-import { OnLoadView_ClientSelector } from './app/event/OnLoadView_ClientSelector.js';
+import { loadClientSelector } from './app/event/OnLoadView/loadClientSelector.js';
 
 //
 // @file main.js
@@ -18,5 +18,5 @@ window.addEventListener('load', () => {
         console.log('NO Service worker registered..', reason);
     }
 
-    OnLoadView_ClientSelector();
+    loadClientSelector();
 });

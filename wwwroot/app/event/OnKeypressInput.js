@@ -1,3 +1,5 @@
+'use strict';
+
 export function OnKeypressInput(target) {
 
     const minSize = target.getAttribute('data-min-size') || 20;

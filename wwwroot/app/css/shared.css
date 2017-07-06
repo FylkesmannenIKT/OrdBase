@@ -33,6 +33,10 @@ input, button {
     border-width: 0 0 1px 0;
 }
 
+fieldset {
+    border: none;
+}
+
 h2 {
     font-size: 2.5rem;
 }

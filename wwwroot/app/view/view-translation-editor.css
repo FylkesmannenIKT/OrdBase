@@ -5,7 +5,38 @@
         height: 100%;
     }
 
-.view-translation-editor
-ordbase-form-translation {
+.ordbase-form-translation {
+    height: 100%;
     margin-left: 20px;
+    font-size: 1.5rem;
+}
+
+.ordbase-form-translation
+label {
+    color: rgb(84, 84, 84);
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.ordbase-form-translation
+#checkbox-counter {
+    font-size: 1.5em;
+}
+
+.ordbase-form-translation
+.form-submit {
+    font-size: 2em;
+    background-color: white;
+    color: #4CAF50; 
+    border: 1px solid #4CAF50;
+    width: 430px;
+    height: 65px;
+}
+
+.ordbase-form-translation
+.form-submit:focus,
+.form-submit:hover {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
 }
