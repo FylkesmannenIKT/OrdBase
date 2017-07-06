@@ -1,0 +1,11 @@
+.view-translation-editor
+    main {
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+    }
+
+.view-translation-editor
+ordbase-form-translation {
+    margin-left: 20px;
+}

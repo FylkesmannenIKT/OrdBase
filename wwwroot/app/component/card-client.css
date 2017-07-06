@@ -1,0 +1,35 @@
+.ordbase-card-client {
+    width: 250px;
+    height: 220px;
+    flex-shrink: 0;
+
+    padding: 20px 10px 10px 10px;
+
+    color: var(--maincolor-dark);
+}
+
+.ordbase-card-client 
+button {
+    padding: 0px;
+    cursor: pointer;
+    color: var(--maincolor-dark);
+    background-color: var(--maincolor-white) !important;
+}
+
+.ordbase-card-client 
+img {
+
+}
+
+.ordbase-card-client 
+h2 {
+    margin-bottom: 0px;
+    margin-top: 7px;    
+    padding: 0px 5px 0px 10px;
+}
+
+.ordbase-card-client 
+p {
+    font-size: 13px;
+    padding: 0px 5px 0px 10px;
+}

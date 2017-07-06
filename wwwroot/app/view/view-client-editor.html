@@ -1,0 +1,24 @@
+<template>
+
+    <div class="view-client-editor">
+        <header class="ordbase-header">
+
+            <button id="btn-toggle-inactive-menu" class="icon-button">
+                <i class="fa fa-bars" aria-hidden="true"></i></button>
+
+            <button id="btn-back-to-home-page" class="header-text-button">
+                <h1>{{ bigHeader }} - <small> {{ smallHeader }}</small></h1></button>
+
+            <button id="btn-back-to-client-select" class="icon-button">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+
+        </header>
+        
+        <main>
+            <ordbase-form-client></ordbase-form-client>    
+        </main>
+        
+        <footer></footer>
+    </div>
+    
+</template>

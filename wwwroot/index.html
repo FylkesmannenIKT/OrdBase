@@ -3,41 +3,50 @@
     <head>
         <meta charset="utf-8">
         <title>Editor - OrdBase</title>
-        
-        <!-- Import templates -->        
-        <link rel="import" href="/app/view/client-selector.html"      >     
-        <link rel="import" href="/app/view/translation-selector.html" >
-        <link rel="import" href="/app/view/translation-editor.html"   >
 
-        <!-- Load scripts -->
-        <script src="/app/script/api.js"> </script>
-        <script src="/app/script/view-loader.js" ></script>
-        <script src="/startup.js"></script>
-    
-    
         <style>
-            html, body {
-                margin: auto;
-                max-width: 1000px;
-            }
-            header {        
-                display: flex;
-                justify-content: space-around;
-                padding-top: 1rem;
-                text-align: center;
-                height: 100px;
-                background-color: blue;
-                color: white;
-            }
+            /* EXTERNAL CSS */
+            @import url('https://fonts.googleapis.com/css?family=Muli');
+            @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 
-            .selected {
-                background-color: blue;
-                color: white;
-            }
+            /* SHARED CSS */
+            @import url('./app/css/shared.css');
+            @import url('./app/css/header.css');
+            @import url('./app/css/list.css');
+
+            /* VIEWS */
+            @import url('./app/view/view-client-selector.css');
+            @import url('./app/view/view-client-editor.css');
+            @import url('./app/view/view-translation-editor.css');
+            @import url('./app/view/view-translation-selector.css');
+
+            /* COMPONENTS */
+            @import url('./app/component/card-client.css');
+            @import url('./app/component/card-translation.css');
+            @import url('./app/component/form-client.css');
+            @import url('./app/component/form-translation.css');
+            @import url('./app/component/key-and-icon.css');
 
         </style>
+
+        <!--- VIEWS  -->
+        <link rel="import" href="./app/view/view-client-editor.html">
+        <link rel="import" href="./app/view/view-client-selector.html">    
+        <link rel="import" href="./app/view/view-translation-selector.html">
+        <link rel="import" href="./app/view/view-translation-editor.html">
+
+        <!--- COMPONENTS -->
+        <link rel="import" href="./app/component/button-container.html">
+        <link rel="import" href="./app/component/key-and-icon.html">
+        <link rel="import" href="./app/component/card-client.html">
+        <link rel="import" href="./app/component/card-translation.html">
+        <link rel="import" href="./app/component/form-client.html">
+        <link rel="import" href="./app/component/form-translation.html">
+
+        <!---  Load javascript entry-point script -->
+        <script type="module" src="./startup.js"></script>
     </head>
     <body>
-
+        
     </body>
 </html>

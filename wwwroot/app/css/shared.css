@@ -1,0 +1,38 @@
+/* http://kyleschaeffer.com/development/css-font-size-em-vs-px-vs-pt-vs/ */
+/* 62.5% font-size makes 1em == 10px */ 
+/* Rems and ems - https://css-tricks.com/rems-ems/ */
+
+/* Main color set */
+:root {
+    --maincolor-dark:  #3e4444;
+    --maincolor-light: #f2ede9;
+    --maincolor-white: #ffffff;
+}
+
+html, body {
+    font-family: 'Muli', sans-serif;
+    margin: auto;
+    height: 100%;
+    font-size: 62.5%;
+}
+
+/* @doc remove button styling - https://stackoverflow.com/questions/22672368/how-to-make-a-transparent-html-button*/
+/* @doc CSS cursors  - https://developer.mozilla.org/en/docs/Web/CSS/cursor */
+input, button { 
+    border: none; 
+    background-color: transparent;
+    cursor: pointer;
+    padding: none;
+    color: var(--maincolor-dark) ; 
+ } 
+
+ input { 
+    outline: none; 
+    border-style: solid;
+    border-color: grey;
+    border-width: 0 0 1px 0;
+}
+
+h2 {
+    font-size: 2.5rem;
+}

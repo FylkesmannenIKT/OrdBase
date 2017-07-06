@@ -9,6 +9,6 @@ namespace OrdBaseCore.IData
         IEnumerable<Client> Get(string name);
         IEnumerable<Client> GetAll();
         
-        IActionResult Create(Client client);
+        IActionResult Create(Client client, IEnumerable<string> languageCodes);
     }	
 }

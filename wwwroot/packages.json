@@ -1,0 +1,21 @@
+// Version -1.0 (dummy)
+{
+    "Packages": [
+        {   
+            "Font-awesome": 
+            {
+                "Version": 1.0,
+                "Url": "bla",
+                "File": 
+            }
+        },
+        {   
+            "Google-font-mani": 
+            {
+                "Version": 1.0,
+                "Url": "bla",
+                "File": "font-awesome.js"
+            }
+        },
+    ]
+}

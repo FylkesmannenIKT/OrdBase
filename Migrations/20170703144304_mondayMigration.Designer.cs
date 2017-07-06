@@ -8,9 +8,10 @@ using OrdBaseCore.Models;
 namespace OrdBaseCore.Migrations
 {
     [DbContext(typeof(TranslationDb))]
-    partial class TranslationDbModelSnapshot : ModelSnapshot
+    [Migration("20170703144304_mondayMigration")]
+    partial class mondayMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

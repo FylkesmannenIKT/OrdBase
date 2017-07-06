@@ -45,8 +45,9 @@ namespace OrdBaseCore {
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("config.json", optional: true, reloadOnChange: true);
-                
+                .AddJsonFile("config.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables();
+
             Configuration = builder.Build();
         }
          
@@ -57,6 +58,7 @@ namespace OrdBaseCore {
         public void ConfigureServices(IServiceCollection services)
         {
             var sqlConnectionString = Configuration.GetConnectionString(Startup.SqlProvider);
+            // var sqlConnectionString = configuration.GetSection("PATH").Value;
 
             services.AddDbContext<TranslationDb>(options => 
                // options.UseInMemoryDatabase()
@@ -98,6 +100,14 @@ namespace OrdBaseCore {
        }
     }
 
+    //
+    // @note This is needed for Entity Framework to be able to do migrations.
+    //       The class makes it possible for EF to get the DbContext, but this should
+    //       aldready be possible through services.addDbContext above. I don't know why entity
+    //       framework does not use the standard way.
+    //       Perhaps this class can be removed in the future, when we find a way for entity framework
+    //       to use the standard way of obtaining the DbContext.  - JSolsvik 30.06.2017
+    //
     public class MigrationsContextFactory : IDbContextFactory<TranslationDb>
     {
         public TranslationDb Create(DbContextFactoryOptions options)

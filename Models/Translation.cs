@@ -29,6 +29,6 @@ namespace OrdBaseCore.Models
         public string Text { get; set; }
         
         [Required]
-        public bool Done { get; set; } // IsComplete
+        public bool IsComplete { get; set; }
     }
 }

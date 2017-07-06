@@ -12,7 +12,6 @@ namespace OrdBaseCore.Models
             :base(options)
         {}
 
-        public DbSet<ClientLanguage> ClientLanguage { get; set; }
         public DbSet<Client> Client { get; set; }
         public DbSet<Language> Language { get; set; }
         public DbSet<Translation> Translation { get; set; }
@@ -24,23 +23,24 @@ namespace OrdBaseCore.Models
             // - indexes 
             // - Composite keys
             //
-            modelBuilder.Entity<Client>()
-                .HasIndex(row => row.ApiKey)
+            modelBuilder
+            .Entity<Client>()
+                .HasIndex(c => c.ApiKey)
                 .IsUnique();
 
+            modelBuilder
+            .Entity<Client>()
+                .HasIndex(c => c.WebpageUrl)
+                .IsUnique();
             
-            modelBuilder.Entity<Translation>()
+
+            modelBuilder
+            .Entity<Translation>()
                 .HasKey(t => new { 
                     t.ClientKey, 
                     t.LanguageKey,
                     t.Container,
                     t.Key
-                });
-
-            modelBuilder.Entity<ClientLanguage>()
-                .HasKey(t => new {
-                    t.ClientId,
-                    t.LanguageId
                 });
         }
 

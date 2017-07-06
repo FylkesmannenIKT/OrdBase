@@ -1,0 +1,9 @@
+.view-client-selector
+main {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    background-color: var(--maincolor-light);
+    height: 100%;
+    align-content: flex-start;
+}

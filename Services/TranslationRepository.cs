@@ -45,7 +45,7 @@ namespace OrdBaseCore.Services
                     into set
                     select new {
                         Key = set.Key,
-                        IsComplete = set.ToDictionary(o => o.LanguageKey, o => o.Done)
+                        IsComplete = set.ToDictionary(o => o.LanguageKey, o => o.IsComplete)
                     });
         }
         
@@ -120,7 +120,7 @@ namespace OrdBaseCore.Services
                 return new NotFoundResult {};
 
             translation.Text = item.Text;
-            translation.Done = item.Done;
+            translation.IsComplete = item.IsComplete;
             
             _context.Translation.Update(translation);
             _context.SaveChanges();
@@ -149,10 +149,10 @@ namespace OrdBaseCore.Services
         public static void AddTestData(TranslationDb context) 
         { 
             context.Translation.AddRange( 
-                new Translation {  ClientKey = "FMSF", LanguageKey = "en",     Container = "Main"   , Key = "hello_world",  Text = "Hello World"   , Done = true,  },
-                new Translation {  ClientKey = "FMSF", LanguageKey = "no-nb",  Container = "Main"   , Key = "hello_world",  Text = "Hallo verden"  , Done = false, },
-                new Translation {  ClientKey = "DIFI", LanguageKey = "en",     Container = "Special", Key = "this_is_me",   Text = "This is me!"   , Done = false, },
-                new Translation {  ClientKey = "DIFI", LanguageKey = "no-nb",  Container = "Special", Key = "this_is_me",   Text = "Dette er meg!" , Done = true,  }
+                new Translation {  ClientKey = "FMSF", LanguageKey = "en",     Container = "Main"   , Key = "hello_world",  Text = "Hello World"   , IsComplete = true,  },
+                new Translation {  ClientKey = "FMSF", LanguageKey = "no-nb",  Container = "Main"   , Key = "hello_world",  Text = "Hallo verden"  , IsComplete = false, },
+                new Translation {  ClientKey = "DIFI", LanguageKey = "en",     Container = "Special", Key = "this_is_me",   Text = "This is me!"   , IsComplete = false, },
+                new Translation {  ClientKey = "DIFI", LanguageKey = "no-nb",  Container = "Special", Key = "this_is_me",   Text = "Dette er meg!" , IsComplete = true,  }
             );
             context.SaveChanges();
         }

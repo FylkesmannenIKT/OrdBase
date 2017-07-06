@@ -1,0 +1,52 @@
+.ordbase-form-client
+input:focus {
+    box-shadow: 0 0 2px 2px #55b8ff;
+}
+
+.ordbase-form-client
+input:disabled {
+    background: none;
+}
+
+.ordbase-form-client
+fieldset {
+    border: none;
+}
+
+.ordbase-form-client
+label {
+    color: rgb(84, 84, 84);
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.ordbase-form-client
+.form-textinput {
+    font-size: 2em;
+    margin: 0px 20px 10px 4px;
+}
+
+.ordbase-form-client
+.form-submit {
+    font-size: 2em;
+    background-color: white;
+    color: #4CAF50; 
+    border: 1px solid #4CAF50;
+    width: 430px;
+    height: 65px;
+}
+
+.ordbase-form-client 
+.form-submit:focus,
+.ordbase-form-client 
+.form-submit:hover {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+.ordbase-form-client
+#form-client {
+    font-size: 1rem;
+}
+

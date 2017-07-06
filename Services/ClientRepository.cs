@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
@@ -35,8 +36,35 @@ namespace OrdBaseCore.Services
         //
         // CREATE
         //
-        public IActionResult Create(Client client) 
+        public IActionResult Create(Client client, IEnumerable<string> languageKeys)  
         {
+            foreach (var key in languageKeys) {
+
+                //
+                // @note Here I am populating the Translation table with some default translations, one for
+                //  each language. This is done, so that each time a new Translation is made, it is made with the same number
+                //  of languages as this default translation. It can be viewed as a hack so we do not have to keep 
+                //  a separate table for this dependency. It trades some complexity from one place to another. 
+                //  This also validates that a new client only uses languages that already exists in the dataabse.
+                //              - JSolsvik - 03.07.17
+                //
+                if (_context.Language.Where(lang => lang.Key == key).Count() == 1) {
+
+                    _context.Translation.Add(new Translation {
+                        ClientKey = client.Name,
+                        LanguageKey = key,
+                        Container = "default",
+                        Key = "default",
+                        Text = "default",
+                        IsComplete = true,
+                    });
+                }
+                else {
+                    Console.WriteLine("The supplied key: " + key + " could not be found as a valid key in the Languages table. Error: no Client created!!");
+                    return new NotFoundResult {};
+                }   
+            }
+
             _context.Client.Add(client);
             _context.SaveChanges();
             return new NoContentResult {};
