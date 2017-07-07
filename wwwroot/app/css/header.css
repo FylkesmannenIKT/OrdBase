@@ -4,8 +4,8 @@
     display: flex;
     text-align:  center;
     min-height: 100px;
-    background-color: #3e4444;
-    color: #ffffff;
+    background-color: var(--ordbase-color-dark);
+    color: var(--ordbase-color-white);
 }
 /* --------------- */
 
@@ -25,7 +25,7 @@
     width: 100%;
     height: 100%;
 
-    color: #ffffff;
+    color: var(--ordbase-color-white);
 }
 /* --------------- */
 
@@ -34,7 +34,7 @@
 .ordbase-header 
 .header-text-button {
     flex-grow: 1;
-    color: #ffffff;
+    color: var(--ordbase-color-white);
 }
 
 .ordbase-header 

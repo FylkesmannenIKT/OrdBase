@@ -12,7 +12,9 @@
             /* SHARED CSS */
             @import url('./app/css/shared.css');
             @import url('./app/css/header.css');
-            @import url('./app/css/list.css');
+            @import url('./app/css/input.css');
+            @import url('./app/css/btn-container-select.css');
+            @import url('./app/css/btn-form-submit.css');
 
             /* VIEWS */
             @import url('./app/view/view-client-selector.css');
@@ -21,10 +23,8 @@
             @import url('./app/view/view-translation-selector.css');
 
             /* COMPONENTS */
+            @import url('./app/component/list-container.css');
             @import url('./app/component/card-client.css');
-            @import url('./app/component/card-translation.css');
-            @import url('./app/component/key-and-icon.css');
-            @import url('./app/component/fieldset-translation.css');
 
         </style>
 
@@ -35,14 +35,12 @@
         <link rel="import" href="./app/view/view-translation-editor.html">
 
         <!--- COMPONENTS -->
-        <link rel="import" href="./app/component/button-container.html">
-        <link rel="import" href="./app/component/key-and-icon.html">
+        <link rel="import" href="./app/component/list-container.html">
         <link rel="import" href="./app/component/card-client.html">
-        <link rel="import" href="./app/component/card-translation.html">
-        <link rel="import" href="./app/component/fieldset-translation.html">
+
+        <script src="./bundle.js"></script>
 
         <!---  Load javascript entry-point script -->
-        <script type="module" src="./startup.js"></script>
     </head>
     <body>
         

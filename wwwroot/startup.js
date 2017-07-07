@@ -1,5 +1,9 @@
 'use strict';
 
+// COMPILE WITH BABEL - https://css-tricks.com/transpiling-es6/
+// TRanspile with webpack - https://webpack.github.io/docs/tutorials/getting-started/
+
+import "./node_modules/babel-polyfill/dist/polyfill.min.js";
 import { loadClientSelector } from './app/event/OnLoadView/loadClientSelector.js';
 
 //

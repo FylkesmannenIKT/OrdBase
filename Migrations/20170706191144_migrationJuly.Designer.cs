@@ -8,14 +8,13 @@ using OrdBaseCore.Models;
 namespace OrdBaseCore.Migrations
 {
     [DbContext(typeof(TranslationDb))]
-    [Migration("20170703144304_mondayMigration")]
-    partial class mondayMigration
+    [Migration("20170706191144_migrationJuly")]
+    partial class migrationJuly
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.2")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "1.1.2");
 
             modelBuilder.Entity("OrdBaseCore.Models.Client", b =>
                 {

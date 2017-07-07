@@ -4,16 +4,22 @@
 
 /* Main color set */
 :root {
-    --maincolor-dark:  #3e4444;
-    --maincolor-light: #f2ede9;
-    --maincolor-white: #ffffff;
+    --ordbase-color-dark:   #3e4444;
+    --ordbase-color-light:  #f2ede9;
+    --ordbase-color-white:  #ffffff;
+    --ordbase-color-success: #4CAF50;
+    --ordbase-color-danger:  #d9534f;
+    --ordbase-color-select:  #55b8ff;
+    --form-font-size: 1.6rem;
 }
 
 html, body {
     font-family: 'Muli', sans-serif;
     margin: auto;
-    height: 100%;
     font-size: 62.5%;
+    color: var(--ordbase-color-dark);
+
+    height: 100%;
 }
 
 /* @doc remove button styling - https://stackoverflow.com/questions/22672368/how-to-make-a-transparent-html-button*/
@@ -23,15 +29,8 @@ input, button {
     background-color: transparent;
     cursor: pointer;
     padding: none;
-    color: var(--maincolor-dark) ; 
+    color: var(--ordbase-color-dark); 
  } 
-
- input { 
-    outline: none; 
-    border-style: solid;
-    border-color: grey;
-    border-width: 0 0 1px 0;
-}
 
 fieldset {
     border: none;

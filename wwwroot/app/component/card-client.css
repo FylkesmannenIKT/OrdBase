@@ -5,15 +5,15 @@
 
     padding: 20px 10px 10px 10px;
 
-    color: var(--maincolor-dark);
+    color: var(--ordbase-color-dark);
 }
 
 .ordbase-card-client 
 button {
     padding: 0px;
     cursor: pointer;
-    color: var(--maincolor-dark);
-    background-color: var(--maincolor-white) !important;
+    color: var(--ordbase-color-dark);
+    background-color: var(--ordbase-color-white) !important;
 }
 
 .ordbase-card-client 

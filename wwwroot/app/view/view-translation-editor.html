@@ -13,15 +13,16 @@
                 <i class="fa fa-arrow-left" aria-hidden="true"></i></button>
             
             <button id="btn-save-edited-translation" class="icon-button">
-                <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+                <i class="fa fa-trash" aria-hidden="true"></i></button>
 
 
         </header>
 
         <main>
-            <section id="list-show-containers-on-translation" class="ordbase-container-list">
-                <h2>Containers</h2>
+            <section id="list-show-containers-on-translation">
 
+                <!-- @note SCRIPT WILL INSERT list-container.html HERE -->
+                
             </section>
 
             <form class="ordbase-form-translation">
@@ -29,7 +30,23 @@
                 <h2> {{ translationKey }} </h2>
 
                 <div id="fieldset-one-for-each-language">
-                    <!-- FIELDSETS HERE -->
+
+                    <!-- @note SCRIPT WILL GENERATE ELEMENTS DYNAMICLY HERE BASED ON THIS TEMPLATE -->
+                    <template id="template-fieldset-translation">
+                        
+                        <fieldset class="fieldset-translation">
+                            <label class="input-label" for="{{ inputId }}">{{ languageCode }}</label>
+                            
+                            <span class="input-lang-and-checkbox">
+                                    <input id="{{ inputId }}" class="ordbase-input" type="text" value="{{ inputValue }}"></input>
+                                    <span class="input-checkbox-div">
+                                        <input type="checkbox" class="input-checkbox">
+                                    </span>
+                            </span>
+                        </fieldset>
+
+                    </template>
+
                 </div>
 
                 <br>
@@ -42,7 +59,10 @@
                     <br>
                     <br>
 
-                    <button id="input-submit" class="form-submit" type="submit"> {{ submitButtonText }}</button>
+                    <button id="btn-form-submit-translation" class="ordbase-btn-form-submit" type="submit"> 
+                        {{ submitButtonText }}
+                    </button>
+                    
                 </fieldset>
             </form>
 

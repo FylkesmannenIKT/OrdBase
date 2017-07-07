@@ -1,42 +1,62 @@
-.view-translation-editor
-    main {
-        display: flex;
-        flex-direction: row;
-        height: 100%;
-    }
-
-.ordbase-form-translation {
+.view-translation-editor {
     height: 100%;
-    margin-left: 20px;
-    font-size: 1.5rem;
 }
 
-.ordbase-form-translation
+.view-translation-editor
+main {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+/* ------------- FORM ------------- */
+.view-translation-editor form {
+    height: 100%;
+    margin-left: 20px;
+    font-size: var(--form-font-size);
+}
+
+.view-translation-editor form
 label {
     color: rgb(84, 84, 84);
     font-size: 1.5em;
     font-weight: bold;
 }
 
-.ordbase-form-translation
+.view-translation-editor form
 #checkbox-counter {
     font-size: 1.5em;
 }
 
-.ordbase-form-translation
-.form-submit {
+/* --------- TRANSLATION FIELDSET ---------- */
+
+.fieldset-translation
+.ordbase-input {
     font-size: 2em;
-    background-color: white;
-    color: #4CAF50; 
-    border: 1px solid #4CAF50;
-    width: 430px;
-    height: 65px;
+    margin: 0px 20px 10px 4px;
 }
 
-.ordbase-form-translation
-.form-submit:focus,
-.form-submit:hover {
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
+.fieldset-translation
+.input-checkbox {
+    width: 25px;
+    height:25px;
+    border: 1px solid #4CAF50;
+}
+
+
+.fieldset-translation
+.input-lang-and-checkbox {
+    display: flex;
+}
+
+
+.fieldset-translation
+.input-label {
+    font-size: 1.2em;
+}
+
+
+.fieldset-translation
+.input-checkbox-div {
+    background-color: white;
 }

@@ -1,60 +1,67 @@
 'use strict';
 
 import * as api from '../../library/api.js';
-import { loadTemplate, unpackTemplate } from  '../../library/jet-template-unpacker.js';
 
 import { loadTranslationEditor } from './loadTranslationEditor.js';
 import { loadClientSelector }    from './loadClientSelector.js';
+import { loadTemplate, loadTemplateDoc, unpackTemplate } from  '../../library/jet-template-unpacker.js';
 
-const viewTemplate = loadTemplate('./app/view/view-translation-selector.html');
-const translationCardTemplate = loadTemplate('./app/component/card-translation.html');
-const keyIconTemplate = loadTemplate('./app/component/key-and-icon.html');
-const containerButtonTemplate = loadTemplate('./app/component/button-container.html');
+const viewTemplate            = loadTemplateDoc('./app/view/view-translation-selector.html');
+const translationCardTemplate = loadTemplate('#template-card-translation', viewTemplate);
+const keyIconTemplate         = loadTemplate('#template-key-and-icon', translationCardTemplate);
+
+const containerListTemplate   = loadTemplateDoc('./app/component/list-container.html');
+const containerButtonTemplate = loadTemplate('#template-button-container', containerListTemplate);
 
 const fontAwesome_checkIconClass = 'fa-check';
-const fontAwesome_crossIconClass = 'fa-times';
+const fontAwesome_timesIconClass = 'fa-times';
 
 //
 // @function loadTranslationSelector
 //
 export function loadTranslationSelector (client) {
 
-    let viewContent = unpackTemplate(viewTemplate, {
+    let view = unpackTemplate(viewTemplate, {
         bigHeader : 'Ordbase',
         smallHeader : 'Edit translation',
     });
 
     // Hook up all buttons
-    viewContent.querySelector('#btn-toggle-container-list').onclick   = (event) => loadClientSelector();
-    viewContent.querySelector('#btn-back-to-home-page').onclick       = (event) => loadClientSelector();
-    viewContent.querySelector('#btn-back-to-client-selector').onclick = (event) => loadClientSelector();
-    viewContent.querySelector('#btn-create-new-translation').onclick  = (event) => loadClientSelector();
+    view.querySelector('#btn-toggle-container-list').addEventListener(  'click', (event) => loadClientSelector());
+    view.querySelector('#btn-back-to-home-page').addEventListener(      'click', (event) => loadClientSelector());
+    view.querySelector('#btn-back-to-client-selector').addEventListener('click', (event) => loadClientSelector());
+    view.querySelector('#btn-create-new-translation').addEventListener( 'click', (event) => loadClientSelector());
 
-    api.container.getOnClient(client).then( containers => {
+    //
+    // @AJAX - fetch all containers on selected client
+    //
+    api.container.getOnClient(client).then( containersOnClient => {
 
-        let containerList = viewContent.querySelector('#list-show-containers-on-client');
+        const containerList = unpackTemplate(containerListTemplate).querySelector('div');
 
-        containers.forEach( container => {
+        containersOnClient.forEach( container => {
 
-            const button = unpackTemplate(containerButtonTemplate, {
+            const containerButton = unpackTemplate(containerButtonTemplate, {
                 id : `button-${container}`,
                 text : container,
                 selected : '',
             }).querySelector('button');
 
-            button.onclick = (event) => { event.target.classList.toggle('selected'); }
-            containerList.appendChild(button);    
+            containerButton.onclick = (event) => event.target.classList.toggle('selected'); 
+            containerList.appendChild(containerButton);
         });
+
+        view.querySelector('#list-show-containers-on-client').appendChild(containerList);
 
         return api.translation.getGroupOnClient(client);
     })
     //
-    // Get all translation groups 
+    //  @AJAX - Get all translation groups 
     //  @doc template literals - https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Template_literals
     //
     .then(data => {
 
-        const translationList = viewContent.querySelector('#list-show-translations-on-client');         
+        const translationList = view.querySelector('#list-show-translations-on-client');         
         
         data.forEach(translationGroup => {
 
@@ -65,7 +72,7 @@ export function loadTranslationSelector (client) {
              
                 const keyAndIcon = unpackTemplate(keyIconTemplate, {
                     languageKey : _languageKey,
-                    fontawesomeClass : (isComplete ? fontAwesome_checkIconClass : fontAwesome_crossIconClass)
+                    fontawesomeClass : (isComplete ? fontAwesome_checkIconClass : fontAwesome_timesIconClass)
                 });
                 languagesComplete.appendChild(keyAndIcon);
             });
@@ -79,6 +86,6 @@ export function loadTranslationSelector (client) {
     .then(() => {                                  
         // Clear all previous content, insert new view
         document.body.innerHTML = ''; 
-        document.body.appendChild(viewContent);
+        document.body.appendChild(view);
     });
 }

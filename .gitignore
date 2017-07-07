@@ -5,3 +5,6 @@ packages/
 .DS_Store
 bower_components/
 config.json
+
+package-lock.json
+node_modules/

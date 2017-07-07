@@ -16,12 +16,38 @@
 //         and unpacks them binding {{ data }} to them from matching properties of a javascript object.
 //
 
-export function loadTemplate(path) {
+//
+// @function loadTemplate
+// @brief Load a template document 
+//
+export function loadTemplateDoc(documentPath) {
 
-    let content = document.head.querySelector(`link[href="${path}"]`).import.querySelector('template');
-    return document.importNode(content, true);
+    let template = document.head.querySelector(`link[href="${documentPath}"]`).import.querySelector('template');
+    return document.importNode(template, true);
 }
 
+//
+// @function loadTemplate
+// @brief load a template from within another document
+//
+export function loadTemplate(templateId, hostDocument)  {
+
+    let template = {};
+
+    if ('content' in hostDocument) {
+        template = hostDocument.content.querySelector(templateId);
+    }
+    else { 
+        template = hostDocument.querySelector(templateId);
+    }
+
+    return document.importNode(template, true);
+}
+
+//
+// @function unpackTemplate
+// @brief unpacks the contents of the template, and binds the provided javascript object to the template bindings.
+//
 export function unpackTemplate(_template, dataBinder = {}) {
 
     let template = _template.cloneNode(true);

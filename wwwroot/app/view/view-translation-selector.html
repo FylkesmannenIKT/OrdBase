@@ -18,18 +18,42 @@
         </header>
     
         <main>
-            <section id="list-show-containers-on-client" class="ordbase-container-list">
-                <h2>Containers</h2>
+            <section id="list-show-containers-on-client">
 
-
-            </section>
-
-            <section id="list-show-translations-on-client" class="ordbase-translation-list">
-                <h2>Translations</h2>
+                <!-- @note SCRIPT WILL INSERT list-container.html HERE -->
                 
             </section>
-        </main>
 
+            <section id="list-show-translations-on-client" class="ordbase-list-translation">
+                <h2>Translations</h2>
+            
+
+                <!-- @note SCRIPT WILL GENERATE ELEMENTS DYNAMICLY HERE BASED ON THIS TEMPLATE -->
+                <template id="template-card-translation">
+
+                    <div class="ordbase-card-translation">
+                        <button class="btn-load-translation-editor">
+                            <span class="translation-key">{{ translationKey }}</span>
+                            <div  class="languages-complete">
+                                
+
+                                <!-- @note SCRIPT WILL GENERATE ELEMENTS DYNAMICLY HERE BASED ON THIS TEMPLATE -->
+                                <template id="template-key-and-icon">
+
+                                    <div class="ordbase-key-and-icon">
+                                        <span class="language-key">{{ languageKey }}</span>
+                                        <i    class="fa {{ fontawesomeClass }} language-icon" aria-hidden="true"></i>
+                                    </div>
+
+                                </template>
+
+
+                            </div>
+                        </button>    
+                    </div>
+                </template>
+            </section>
+        </main>
         <footer></footer>
     </div>
     
