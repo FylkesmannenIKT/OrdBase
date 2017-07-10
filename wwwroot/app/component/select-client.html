@@ -1,0 +1,93 @@
+<style>
+    ordbase-select-client {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        background-color: var(--ordbase-color-light);
+        align-content: flex-start;
+    }
+
+</style>
+
+
+<template id="template-select-client">
+
+    
+    <!-- @note SCRIPT WILL INSERT card-client.html HERE -->
+    <!-- @note SCRIPT WILL INSERT card-client.html HERE -->
+    <!-- @note SCRIPT WILL INSERT card-client.html HERE -->
+    <!-- @note SCRIPT WILL INSERT card-client.html HERE -->                
+
+    
+</template>
+
+
+<script>
+    const TEMPLATE_SELECT_CLIENT = document.currentScript.ownerDocument.getElementById('template-select-client');
+    const CARD_CLIENT            = document.createElement('ordbase-card-client');
+
+    // @doc empty javascript array - https://appendto.com/2016/02/empty-array-javascript/
+
+    class OrdbaseSelectClient extends HTMLElement {
+
+        constructor() {
+            super();
+            this.constructed = false;
+        }
+
+        connectedCallback() {
+            if(!this.constructed) {
+                this.clientCards = new Array();
+                this.buttonHandler = {};
+
+                this.appendChild(TEMPLATE_SELECT_CLIENT.cloneNode(true).content);
+                this.constructed = true;
+            }
+
+            this.DOMUpdate();
+        }
+        
+        DOMUpdate() {
+            
+            const cardCount = this.clientCards.length;
+
+            if (cardCount > 0) { 
+                let documentFragment = document.createDocumentFragment();
+
+                for (let i = 0; i < cardCount; i++) {
+                    documentFragment.appendChild(this.clientCards[i]);
+                }
+
+                this.innerHTML = '';
+                this.appendChild(documentFragment);
+            }
+        }
+
+        set clients(clientObjects) {
+            // Generate cards
+            let cardCount = clientObjects.length;
+            this.clientCards.length = 0;
+
+            let i;
+            // Batch DOM API cloneNode calls
+            for (i = 0; i < cardCount; i++) {
+                this.clientCards.push(CARD_CLIENT.cloneNode(true));
+            }
+            
+            // Fill this.clientCards with data from server
+            for (i = 0; i < cardCount; i++) {
+                let clientCard = this.clientCards[i];
+
+                clientCard.id            = `card${i}`;
+                clientCard.name          = clientObjects[i].name;
+                clientCard.website       = 'https://www.placeholder.no';
+                clientCard.thumbnail     = 'http://placehold.it/250x125/FFC107';
+                clientCard.buttonOnclick = event => buttonHandler(clientObjects[i].name);
+            };
+        }
+
+
+    }
+    customElements.define('ordbase-select-client', OrdbaseSelectClient);
+</script>

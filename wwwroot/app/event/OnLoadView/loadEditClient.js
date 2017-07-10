@@ -1,25 +1,15 @@
 'use strict';
 
 import * as api from '../../library/api.js';
-import { loadClientSelector } from './loadClientSelector.js';
+import { loadSelectClient } from './loadSelectClient.js';
 import { submitClient }       from '../OnSubmitForm/submitClient.js';
-import { loadTemplate, loadTemplateDoc, unpackTemplate } from '../../library/jet-template-unpacker.js';
 
-const viewTemplate = loadTemplateDoc('./app/view/view-client-editor.html');
-
-const containerListTemplate   = loadTemplateDoc('./app/component/list-container.html');
-const containerButtonTemplate = loadTemplate('#template-button-container', containerListTemplate);
-
-export function loadClientEditor(client) {
+export function loadEditClient(client) {
     
     const view = unpackTemplate(viewTemplate, {
         bigHeader : 'OrdBase',
         smallHeader : 'Edit Client',
     });
-
-    view.querySelector('#btn-back-to-home-page').addEventListener('click', (event) => loadClientSelector());
-    view.querySelector('#btn-back-to-client-select').addEventListener('click', (event) => loadClientSelector());
-    view.querySelector('#btn-form-client-submit').addEventListener('click', (event) => submitClient(event));
 
     //
     // @AJAX - fetch all containers on selected client

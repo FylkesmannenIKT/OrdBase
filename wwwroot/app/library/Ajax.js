@@ -27,17 +27,13 @@ export function getJSON({ type = mandatory(), route = mandatory()} = {}) {
 //
 // @function getJSON_experiemental()
 //
-export function getJSON_experimental({ type = mandatory(), route = mandatory()} = {}) {
+export function getJSON_experimental({ httpMethod = mandatory(), route = mandatory()} = {}) {
 
-    fetch(route, { method: type }).then((response) => {
-        let contentType = response.headers.get("content-type");
-
-        if (contentType && contentType.indexOf("application/json") !== -1) {
-            return response.json();
-        } else {
-            console.log("Oops, we haven't got JSON!");
-        }
-    });
+    return fetch(route, { 
+        method: httpMethod     // GET or DELETE
+    })
+    .then((response) => { return response.json(); })
+    .catch((failure) => { return failure.json();  })
 }
 
 //
@@ -53,4 +49,21 @@ export function postJSON({ type = mandatory(), route = mandatory(), data = manda
         httpRequest.onerror = () => reject(httpRequest.statusText);
         httpRequest.send(JSON.stringify(data));
     });
+}
+
+// @doc fetch POST request example - https://stackoverflow.com/questions/29775797/fetch-post-json-data
+//
+// @function postJSON
+//
+export function postJSON_experimental({ httpMethod = mandatory(), route = mandatory(), data = mandatory()} = {}) {
+    return fetch(route, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: httpMethod,                 // POST or PUT
+        body: JSON.stringify(data),
+    })
+    .then((response) => { return response.json(); })
+    .catch((failure) => { return failure.json();  })
 }

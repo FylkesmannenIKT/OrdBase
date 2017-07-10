@@ -1,0 +1,90 @@
+<style>
+
+    ordbase-edit-client {
+        height: 100%;
+    }
+    ordbase-edit-client
+    main {
+        height: 100%;
+        display: flex;
+
+    }
+
+    /* ------------- FORM ------------- */
+
+    ordbase-edit-client 
+    form {
+        font-size: var(--form-font-size);
+    }
+
+    ordbase-edit-client form 
+    label {
+        color: rgb(84, 84, 84);
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+
+    ordbase-edit-client form fieldset
+    .ordbase-input {
+        font-size: 2em;
+        margin: 0px 20px 10px 4px;
+    }
+
+</style>
+
+<template id="template-edit-client">
+        
+        <ordbase-list-container></ordbase-list-container>
+
+        <form>
+
+            <fieldset>
+                <label for="form-client-name">Name</label>
+                <input id="form-client-name" class="ordbase-input" type="text" data-min-size="20">
+            </fieldset>
+
+            <fieldset>
+                <label for="form-client-picture">Nettadresse</label>
+                <input id="form-client-picture" class="ordbase-input" type="text" data-min-size="20">
+            </fieldset>
+
+            <fieldset>
+                <label for="form-client-homepage">Bildeadresse</label>
+                <input id="form-client-homepage" class="ordbase-input" type="text" data-min-size="20">
+            </fieldset>
+
+            <fieldset>
+                <label for="form-client-name">Api nøkkel</label>
+                <input id="form-client-name" class="ordbase-input" type="text" data-min-size="20">
+            </fieldset>
+            
+            <br>
+            <br>
+
+            <button id="btn-form-client-submit" class="ordbase-btn-form-submit" type="submit"> Lagre</button>
+        </form>
+        
+        <ordbase-card-client></ordbase-card-client>
+
+</template>
+
+<script>
+    let TEMPLATE_EDIT_CLIENT = document.currentScript.ownerDocument.getElementById('template-edit-client');
+
+    class OrdbaseEditClient extends HTMLElement {
+
+        constructor() {
+            super();
+            this.appendChild(TEMPLATE_EDIT_CLIENT.content.cloneNode(true));
+        }
+
+        connectedCallback() {
+
+        }
+
+        updateDom() {
+
+        }
+    }
+    customElements.define('ordbase-edit-client', OrdbaseEditClient);
+</script>

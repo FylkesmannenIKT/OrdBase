@@ -1,0 +1,129 @@
+<style>
+    /* --- HEADER --- */
+    ordbase-header {           
+        display: flex;
+        text-align:  center;
+        min-height: 100px;
+        background-color: var(--ordbase-color-dark);
+        color: var(--ordbase-color-white);
+    }
+    /* --------------- */
+
+
+    /* HEADER-ICON-BUTTON */
+    ordbase-header 
+    .icon-button {
+        font-size: 40px;
+        flex: 0;
+        flex-basis: 130px;
+        display: flex;
+        justify-content: center;
+    }
+
+    ordbase-header 
+    .icon-button i {
+        width: 100%;
+        height: 100%;
+
+        color: var(--ordbase-color-white);
+    }
+    /* --------------- */
+
+
+    /* HEADER-TEXT-BUTTON */
+    ordbase-header 
+    .header-text-button {
+        flex-grow: 1;
+        color: var(--ordbase-color-white);
+    }
+
+    ordbase-header 
+    .header-text-button 
+    h1 {   
+        text-align: left;
+        font-size: 36px;
+    }
+    /* --------------- */
+
+</style>
+
+<template id="template-header">
+    
+    <button id="btn-header-left" class="icon-button">
+        <i class="fa fa-square" aria-hidden="true"></i>
+    </button>
+
+    <button id="btn-header-mid" class="header-text-button">
+        <h1 id="btn-header-mid-big"> {{ bigHeader }} - </h1>
+        <h3 id="btn-header-mid-small"> {{ smallHeader }}</h3>
+    </button>
+
+    <button id="btn-header-right1" class="icon-button">
+        <i class="fa" aria-hidden="true"></i>
+    </button>
+
+    <button id="btn-header-right2" class="icon-button">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+    </button>
+
+</template>
+
+
+<script>
+    const TEMPLATE_HEADER = document.currentScript.ownerDocument.getElementById('template-header');
+    const ICON_HEADER_NONE       = '';
+    const ICON_HEADER_PLUS       = 'fa fa-plus';
+    const ICON_HEADER_BARS       = 'fa fa-bars';
+    const ICON_HEADER_SQUARE     = 'fa fa-square';
+    const ICON_HEADER_ARROW_LEFT = 'fa fa-arrow-left';
+
+    class OrdbaseHeader extends HTMLElement {
+
+        constructor() {
+            super();
+            this.constructed = false;
+        }
+
+        connectedCallback() {
+            if (!this.constructed) {
+                this.textBig             = 'Ordbase';
+                this.textSmall           = 'Select Client';
+                
+                this.buttonIconLeft      = ICON_HEADER_SQUARE;
+                this.buttonIconRight1    = ICON_HEADER_NONE; 
+                this.buttonIconRight2    = ICON_HEADER_PLUS;
+
+                this.buttonHandlerLeft   = event => console.log('default handler, nothing happened...:(');
+                this.buttonHandlerRight1 = event => console.log('default handler, nothing happened...:(');      
+                this.buttonHandlerRight2 = event => console.log('default handler, nothing happened...:('); 
+
+                this.appendChild(document.importNode(TEMPLATE_HEADER.content, true));
+                
+                this.elementTextBig    = this.querySelector('#btn-header-mid-big');  
+                this.elementTextSmall  = this.querySelector('#btn-header-mid-small');
+
+                this.elementButtonLeft   = this.querySelector('#btn-header-left');
+                this.elementButtonRight1 = this.querySelector('#btn-header-right1'); 
+                this.elementButtonRight2 = this.querySelector('#btn-header-right1');             
+                           
+                this.constructed = true;
+            }
+            this.DOMUpdate();
+        }
+
+        DOMUpdate() {
+            this.elementButtonLeft.setAttribute('class', this.buttonIconLeft);  
+            this.elementButtonRight1.setAttribute('class', this.buttonIconRight1);
+            this.elementButtonRight2.setAttribute('class', this.buttonIconRight2);
+
+            this.elementTextBig.innerHTML = this.textBig;  
+            this.elementTextSmall.innerHTML = this.textSmall;
+
+            this.elementButtonLeft.onclick   = this.buttonHandlerLeft;
+            this.elementButtonRight1.onclick = this.buttonHandlerRight1;
+            this.elementButtonRight1.onclick = this.buttonHandlerRight2;
+        }   
+    }
+    customElements.define('ordbase-header', OrdbaseHeader);
+
+</script>

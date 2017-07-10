@@ -2,35 +2,18 @@
 
 import * as api from '../../library/api.js';
 
-import { loadTranslationEditor } from './loadTranslationEditor.js';
-import { loadClientSelector }    from './loadClientSelector.js';
-import { loadTemplate, loadTemplateDoc, unpackTemplate } from  '../../library/jet-template-unpacker.js';
-
-const viewTemplate            = loadTemplateDoc('./app/view/view-translation-selector.html');
-const translationCardTemplate = loadTemplate('#template-card-translation', viewTemplate);
-const keyIconTemplate         = loadTemplate('#template-key-and-icon', translationCardTemplate);
-
-const containerListTemplate   = loadTemplateDoc('./app/component/list-container.html');
-const containerButtonTemplate = loadTemplate('#template-button-container', containerListTemplate);
-
-const fontAwesome_checkIconClass = 'fa-check';
-const fontAwesome_timesIconClass = 'fa-times';
+import { loadEditTranslation } from './loadEditTranslation.js';
+import { loadSelectClient }    from './loadSelectClient.js';
 
 //
-// @function loadTranslationSelector
+// @function loadSelectTranslation
 //
-export function loadTranslationSelector (client) {
+export function loadSelectTranslation (client) {
 
     let view = unpackTemplate(viewTemplate, {
         bigHeader : 'Ordbase',
         smallHeader : 'Edit translation',
     });
-
-    // Hook up all buttons
-    view.querySelector('#btn-toggle-container-list').addEventListener(  'click', (event) => loadClientSelector());
-    view.querySelector('#btn-back-to-home-page').addEventListener(      'click', (event) => loadClientSelector());
-    view.querySelector('#btn-back-to-client-selector').addEventListener('click', (event) => loadClientSelector());
-    view.querySelector('#btn-create-new-translation').addEventListener( 'click', (event) => loadClientSelector());
 
     //
     // @AJAX - fetch all containers on selected client
@@ -78,7 +61,7 @@ export function loadTranslationSelector (client) {
             });
 
             // Remove the prototype
-            cardContent.querySelector('.btn-load-translation-editor').onclick = (event) => loadTranslationEditor(client, translationGroup.key);             
+            cardContent.querySelector('.btn-load-translation-editor').onclick = (event) => loadEditTranslation(client, translationGroup.key);             
             translationList.appendChild(cardContent);   
         });
     })

@@ -1,0 +1,121 @@
+<style>
+
+    /* ------------- FORM ------------- */
+    ordbase-edit-translation 
+    form {
+        height: 100%;
+        margin-left: 20px;
+        font-size: var(--form-font-size);
+    }
+
+    ordbase-edit-translation 
+    form label {
+        color: rgb(84, 84, 84);
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+
+    ordbase-edit-translation 
+    form #checkbox-counter {
+        font-size: 1.5em;
+    }
+
+    /* --------- TRANSLATION FIELDSET ---------- */
+
+    .fieldset-translation
+    .ordbase-input {
+        font-size: 2em;
+        margin: 0px 20px 10px 4px;
+    }
+
+    .fieldset-translation
+    .input-checkbox {
+        width: 25px;
+        height:25px;
+        border: 1px solid #4CAF50;
+    }
+
+
+    .fieldset-translation
+    .input-lang-and-checkbox {
+        display: flex;
+    }
+
+
+    .fieldset-translation
+    .input-label {
+        font-size: 1.2em;
+    }
+
+
+    .fieldset-translation
+    .input-checkbox-div {
+        background-color: white;
+    }
+</style>
+
+<template id="template-edit-translation">
+
+        <ordbase-list-container></ordbase-list-container>
+
+        <form class="ordbase-form-translation">
+            
+            <h2> {{ translationKey }} </h2>
+
+            <div id="fieldset-one-for-each-language">
+
+                <!-- @note SCRIPT WILL GENERATE ELEMENTS DYNAMICLY HERE BASED ON THIS TEMPLATE -->
+                <template id="template-fieldset-translation">
+                    
+                    <fieldset class="fieldset-translation">
+                        <label class="input-label" for="{{ inputId }}">{{ languageCode }}</label>
+                        
+                        <span class="input-lang-and-checkbox">
+                                <input id="{{ inputId }}" class="ordbase-input" type="text" value="{{ inputValue }}"></input>
+                                <span class="input-checkbox-div">
+                                    <input type="checkbox" class="input-checkbox">
+                                </span>
+                        </span>
+                    </fieldset>
+
+                </template>
+
+            </div>
+
+            <br><br><br>
+            
+            <fieldset>
+                <label id="checkbox-counter">0/4 ferdig</label>
+
+                <br><br>
+
+                <button id="btn-form-submit-translation" class="ordbase-btn-form-submit" type="submit"> 
+                    {{ submitButtonText }}
+                </button>
+                
+            </fieldset>
+        </form>
+
+</template>
+
+<script>
+    let TEMPLATE_EDIT_TRANSLATION = document.currentScript.ownerDocument.getElementById('template-edit-translation');
+
+    class OrdbaseEditTranslation extends HTMLElement {
+
+        constructor() {
+            super();
+            this.appendChild(TEMPLATE_EDIT_TRANSLATION.content.cloneNode(true));
+
+        }
+
+        connectedCallback() {
+
+        }
+
+        updateDom() {
+
+        }
+    }
+    customElements.define('ordbase-edit-translation', OrdbaseEditTranslation);
+</script>

@@ -1,11 +1,83 @@
-<template>
+<style>
+    ordbase-card-client {
+        width: 250px;
+        height: 220px;
+        flex-shrink: 0;
 
-    <div id="{{ id }}" class="ordbase-card-client">
-        <button class="card-button">
-            <img alt="Bilde av fylkesmannen" src="{{ thumbnail }}">
-            <h2>{{ name    }}</h2>
-            <p> {{ website }}</p>
-        </button>
-    </div>
+        padding: 20px 10px 10px 10px;
+
+        color: var(--ordbase-color-dark);
+    }
+
+    ordbase-card-client
+    button {
+        padding: 0px;
+        cursor: pointer;
+        color: var(--ordbase-color-dark);
+        background-color: var(--ordbase-color-white) !important;
+    }
+
+    ordbase-card-client
+    h2 {
+        margin-bottom: 0px;
+        margin-top: 7px;    
+        padding: 0px 5px 0px 10px;
+    }
+
+    ordbase-card-client
+    p {
+        font-size: 13px;
+        padding: 0px 5px 0px 10px;
+    }
+</style>
+
+<template id="template-card-client">
+
+    <button class="card-button">
+        <img alt="Bilde av fylkesmannen" src="{{ thumbnail }}">
+        <h2>{{ name    }}</h2>
+        <p> {{ website }}</p>
+    </button>
 
 </template>
+
+<script>
+
+    const TEMPLATE_CARD_CLIENT = document.currentScript.ownerDocument.getElementById('template-card-client');
+
+    class OrdbaseCardClient extends HTMLElement {
+
+        constructor() {
+            super();
+            this.constructed = false;
+        }
+
+        DOMUpdate() {
+            this.setAttribute('id',             this.id            || '{{ id }}');
+            this.elementImg.setAttribute('src', this.thumbnail     || '{{ thumbnail }}');
+            this.elementHeading.innerHTML =     this.name          || '{{ name }}';
+            this.elementText.innerHTML    =     this.website       || '{{ website }}';
+            this.elementButton.onclick    =     this.buttonOnClick || '{{ buttonOnClick }}';
+        }
+
+        //
+        // @doc Requirements of custom elements constructors
+        //
+        connectedCallback() {
+            if (!this.constructed) {
+
+                this.appendChild(TEMPLATE_CARD_CLIENT.content.cloneNode(true));
+                this.elementImg     = this.querySelector('img');
+                this.elementHeading = this.querySelector('h2');
+                this.elementText    = this.querySelector('p');
+                this.elementButton  = this.querySelector('button');
+
+                this.constructed = true;
+            }
+            this.DOMUpdate();
+        }
+
+
+    }
+    customElements.define('ordbase-card-client', OrdbaseCardClient);
+</script>

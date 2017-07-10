@@ -11,38 +11,33 @@
 
             /* SHARED CSS */
             @import url('./app/css/shared.css');
-            @import url('./app/css/header.css');
             @import url('./app/css/input.css');
             @import url('./app/css/btn-container-select.css');
             @import url('./app/css/btn-form-submit.css');
 
-            /* VIEWS */
-            @import url('./app/view/view-client-selector.css');
-            @import url('./app/view/view-client-editor.css');
-            @import url('./app/view/view-translation-editor.css');
-            @import url('./app/view/view-translation-selector.css');
-
-            /* COMPONENTS */
-            @import url('./app/component/list-container.css');
-            @import url('./app/component/card-client.css');
-
         </style>
-
-        <!--- VIEWS  -->
-        <link rel="import" href="./app/view/view-client-editor.html">
-        <link rel="import" href="./app/view/view-client-selector.html">    
-        <link rel="import" href="./app/view/view-translation-selector.html">
-        <link rel="import" href="./app/view/view-translation-editor.html">
 
         <!--- COMPONENTS -->
         <link rel="import" href="./app/component/list-container.html">
-        <link rel="import" href="./app/component/card-client.html">
-
-        <script src="./bundle.js"></script>
-
-        <!---  Load javascript entry-point script -->
-    </head>
-    <body>
+        <link rel="import" href="./app/component/card-client.html">        
+        <link rel="import" href="./app/component/header.html">
         
+        <!--- VIEW COMPONENTS  -->
+        <link rel="import" href="./app/component/edit-client.html">
+        <link rel="import" href="./app/component/select-client.html">    
+        <link rel="import" href="./app/component/edit-translation.html">
+        <link rel="import" href="./app/component/select-translation.html">
+
+        <script type="module" src="./startup.js" defer></script>
+
+    </head>
+    <body>  
+        <header>
+            <ordbase-header id="ordbase-header"></ordbase-header>
+        </header>
+        
+            <main id="ordbase-main"></main>
+        
+        <footer id="ordbase-footer"></footer>
     </body>
 </html>
