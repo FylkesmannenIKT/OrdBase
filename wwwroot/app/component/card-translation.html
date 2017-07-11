@@ -1,0 +1,87 @@
+<link rel="import" href="./key-and-icon.html">
+
+<!-- ///////////////////// TEMPLATE  //////////////////////// -->
+<template id="template-card-translation">
+
+    <style>
+    /* -------- CARD-TRANSLATION template -----------*/
+    
+        :host {
+            width:100%;
+        }
+
+        button {
+            background-color: transparent;
+            border: none; 
+            color: var(--ordbase-color-dark); 
+
+            display: flex;
+            flex-wrap: wrap;
+
+            margin-right: 0px;
+            padding: 0 4% 0 4%;
+
+            width:100%;
+            min-height: 75px;
+            font-size: 4em;
+        }
+
+        button 
+        span {
+            flex: 0 0 100px;
+        }
+
+        button
+        .languages-complete {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .fa-check {
+            color: var(--ordbase-color-success);
+        }
+
+        .fa-times {
+            color: var(--ordbase-color-danger);
+        }
+    </style>
+
+    <button class="btn-load-translation-editor">
+        <span class="translation-key">{{ translationKey }}</span>
+        <div  class="languages-complete">
+            
+        <!--template id="template-key-and-icon"-->
+        <!--/template -->
+
+        </div>
+    </button>  
+</template>
+
+<script>
+    const TEMPLATE_CARD_TRANSLATION  = document.currentScript.ownerDocument.getElementById('template-card-translation');
+    const ELEMENT_KEY_AND_ICON       = document.createElement('ordbase-key-and-icon');
+    
+    class OrdbaseCardTranslation extends HTMLElement { 
+        constructor() {
+            super();
+            this.root = this.createShadowRoot();            
+            this.root.appendChild(document.importNode(TEMPLATE_CARD_TRANSLATION.content, true));
+        }
+        
+        set key (key) { 
+            this.root.querySelector('span').innerHTML = key;        
+        }
+
+        spawnKeyAndIcon() { 
+            return ELEMENT_KEY_AND_ICON.cloneNode(true);            
+        }
+
+        appendKeyAndIcon(keyAndIcon) { 
+            this.root.querySelector('div').appendChild(keyAndIcon); 
+        }
+    }
+    customElements.define('ordbase-card-translation', OrdbaseCardTranslation);
+
+</script>

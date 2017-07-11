@@ -1,127 +1,85 @@
-<style>
-
-    .ordbase-list-translation h2 {
-        margin-left: 20px;
-    }
-
-    .ordbase-list-translation {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-    }
-
-    /* -------- CARD-TRANSLATION template -----------*/
-
-    .ordbase-card-translation {
-        width:100%;
-    }
-
-    .ordbase-card-translation 
-    button {
-        display: flex;
-        flex-wrap: wrap;
-
-        margin-right: 0px;
-        padding: 0 4% 0 4%;
-
-        width:100%;
-        min-height: 75px;
-        font-size: 4em;
-    }
+<link rel="import" href="./card-translation.html">
+<link rel="import" href="./button-container.html">
 
 
-    .ordbase-card-translation button 
-    span {
-        flex: 0 0 100px;
-    }
+<!-- ///////////////////// TEMPLATE  //////////////////////// -->
+<template id="template-select-translation">
+    <style>
 
-    .ordbase-card-translation button
-    .languages-complete {
-        flex: 1;
-        display: flex;
-        justify-content: flex-end;
-        flex-wrap: wrap;
-    }
+        :host {
+            display: flex;
+        }
 
-    .ordbase-card-translation .fa-check {
-        color: var(--ordbase-color-success);
-    }
+        .ordbase-list-container {
+                height: 100%;
+                width: 300px;
+                display: flex;
+                flex-direction: column;
+                background-color: var(--ordbase-color-light);
+        }
 
-    .ordbase-card-translation .fa-times {
-        color: var(--ordbase-color-danger);
-    }
+        .ordbase-list-container 
+        h2 {
+            margin-left: 20px;
+        }
 
-    /* -------- KEY-AND-ICON template -----------*/
-    .view-translation-selector
-    .ordbase-key-and-icon {
-        margin: 0px 10px 0px 10px;
-        flex: 0 1 120px;
+        .ordbase-list-translation h2 {
+            margin-left: 20px;
+        }
 
-        display: flex;
-    }
+        .ordbase-list-translation {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
 
-    .view-translation-selector
-    .ordbase-key-and-icon 
-    span {
-        display: flex;
-    }
-</style>
-<template>
+    </style>
 
-    <ordbase-list-translation></ordbase-list-translation>
+    <ul id="list-show-containers-on-client" class="ordbase-list-containers">
+        <h2>Containers</h2>        
+        <!--template id="template-button-container"-->
+        <!--template id="template-button-container"-->
+        <!--template id="template-button-container"-->
+        <!--/template-->
+    </ul>
 
     <section id="list-show-translations-on-client" class="ordbase-list-translation">
         <h2>Translations</h2>
     
-
-        <!-- @note SCRIPT WILL GENERATE ELEMENTS DYNAMICLY HERE BASED ON THIS TEMPLATE -->
-        <template id="template-card-translation">
-
-            <div class="ordbase-card-translation">
-                <button class="btn-load-translation-editor">
-                    <span class="translation-key">{{ translationKey }}</span>
-                    <div  class="languages-complete">
-                        
-
-                        <!-- @note SCRIPT WILL GENERATE ELEMENTS DYNAMICLY HERE BASED ON THIS TEMPLATE -->
-                        <template id="template-key-and-icon">
-
-                            <div class="ordbase-key-and-icon">
-                                <span class="language-key">{{ languageKey }}</span>
-                                <i    class="fa {{ fontawesomeClass }} language-icon" aria-hidden="true"></i>
-                            </div>
-
-                        </template>
-
-
-                    </div>
-                </button>    
-            </div>
-        </template>
-
-        
+        <!--template id="template-card-translation"-->
+        <!--template id="template-card-translation"-->        
+        <!--template id="template-card-translation"-->
+        <!-- /template -->
     </section>
-
-    
 </template>
 
 <script>
     const TEMPLATE_SELECT_TRANSLATION = document.currentScript.ownerDocument.getElementById('template-select-translation');
+    const ELEMENT_BUTON_CONTAINER     = document.createElement('ordbase-button-container');
+    const ELEMENT_CARD_TRANSLATION    = document.createElement('ordbase-card-translation');
 
     class OrdbaseSelectTranslation extends HTMLElement {
 
         constructor() {
             super();
-            this.appendChild(TEMPLATE_SELECT_TRANSLATION.content.cloneNode(true));
-
+            this.root = this.createShadowRoot();
+            this.root.appendChild(document.importNode(TEMPLATE_SELECT_TRANSLATION.content, true));
         }
 
-        connectedCallback() {
-
+        spawnButtonContainer () {
+             return ELEMENT_BUTON_CONTAINER.cloneNode(true); 
         }
 
-        updateDom() {
+        appendButtonContainer (btn) {
+             this.root.querySelector('#list-show-containers-on-client').appendChild(btn); 
+        }
 
+        spawnCardTranslation () { 
+            return ELEMENT_CARD_TRANSLATION.cloneNode(true);  
+        }
+
+        appendCardTranslation (card) { 
+            this.root.querySelector('#list-show-translations-on-client').appendChild(card);
         }
     }
     customElements.define('ordbase-select-translation', OrdbaseSelectTranslation);

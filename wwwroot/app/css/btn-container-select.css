@@ -1,5 +1,5 @@
 /* CONTAINER LIST */
-.ordbase-btn-container-select {
+.ordbase-btn-select-container {
     height: 75px;
     font-size: 4em;
 
@@ -8,8 +8,8 @@
     border: 1px solid var(--ordbase-color-select);
 }   
 
-.ordbase-btn-container-select.selected,
-.ordbase-btn-container-select:hover {
+.ordbase-btn-select-container.selected,
+.ordbase-btn-select-container:hover {
     background-color: var(--ordbase-color-select);
     color: var(--ordbase-color-white);
 }

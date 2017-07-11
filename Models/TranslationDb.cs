@@ -46,9 +46,6 @@ namespace OrdBaseCore.Models
 
         public static void Seed(TranslationDb context) 
         {
-            context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
-            
             LanguageRepository.AddTestData(context);
             ClientRepository.AddTestData(context);
             TranslationRepository.AddTestData(context);

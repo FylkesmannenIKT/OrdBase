@@ -1,0 +1,35 @@
+<template id="template-key-and-icon">
+
+    <style>
+        :host {
+            margin: 0px 10px 0px 10px;
+            flex: 0 1 120px;
+
+            display: flex;
+        }
+
+        span {
+            display: flex;
+        }    
+    </style>
+
+    <span class="language-key">{{ languageKey }}</span>
+    <i class="fa {{ fontawesomeClass }} language-icon" aria-hidden="true"></i>
+    
+</template>
+
+<script>
+    const TEMPLATE_KEY_AND_ICON = document.currentScript.ownerDocument.getElementById('template-key-and-icon');
+
+    class OrdbaseKeyAndIcon extends HTMLElement { 
+        constructor() {
+            super();
+            this.root = this.createShadowRoot();            
+            this.root.appendChild(document.importNode(TEMPLATE_KEY_AND_ICON.content, true));
+        }
+
+        set languageKey(key) { this.root.querySelector('span').innerHTML = key; }
+        set icon(iconClass)  {  this.root.querySelector('i').classList.add(iconClass); }
+    }
+    customElements.define('ordbase-key-and-icon', OrdbaseKeyAndIcon);
+</script>

@@ -1,6 +1,11 @@
+
+
+<template id="template-header">
 <style>
+    @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
     /* --- HEADER --- */
-    ordbase-header {           
+    :host {           
         display: flex;
         text-align:  center;
         min-height: 100px;
@@ -9,9 +14,12 @@
     }
     /* --------------- */
 
+    button {
+        background-color: transparent;
+        border: none;
+    }
 
     /* HEADER-ICON-BUTTON */
-    ordbase-header 
     .icon-button {
         font-size: 40px;
         flex: 0;
@@ -20,7 +28,6 @@
         justify-content: center;
     }
 
-    ordbase-header 
     .icon-button i {
         width: 100%;
         height: 100%;
@@ -31,13 +38,11 @@
 
 
     /* HEADER-TEXT-BUTTON */
-    ordbase-header 
     .header-text-button {
         flex-grow: 1;
         color: var(--ordbase-color-white);
     }
 
-    ordbase-header 
     .header-text-button 
     h1 {   
         text-align: left;
@@ -47,19 +52,17 @@
 
 </style>
 
-<template id="template-header">
-    
     <button id="btn-header-left" class="icon-button">
         <i class="fa fa-square" aria-hidden="true"></i>
     </button>
 
     <button id="btn-header-mid" class="header-text-button">
-        <h1 id="btn-header-mid-big"> {{ bigHeader }} - </h1>
-        <h3 id="btn-header-mid-small"> {{ smallHeader }}</h3>
+        <h1 id="btn-header-mid-big">  </h1>
+        <h3 id="btn-header-mid-small"></h3>
     </button>
 
     <button id="btn-header-right1" class="icon-button">
-        <i class="fa" aria-hidden="true"></i>
+        <i class="fa fa-square" aria-hidden="true"></i>
     </button>
 
     <button id="btn-header-right2" class="icon-button">
@@ -71,58 +74,32 @@
 
 <script>
     const TEMPLATE_HEADER = document.currentScript.ownerDocument.getElementById('template-header');
+
     const ICON_HEADER_NONE       = '';
-    const ICON_HEADER_PLUS       = 'fa fa-plus';
-    const ICON_HEADER_BARS       = 'fa fa-bars';
-    const ICON_HEADER_SQUARE     = 'fa fa-square';
-    const ICON_HEADER_ARROW_LEFT = 'fa fa-arrow-left';
+    const ICON_HEADER_PLUS       = 'fa-plus';
+    const ICON_HEADER_BARS       = 'fa-bars';
+    const ICON_HEADER_SQUARE     = 'fa-square';
+    const ICON_HEADER_ARROW_LEFT = 'fa-arrow-left';
 
     class OrdbaseHeader extends HTMLElement {
 
         constructor() {
             super();
-            this.constructed = false;
+            this.root = this.createShadowRoot();
+            this.root.appendChild(document.importNode(TEMPLATE_HEADER.content, true));
         }
 
-        connectedCallback() {
-            if (!this.constructed) {
-                this.textBig             = 'Ordbase';
-                this.textSmall           = 'Select Client';
-                
-                this.buttonIconLeft      = ICON_HEADER_SQUARE;
-                this.buttonIconRight1    = ICON_HEADER_NONE; 
-                this.buttonIconRight2    = ICON_HEADER_PLUS;
+        set textBig(text)          { this.root.querySelector('#btn-header-mid-big').innerHTML   =  text;    }  
+        set textSmall(text)        { this.root.querySelector('#btn-header-mid-small').innerHTML =  text;    }
+        set buttonIconLeft(icon)   { this.root.querySelector('#btn-header-left i.fa').classList.add(icon);   }
+        set buttonIconRight1(icon) { this.root.querySelector('#btn-header-right1 i.fa').classList.add(icon); } 
+        set buttonIconRight2(icon) { this.root.querySelector('#btn-header-right2 i.fa').classList.add(icon); }   
+       
+        set onClickButtonLeft   (handler) { this.root.querySelector('#btn-header-left').onclick   = handler; };
+        set onClickButtonRight1 (handler) { this.root.querySelector('#btn-header-right1').onclick = handler; };
+        set onClickButtonRight2 (handler) { this.root.querySelector('#btn-header-right2').onclick = handler; };
 
-                this.buttonHandlerLeft   = event => console.log('default handler, nothing happened...:(');
-                this.buttonHandlerRight1 = event => console.log('default handler, nothing happened...:(');      
-                this.buttonHandlerRight2 = event => console.log('default handler, nothing happened...:('); 
-
-                this.appendChild(document.importNode(TEMPLATE_HEADER.content, true));
-                
-                this.elementTextBig    = this.querySelector('#btn-header-mid-big');  
-                this.elementTextSmall  = this.querySelector('#btn-header-mid-small');
-
-                this.elementButtonLeft   = this.querySelector('#btn-header-left');
-                this.elementButtonRight1 = this.querySelector('#btn-header-right1'); 
-                this.elementButtonRight2 = this.querySelector('#btn-header-right1');             
-                           
-                this.constructed = true;
-            }
-            this.DOMUpdate();
-        }
-
-        DOMUpdate() {
-            this.elementButtonLeft.setAttribute('class', this.buttonIconLeft);  
-            this.elementButtonRight1.setAttribute('class', this.buttonIconRight1);
-            this.elementButtonRight2.setAttribute('class', this.buttonIconRight2);
-
-            this.elementTextBig.innerHTML = this.textBig;  
-            this.elementTextSmall.innerHTML = this.textSmall;
-
-            this.elementButtonLeft.onclick   = this.buttonHandlerLeft;
-            this.elementButtonRight1.onclick = this.buttonHandlerRight1;
-            this.elementButtonRight1.onclick = this.buttonHandlerRight2;
-        }   
+        connectedCallback() { }
     }
     customElements.define('ordbase-header', OrdbaseHeader);
 
