@@ -19,46 +19,52 @@ namespace OrdBaseCore.Controllers
         //
         // GET REQUESTS
         //
-        [HttpGet("api/{client}/translation/{container}/{accessKey}/{language}")]
-    	public IEnumerable<Translation> Get(string client, string language, string container, string accesskey)
+        [HttpGet("api/{clientKey}/translation/{containerKey}/{translationKey}/{languageKey}")]
+    	public IEnumerable<Translation> Get(string clientKey, string languageKey, string containerKey, string translationKey)
         {
-            return _translationRepo.Get(client, language, container, accesskey); 
+            return _translationRepo.Get(clientKey, languageKey, containerKey, translationKey); 
         }
         
-        [HttpGet("api/{client}/translation")]
-        public IEnumerable<Translation> GetOnClient(string client)
+        [HttpGet("api/{clientKey}/translation")]        
+        [HttpGet("api/{clientKey}/translation/all")]
+        public IEnumerable<Translation> GetAll(string clientKey)
         {
-            return _translationRepo.GetOnClient(client); 
+            return _translationRepo.GetAll(clientKey); 
         }
 
-        [HttpGet("api/{client}/translation/group")]
-        public IEnumerable<object> GetGroupOnClient(string client)
+        //
+        // @note Groups together translations by key. 
+        //       All translations which share the same key are grouped together.
+        //
+        [HttpGet("api/{clientKey}/translation/group")]        
+        [HttpGet("api/{clientKey}/translation/group/all")]
+        public IEnumerable<object> GetGroupAll(string clientKey)
         {
-            return _translationRepo.GetGroupOnClient(client);
+            return _translationRepo.GetGroupAll(clientKey);
         } 
 
-        [HttpGet("api/{client}/translation/container/{container}")]
-        public IEnumerable<object> GetOnContainer(string client, string container)
+        [HttpGet("api/{clientKey}/translation/container/{containerKey}")]
+        public IEnumerable<object> GetOnContainer(string clientKey, string containerKey)
         {
-            return _translationRepo.GetOnContainer(client, container); 
+            return _translationRepo.GetOnContainer(clientKey, containerKey); 
         }
 
-        [HttpGet("api/{client}/translation/container/{container}/{language}")]
-        public IEnumerable<KeyValuePair<string,string>> GetOnContainer(string client, string language, string container)
+        [HttpGet("api/{clientKey}/translation/container/{containerKey}/{languageKey}")]
+        public IEnumerable<KeyValuePair<string,string>> GetOnContainerLanguage(string clientKey, string languageKey, string containerKey)
         {
-            return _translationRepo.GetOnContainer(client, language, container); 
+            return _translationRepo.GetOnContainerLanguage(clientKey, languageKey, containerKey); 
         }
 
-        [HttpGet("api/{client}/translation/accesskey/{accesskey}")]
-        public IEnumerable<Translation> GetOnAccessKey(string client, string accesskey)
+        [HttpGet("api/{clientKey}/translation/key/{translationKey}")]
+        public IEnumerable<Translation> GetOnKey(string clientKey, string translationKey)
         {
-            return _translationRepo.GetOnAccessKey(client, accesskey); 
+            return _translationRepo.GetOnKey(clientKey, translationKey); 
         }
 
-        [HttpGet("api/{client}/translation/language/{language}")]
-        public IEnumerable<Translation> GetOnLanguage(string client, string language)
+        [HttpGet("api/{clientKey}/translation/language/{languageKey}")]
+        public IEnumerable<Translation> GetOnLanguage(string clientKey, string languageKey)
         {
-            return _translationRepo.GetOnLanguage(client, language); 
+            return _translationRepo.GetOnLanguage(clientKey, languageKey); 
         }
         
         //
@@ -73,32 +79,24 @@ namespace OrdBaseCore.Controllers
             return _translationRepo.Create(translation);
         } 
 
-        [HttpPut("api/translation/update/{client}/{container}/{accesskey}/{language}")]
-        public IActionResult Update(string client, string language, string container, string accesskey,
+        [HttpPut("api/translation/update/{clientKey}/{containerKey}/{translationKey}/{languageKey}")]
+        public IActionResult Update(string clientKey, string languageKey, string containerKey, string translationKey,
                                          [FromBody] Translation translation)
         {   
-            //
-            // @note Following the RestAPI http put standard here
-            //        Maybe the client should generated a single temp id.
-            // @note2 BadRequest() can only be done inside the controller as I am aware of,
-            //         At first glance this is seems like a violation of the "no-logic-inside-the-controoller-paradigm"
-            //         I think the problem here is that ASP.NET casts the HTTP object to a data-specific type already
-            //         in the parameter-list of the controller. This is a clear DEPENDENCY of the underlying
-            //         database implementation, but again we could also say that for all the Translation[] 
-            //           return types in the controller. - J Solsvik 23. 06. 17
-            //
-            if (translation == null || translation.ClientKey != client || translation.LanguageKey != language
-                    || translation.Container != container || translation.Key != accesskey) 
+            if (translation == null || translation.ClientKey    != clientKey 
+                                    || translation.LanguageKey  != languageKey
+                                    || translation.ContainerKey != containerKey 
+                                    || translation.Key          != translationKey) 
                 return BadRequest();
             
 
             return _translationRepo.Update(translation);
         }
 
-        [HttpDelete("api/translation/delete/{client}/{container}/{accesskey}/{language}")]
-        public IActionResult Delete(string client, string language, string container, string accesskey)
+        [HttpDelete("api/translation/delete/{clientKey}/{containerKey}/{translationKey}/{languageKey}")]
+        public IActionResult Delete(string clientKey, string languageKey, string containerKey, string translationKey)
         {
-            return _translationRepo.Delete(client, language, container, accesskey);
+            return _translationRepo.Delete(clientKey, languageKey, containerKey, translationKey);
         }
     }
 }

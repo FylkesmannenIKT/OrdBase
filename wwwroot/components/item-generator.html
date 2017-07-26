@@ -1,0 +1,44 @@
+<style>
+    @import url('/node_modules/font-awesome/css/font-awesome.min.css');
+    
+    input {
+        display: none;
+        width: 100%;
+        height: var(--ordbase-button-height);
+        font-size: var(--ordbase-input-font-size);
+        text-align: center;
+    }
+
+    #button-generate {
+        font-size:  var(--ordbase-button-font-size);
+        cursor: pointer;
+        height: var(--ordbase-button-height);
+        width: 100%;
+        background-color: transparent;
+        color: var(--ordbase-color-dark);
+        border: 0px;
+    }
+
+    #button-generate:focus {
+        outline: none;
+    }
+
+    #button-generate:focus,
+    #button-generate:hover {
+        background-color: var(--ordbase-color-success);
+        color: var(--ordbase-color-white);
+    }     
+
+    #button-generate.cancel:focus,
+    #button-generate.cancel:hover {
+        background-color: var(--ordbase-color-danger);
+        color: var(--ordbase-color-white);
+
+    }
+
+</style>
+
+<input type="text" value="">
+<button id="button-generate" class="button-add-item">
+    <i class="fa fa-plus" aria-hidden="true"></i>
+</button>

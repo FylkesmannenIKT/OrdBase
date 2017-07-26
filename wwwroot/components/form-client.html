@@ -1,0 +1,74 @@
+    <style>  
+        #form-client {
+            padding-left: 10px;
+            font-size: var(--ordbase-form-font-size);
+        }
+
+        label {
+            color: var(--ordbase-color-dark);
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        input {
+            font-size: var(--ordbase-input-font-size);
+            margin: 0px 20px 10px 4px;
+            width: 400px;
+        }
+
+        fieldset {
+            border: none;
+        }
+
+        #button-submit {
+            font-size: var(--ordbase-button-font-size);
+            width: 430px;
+            height: var(--ordbase-button-height); 
+
+            cursor: pointer;
+            
+            background-color: transparent;
+            color: var(--ordbase-color-dark); 
+            border: 1px solid var(--ordbase-color-success);
+        }
+
+        #button-submit.selected,
+        #button-submit:hover {
+            background-color: var(--ordbase-color-success);
+            color: var(--ordbase-color-white);
+        }
+
+    </style>
+
+    <form id="form-client">
+        <h2>Basic Info</h2>        
+
+        <fieldset>
+            <label for="form-client-name">Name</label><br>
+            <input id="form-client-name" class="ordbase-input" type="text" data-min-size="20" value="soldata">
+        </fieldset>
+
+        <fieldset>
+            <label for="form-client-apikey">Api nøkkel</label><br>
+            <input id="form-client-apikey" class="ordbase-input" type="text" data-min-size="20" value="soldata-production">
+        </fieldset>
+
+        <fieldset>
+            <label for="form-client-webpage">Nettadresse</label><br>
+            <input id="form-client-webpage" class="ordbase-input" type="text" data-min-size="20" value="soldata.no">
+        </fieldset>
+
+        <fieldset>
+            <label for="form-client-thumbnail">Bildeadresse</label><br>
+            <input id="form-client-thumbnail" class="ordbase-input" type="text" data-min-size="20" value="soldata.no/thumb">
+        </fieldset>
+
+        
+        <br>
+        <br>
+
+        <button id="button-submit" class="ordbase-btn-form-submit" type="submit"> 
+            {{ submitButtonText }}
+        </button>
+
+    </form>

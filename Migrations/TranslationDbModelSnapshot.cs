@@ -13,11 +13,12 @@ namespace OrdBaseCore.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.2");
+                .HasAnnotation("ProductVersion", "1.1.2")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("OrdBaseCore.Models.Client", b =>
                 {
-                    b.Property<string>("Name")
+                    b.Property<string>("Key")
                         .HasMaxLength(127);
 
                     b.Property<string>("ApiKey")
@@ -27,11 +28,13 @@ namespace OrdBaseCore.Migrations
 
                     b.Property<int?>("RequestCount");
 
-                    b.Property<string>("ThumbnailUrl");
+                    b.Property<string>("ThumbnailUrl")
+                        .HasMaxLength(255);
 
-                    b.Property<string>("WebpageUrl");
+                    b.Property<string>("WebpageUrl")
+                        .HasMaxLength(255);
 
-                    b.HasKey("Name");
+                    b.HasKey("Key");
 
                     b.HasIndex("ApiKey")
                         .IsUnique();
@@ -42,14 +45,50 @@ namespace OrdBaseCore.Migrations
                     b.ToTable("Client");
                 });
 
+            modelBuilder.Entity("OrdBaseCore.Models.ClientContainer", b =>
+                {
+                    b.Property<string>("ClientKey");
+
+                    b.Property<string>("ContainerKey");
+
+                    b.HasKey("ClientKey", "ContainerKey");
+
+                    b.HasIndex("ContainerKey");
+
+                    b.ToTable("ClientContainer");
+                });
+
+            modelBuilder.Entity("OrdBaseCore.Models.ClientLanguage", b =>
+                {
+                    b.Property<string>("ClientKey");
+
+                    b.Property<string>("LanguageKey");
+
+                    b.HasKey("ClientKey", "LanguageKey");
+
+                    b.HasIndex("LanguageKey");
+
+                    b.ToTable("ClientLanguage");
+                });
+
+            modelBuilder.Entity("OrdBaseCore.Models.Container", b =>
+                {
+                    b.Property<string>("Key")
+                        .HasMaxLength(64);
+
+                    b.HasKey("Key");
+
+                    b.ToTable("Container");
+                });
+
             modelBuilder.Entity("OrdBaseCore.Models.Language", b =>
                 {
                     b.Property<string>("Key")
-                        .HasMaxLength(32);
+                        .HasMaxLength(8);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(127);
+                        .HasMaxLength(64);
 
                     b.HasKey("Key");
 
@@ -58,14 +97,11 @@ namespace OrdBaseCore.Migrations
 
             modelBuilder.Entity("OrdBaseCore.Models.Translation", b =>
                 {
-                    b.Property<string>("ClientKey")
-                        .HasMaxLength(127);
+                    b.Property<string>("ClientKey");
 
-                    b.Property<string>("LanguageKey")
-                        .HasMaxLength(32);
+                    b.Property<string>("LanguageKey");
 
-                    b.Property<string>("Container")
-                        .HasMaxLength(127);
+                    b.Property<string>("ContainerKey");
 
                     b.Property<string>("Key")
                         .HasMaxLength(127);
@@ -76,9 +112,57 @@ namespace OrdBaseCore.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
-                    b.HasKey("ClientKey", "LanguageKey", "Container", "Key");
+                    b.HasKey("ClientKey", "LanguageKey", "ContainerKey", "Key");
+
+                    b.HasIndex("ContainerKey");
+
+                    b.HasIndex("LanguageKey");
 
                     b.ToTable("Translation");
+                });
+
+            modelBuilder.Entity("OrdBaseCore.Models.ClientContainer", b =>
+                {
+                    b.HasOne("OrdBaseCore.Models.Client", "Client")
+                        .WithMany("DefaultContainers")
+                        .HasForeignKey("ClientKey")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("OrdBaseCore.Models.Container", "Container")
+                        .WithMany("Clients")
+                        .HasForeignKey("ContainerKey")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("OrdBaseCore.Models.ClientLanguage", b =>
+                {
+                    b.HasOne("OrdBaseCore.Models.Client", "Client")
+                        .WithMany("DefaultLanguages")
+                        .HasForeignKey("ClientKey")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("OrdBaseCore.Models.Language", "Language")
+                        .WithMany("Clients")
+                        .HasForeignKey("LanguageKey")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("OrdBaseCore.Models.Translation", b =>
+                {
+                    b.HasOne("OrdBaseCore.Models.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientKey")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("OrdBaseCore.Models.Container", "Container")
+                        .WithMany()
+                        .HasForeignKey("ContainerKey")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("OrdBaseCore.Models.Language", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageKey")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }

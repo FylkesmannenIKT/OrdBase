@@ -6,7 +6,7 @@ using OrdBaseCore.IData;
 
 namespace OrdBaseCore.Controllers
 {	
-    public class ContainerController : Controller, IContainerData
+    public class ContainerController : Controller
     {
         private readonly IContainerData _containerRepo;
 
@@ -15,16 +15,24 @@ namespace OrdBaseCore.Controllers
             _containerRepo = containerRepo;
         }
 
-    	[Route("api/{client}/container")]
-    	public string[] GetOnClient(string client) 
+		[Route("api/container")]
+		[Route("api/container/all")]
+		public string[] GetGlobal() 
+		{
+			return _containerRepo.GetGlobal();
+		}
+
+    	[Route("api/{clientKey}/container")]
+    	[Route("api/{clientKey}/container/all")]		
+    	public string[] GetAll(string clientKey) 
     	{
-    		return _containerRepo.GetOnClient(client); 
+    		return _containerRepo.GetAll(clientKey); 
     	}
 
-    	[Route("api/{client}/container/{accesskey}")]
-    	public string[] Get(string client, string accesskey) 
+    	[Route("api/{clientKey}/container/group/{translationKey}")]
+    	public string[] GetGroup(string clientKey, string translationKey) 
     	{
-    		return _containerRepo.Get(client, accesskey); 
+    		return _containerRepo.GetGroup(clientKey, translationKey); 
     	} 
     }
 }

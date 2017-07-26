@@ -1,10 +1,18 @@
+.vs/
+.DS_Store
+
+
+# json
+config.json
+package-lock.json
+
+# Generated files
 bin/
 obj/
-.vs/
-packages/
-.DS_Store
-bower_components/
-config.json
+bundle.js
+migrations/
 
-package-lock.json
+# Packages
 node_modules/
+bower_components/
+packages/

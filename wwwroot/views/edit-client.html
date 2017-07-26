@@ -1,0 +1,45 @@
+
+    <style>
+        :host {
+            height: 100%;
+            display: flex;
+        }
+        
+        h2 {
+            font-size: var(--ordbase-h2-font-size);
+            margin-left: 10px;
+        }
+
+        #edit-cleint-left-menu {
+            flex: 0 0 350px;
+            background-color: var(--ordbase-color-light); 
+        }
+
+        #list-add-containers-on-client {
+            margin: 0px;
+            padding: 0px;
+        }
+
+    </style>
+
+        <div id="edit-cleint-left-menu">
+            <section id="list-add-containers-on-client">
+                <h2>Containers</h2>        
+                
+                <!--ordbase-item-generator></ordbase-item-generator-->
+                <!--ordbase-item-generator></ordbase-item-generator-->
+            </section>
+
+            <section id="list-add-languages-on-client">
+                <h2>Languages</h2>
+                <!--ordbase-button-select></ordbase-button-select-->
+                <!--ordbase-button-select></ordbase-button-select-->
+
+            </section> 
+        </div>
+
+    <!--ordbase-form-client></ordbase-form-client-->
+    <div id="form-hook" style="display: none;"></div>
+    
+    <!--ordbase-card-client></ordbase-card-client-->    
+    <div id="hook-card" style="display: none;"></div>

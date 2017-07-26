@@ -6,36 +6,25 @@
 
         <style>
             /* EXTERNAL CSS */
-                @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
-
+            @import url('./node_modules/font-awesome/css/font-awesome.min.css');
             @import url('https://fonts.googleapis.com/css?family=Muli');
 
             /* SHARED CSS */
-            @import url('./app/css/shared.css');
-            @import url('./app/css/input.css');
-            @import url('./app/css/btn-container-select.css');
-            @import url('./app/css/btn-form-submit.css');
-            @import url('./app/css/list-container.css');
+            @import url('./css/input.css');
+            @import url('./css/index.css');
 
         </style>
 
-        <!--- VIEW COMPONENTS  -->
-        <link rel="import" href="./app/component/header.html">
-        <link rel="import" href="./app/component/edit-client.html">
-        <link rel="import" href="./app/component/select-client.html">    
-        <link rel="import" href="./app/component/edit-translation.html">
-        <link rel="import" href="./app/component/select-translation.html">
-
-        <script type="module" src="./App.js" defer></script>
+        <script type="module" src="./bundle.js"></script>
 
     </head>
-    <body>  
-        <header>
-            <ordbase-header id="ordbase-header"></ordbase-header>
-        </header>
+    <body>      
+        <header id="ordbase-header"> </header>
         
             <main id="ordbase-main">
                 
+                <!-- Here views are inserted -->
+
             </main>
         
         <footer id="ordbase-footer"></footer>

@@ -6,9 +6,18 @@ namespace OrdBaseCore.IData
 {
     public interface IClientData
     {
-        IEnumerable<Client> Get(string name);
+        IEnumerable<Client> Get(string clientKey);
         IEnumerable<Client> GetAll();
         
-        IActionResult Create(Client client, IEnumerable<string> languageCodes);
+        IActionResult Create(Client client);
+        IActionResult Update(Client client);
+        IActionResult Delete(string clientKey);
+        IEnumerable<string> GetDefaultLanguages(string clientKey);
+        IEnumerable<string> GetDefaultContainers(string clientKey);        
+        IActionResult CreateDefaultContainers(string clientKey, IEnumerable<string> defaultContainers);
+        IActionResult CreateDefaultLanguages(string clientKey, IEnumerable<string> defultLanguages);
+        IActionResult UpdateDefaultContainers(string clientKey, IEnumerable<string> defultLanguages);
+        IActionResult UpdateDefaultLanguages(string clientKey, IEnumerable<string> defultLanguages);
+        
     }	
 }

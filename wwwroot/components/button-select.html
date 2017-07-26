@@ -1,0 +1,37 @@
+    <style>
+        button {
+            height: var(--ordbase-button-height);
+            font-size: var(--ordbase-button-font-size);
+            width: 100%;
+            cursor: pointer;
+            background-color: transparent;
+            color: var(--ordbase-color-dark);
+            
+            border: 0px;
+            /*border: 1px solid var(--ordbase-color-select);*/
+        }   
+
+        button.selected{
+            background-color: var(--ordbase-color-select);
+            color: var(--ordbase-color-white);
+        }
+
+        button:focus {
+            outline: none;                        
+        }
+
+        button:focus,
+        button:hover {
+            background-color: var(--ordbase-color-dark);
+            color: var(--ordbase-color-white);
+        } 
+
+        button.selected:focus {
+            outline: none;
+            background-color: var(--ordbase-color-dark);
+        }
+    </style>
+
+    <button id="{{ id }}"> 
+        {{ text }} 
+    </button>

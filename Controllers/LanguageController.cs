@@ -19,15 +19,16 @@ namespace OrdBaseCore.Controllers
         // GET
         //
         [HttpGet("api/language")]
-        public IEnumerable<Language> GetAll()
+        public IEnumerable<Language> GetGlobal()
         {
-            return _languageRepo.GetAll();
+            return _languageRepo.GetGlobal();
         }
 
         [HttpGet("api/{client}/language")]
-        public IEnumerable<Language> GetOnClient(string client) 
+        [HttpGet("api/{client}/language/all")]        
+        public IEnumerable<Language> GetAll(string clientKey) 
         {
-            return _languageRepo.GetOnClient(client);
+            return _languageRepo.GetAll(clientKey);
         }
 
         //

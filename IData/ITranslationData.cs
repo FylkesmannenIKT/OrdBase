@@ -12,21 +12,20 @@ namespace OrdBaseCore.IData
 		//
 		// Get
 		//
-    	IEnumerable<Translation> GetOnClient(string client);
-		IEnumerable<object>      GetGroupOnClient(string client);
-    	IEnumerable<Translation> GetOnContainer(string client, string container);
-    	IEnumerable<KeyValuePair<string,string>> GetOnContainer(string client, string languaage, string container); // @optimize
-    	IEnumerable<Translation> GetOnAccessKey(string client, string accesskey);
-
-		// @note - Consider deprecating the next two calls, Get and GetOnLanguage, they might never be used. Leaving them here complicates maintenance - JSolsvik 03.07.17
-    	IEnumerable<Translation> Get(string client, string language, string container, string accessKey);
-    	IEnumerable<Translation> GetOnLanguage(string client, string language);
+    	IEnumerable<Translation> Get(string clientKey, string languageKey, string containerKey, string translationKey);
+    	IEnumerable<Translation> GetAll(string clientKey);
+		IEnumerable<object>      GetGroupAll(string clientKey);
+    	IEnumerable<Translation> GetOnContainer(string clientKey, string containerKey);
+    	IEnumerable<KeyValuePair<string,string>> GetOnContainerLanguage(string clientKey, string containerKey, string languageKey); // @optimize
+    	IEnumerable<Translation> GetOnKey(string clientKey, string translationKey);
+		
+    	IEnumerable<Translation> GetOnLanguage(string clientKey, string languageKey);
 		
 		//
 		// Create, update, delete
 		//
 		IActionResult Create(Translation Translation);
 		IActionResult Update(Translation Translation);
-		IActionResult Delete(string client, string language, string container, string accesskey);
+		IActionResult Delete(string clientKey, string languageKey, string containerKey, string translationKey);
     }	
 }
