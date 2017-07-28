@@ -1,11 +1,11 @@
 'use strict';
 
 import * as App from './App.js';
-import * as Api from '../lib/Api.js';
+import * as Route from '../lib/Route.js';
+import { force } from '../lib/Util.js'; 
 
 import { View_SelectClient }      from '../views/select-client.js';
-
-import { Component_CardClient   } from '../components/card-client.js';
+import { Component_ClientCard   } from '../components/card-client.js';
 
 import { loadEditClient }        from './loadEditClient.js';
 import { loadNewClient }         from './loadNewClient.js'; 
@@ -21,27 +21,57 @@ export function loadSelectClient() {
     // 0. Create component instances
     //
     const view  = new View_SelectClient;
-    const cards = new Array;
+    const cardArray = new Array;
 
     //
     // 1. Fire async call
     //
-    async_getCardData(view, cards);
+    __async__generateCards({view: view, cardArray: cardArray});
 
     //
     // 2. Set up header
     //
-    App.HEADER.setTextBig         ( 'Ordbase');
-    App.HEADER.setTextSmall       ( 'Select Client');
+    App.HEADER.setTextSmall         ( 'Ordbase');
+    App.HEADER.setTextBig       ( 'Select Client');
 
+    App.HEADER.setButtonColorLeft('--ordbase-color-success');
     App.HEADER.setButtonIconLeft  ( App.ICON_SQUARE);
     App.HEADER.setButtonIconRight0( App.ICON_TRASH);
     App.HEADER.setButtonIconRight1( App.ICON_PENCIL);    
     App.HEADER.setButtonIconRight2( App.ICON_PLUS);
 
     App.HEADER.getButtonLeft().onclick   = App.defaultHandler;    
-    App.HEADER.getButtonRight0().onclick = event => { setCardState(cards, 'deleteable')};    
-    App.HEADER.getButtonRight1().onclick = event => { setCardState(cards, 'editable')};
+    App.HEADER.getButtonRight0().onclick = event => { 
+
+        cardArray.forEach(card => {
+            card.toggleDeleteable();
+        })
+
+        if (cardArray[0].isDeleteable()) {
+            App.HEADER.setTextBig('Delete Client');
+            App.HEADER.setButtonColorLeft('--ordbase-color-danger');            
+        }
+        else { 
+            App.HEADER.setTextBig('Select Client');
+            App.HEADER.setButtonColorLeft('--ordbase-color-success');
+        }   
+    };    
+
+    App.HEADER.getButtonRight1().onclick = event => { 
+     
+        cardArray.forEach(card => {
+            card.toggleEditable();
+        })
+
+        if (cardArray[0].isEditable()) {
+            App.HEADER.setTextBig('Edit Client');
+            App.HEADER.setButtonColorLeft('--ordbase-color-select');            
+        }
+        else {
+            App.HEADER.setTextBig('Select Client'); 
+            App.HEADER.setButtonColorLeft('--ordbase-color-success');            
+        }        
+    };
     App.HEADER.getButtonRight2().onclick = event => loadNewClient();
 
     //
@@ -50,67 +80,48 @@ export function loadSelectClient() {
     App.switchView(view);
 }
 
-let state = '';
-
-function setCardState(cards, newState) {
-    
-    state = (state == newState)? '' : newState;
-
-    cards.forEach(card => {
-
-        if (state === 'editable') {
-            App.HEADER.textSmall = 'Select Client to Edit';
-            card.setState_Editable();
-        }
-        else if (state === 'deleteable') {
-            App.HEADER.textSmall = 'Select Client to Delete';
-            card.setState_Deleteable();            
-        }
-        else {
-            App.HEADER.textSmall = 'Select Client';                
-            card.setState_Selectable();
-        }
-    });
-}
-
 //
 // 4. Generate client cards
 //
-function async_getCardData(view, cards) {
+function __async__generateCards({ 
+            view      = force('view'), 
+            cardArray = force('cardArray'), 
+    }) {
 
-    Api.client.getAll().then(clients => {
+    Route.client_getAll().then(clients => {
 
         clients.forEach((client, i) => {
 
-            let card = new Component_CardClient;
+            let card = new Component_ClientCard;
             
             card.setId(`card${i}`);
             card.setHeading(client.key);
             card.setText(client.webpageUrl);
             card.setThumbnail(client.thumbnailUrl);
 
-            // @note Duct-typing logic variables, used for later in edit click event
+            // @note Duct-typing logic variables, used for later in edit click even
             card.selectHandler = event => loadSelectTranslation(client.key);
             card.editHandler   = event => loadEditClient(client.key);
-            card.deleteHandler = event => async_deleteCard(client.key, view, card);
-            
+            card.deleteHandler = event => __async__deleteCard({clientKey: client.key, view: view, card: card});
+            card.button.onclick = card.selectHandler;
 
-            card.setState_Selectable();
-
-            cards.push(card);
+            cardArray.push(card);
             view.appendCard(card);
         });                            
     })
     .catch(reason => console.error('Error:', reason));
 }
 
-function async_deleteCard(clientKey, view, card) {
+function __async__deleteCard({
+            clientKey = force('clientKey'), 
+            view      = force('view'), 
+            card      = force('card'),
+    }) {
 
-    Api.client.delete(clientKey)
+    Route.client_delete(clientKey)
     .then(res => {
         view.root.removeChild(card);
         loadSelectClient();
     })
     .catch(reason => console.error('Error:', reason));
-
 }

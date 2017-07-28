@@ -1,14 +1,15 @@
 'use strict';
 
 import * as App from './App.js';
-import * as Api from '../lib/Api.js';
+import * as Route from '../lib/Route.js';
+import { force } from '../lib/Util.js'; 
 
 import { View_EditClient }  from '../views/edit-client.js';
 
 import { Component_ItemGenerator } from '../components/item-generator.js';
 import { Component_ItemFlipper }   from '../components/item-flipper.js';
-import { Component_FormClient }    from '../components/form-client.js';
-import { Component_ButtonSelect }  from '../components/button-select.js';
+import { Component_ClientForm }    from '../components/form-client.js';
+import { Component_SelectButton }  from '../components/button-select.js';
 
 import { loadSelectClient } from './loadSelectClient.js';
 
@@ -17,15 +18,15 @@ export function loadNewClient(clientKey) {
     //
     // 0. Create component instances
     //
-    const view = new View_EditClient;     
+    const view      = new View_EditClient;     
     const generator = new Component_ItemGenerator;
-    const flipper = new Component_ItemFlipper;
-    const form = new Component_FormClient;
+    const flipper   = new Component_ItemFlipper;
+    const form      = new Component_ClientForm;
     
     //
     // 1. Fire async call
     //
-    async_getFlipperData(flipper);
+    __async__populateFlipper({flipper: flipper});
 
     //
     // 2. Set up header
@@ -45,8 +46,8 @@ export function loadNewClient(clientKey) {
     //
     // 3. Component generator
     //
-    generator.setGenerateFunction(() => {
-        let button = new Component_ButtonSelect;
+    generator.OnGenerate(() => {
+        let button = new Component_SelectButton;
         let value = generator.getValue();
         button.setId(value);
         button.setText(value);
@@ -66,7 +67,7 @@ export function loadNewClient(clientKey) {
     form.setSubmitText('Create client');
     form.addEventListener('submit', e => {
         e.preventDefault();
-        async_submitNewClient(form, generator, flipper);            
+        __async__submitNewClient({form: form, generator: generator, flipper: flipper});            
     });
 
     //
@@ -79,14 +80,14 @@ export function loadNewClient(clientKey) {
 
 }
 
-function async_getFlipperData(flipper) {
+function __async__populateFlipper({ flipper = force('flipper') }) {
     //
     // 6. Promise fill in available languages
     //
-    Api.language.getGlobal().then(languages => {
+    Route.language_getGlobal().then(languages => {
 
         languages.forEach(lang => {
-            let button = new Component_ButtonSelect;
+            let button = new Component_SelectButton;
 
             button.setId(lang.key);
             button.setText( `${lang.name} - ${lang.key}`);
@@ -98,31 +99,24 @@ function async_getFlipperData(flipper) {
     .catch(error => console.log(error));
 }
 
-function async_submitNewClient(form, generator, flipper) {
+function __async__submitNewClient({
+            form      = force('form'), 
+            generator = force('generator'), 
+            flipper   = force('flipper'),
+    }) {
 
     //
-    // @note to use the .map() function i have to convert the HTML-collections into
-    //       javascript arrays. This is done with the [].slice.call(htmlcollection)
     //  @doc https://stackoverflow.com/questions/31676135/javascript-map-is-not-a-function
     //
-    let client = form.getClient();
+    let client         = form.getClient();
+    let containerArray = generator.getItemArray().map(button =>       { return button.getId(); });
+    let languageArray  = flipper.getSelectedItemArray().map(button => { return button.getId(); });
 
-    let containerArray = [].slice
-                           .call(generator.getItems())
-                           .map(button => { 
-                               return button.getId(); 
-                            });
-
-    let languageArray = [].slice
-                          .call(flipper.getSelectedItems())
-                          .map(button => { 
-                              return button.getId(); 
-                          });
-
-    Api.client.create(client)
+    Route.client_create(client)
     .then(response => {
         
-        Api.client.createDefaultContainers(client.key, containerArray).catch(error => console.error(error));        Api.client.createDefaultLanguages(client.key, languageArray).catch(error => console.error(error));           
+        Route.client_createDefaultContainers(client.key, containerArray).catch(error => console.error(error));        
+        Route.client_createDefaultLanguages(client.key, languageArray).catch(error => console.error(error));           
 
         loadSelectClient();
     })

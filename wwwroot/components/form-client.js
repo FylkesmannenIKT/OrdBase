@@ -1,7 +1,7 @@
 'use strict';
 import html from './form-client.html';
 
-export class Component_FormClient extends HTMLElement {
+export class Component_ClientForm extends HTMLElement {
     
     constructor(){
         super();
@@ -31,4 +31,4 @@ export class Component_FormClient extends HTMLElement {
     }
 }
 
-customElements.define('component-form-client', Component_FormClient);
+customElements.define('component-form-client', Component_ClientForm);

@@ -7,11 +7,28 @@ export class View_SelectTranslation extends HTMLElement {
         super();
         this.root = this.createShadowRoot();
         this.root.innerHTML = html;
+
+        this.activeContainerButton = null;
+        this.activeTranslationCard = null;        
     }
 
+    setActiveContainerButton(button) { this.activeContainerButton = button; }
+    setActiveTranslationCard(card) { this.activeTranslationCard = card; }
 
+    getActiveContainerButton() { return this.activeContainerButton; }
+    getActiveTranslationCard() { return this.activeTranslationCard; }
 
-    setFlipper (flipper) {   this.root.querySelector('#list-show-containers-on-client').appendChild(flipper);  }
-    appendCardTranslation (card) {  this.root.querySelector('#list-show-translations-on-client').appendChild(card); }
+    addContainerButton (button) {       
+        this.root.querySelector('#list-containers-on-client').appendChild(button);    
+    }
+
+    setTranslationGenerator(generator) {
+        this.root.getElementById('section-translations-on-client').appendChild(generator);
+    }
+
+    getTranslationGenerator() {
+        return this.root.querySelector('component-item-generator');
+    }
+
 }
 customElements.define('view-select-translation', View_SelectTranslation);

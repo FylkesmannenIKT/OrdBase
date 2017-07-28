@@ -1,4 +1,6 @@
     <style>    
+@import url('./node_modules/font-awesome/css/font-awesome.min.css');
+
         :host {
             width:100%;
         }
@@ -19,23 +21,35 @@
             font-size: var(--ordbase-button-font-size);
         }
 
-        button 
-        span {
+        button span {
             flex: 0 0 100px;
         }
 
-        button
-        .languages-complete {
+        button:focus,
+        button:hover {
+            background-color: var(--ordbase-color-dark);
+            color: var(--ordbase-color-white);
+            cursor: pointer;
+        }
+
+
+        button.selected:focus,
+        button.selected {
+            background-color: var(--ordbase-color-select);
+            color: var(--ordbase-color-white);
+        }
+
+        #array-languagekey-complete {
             flex: 1;
             display: flex;
             justify-content: flex-end;
             flex-wrap: wrap;
         }
 
-        button:hover {
-            background-color: var(--ordbase-color-select);
-            color: var(--ordbase-color-white);
-            cursor: pointer;
+        .languagekey-complete {
+            display: flex;
+            flex: 0 0 100px;
+            margin: 0px 20px 0px 20px;
         }
 
         .fa-check {
@@ -45,15 +59,25 @@
         .fa-times {
             color: var(--ordbase-color-danger);
         }
-    </style>
+
+        .deleteable {
+            box-shadow: 0px 0px 5px red;
+        }
+</style>
 
     <button class="btn-load-translation-editor">
         <span class="translation-key">{{ translationKey }}</span>
-        <div  class="languages-complete">
+        
+        <div  id="array-languagekey-complete">
             
-            <!--component-group-key-icon> <component-group-key-icon>-->
-            <!--component-group-key-icon> <component-group-key-icon>-->
-            <!--component-group-key-icon> <component-group-key-icon>-->
+            <template id="template-languagekey-complete">
+
+                <div class="languagekey-complete">
+                    <span>{{languageKey}}</span>
+                    <i class="fa fa-times"></i>
+                </div>
+        
+            </template>
 
         </div>
     </button>  

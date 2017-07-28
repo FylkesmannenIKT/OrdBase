@@ -27,50 +27,14 @@ namespace OrdBaseCore.Repositories
             return _context.Language.ToArray();
         }
 
-        public IEnumerable<Language> GetAll(string clientKey)
-        {
-            return (from t in _context.Translation
-                    join l in _context.Language on t.LanguageKey equals l.Key
-                    join c in _context.Client on t.ClientKey equals c.Key
-                    where c.Key == clientKey
-                    select l)
-                        .ToArray();
-        }
-
         //
-        // CREATE, UPDATE, DELETE
+        // CREATE
         //
         public IActionResult Create(Language language )
         {
             _context.Language.Add(language);
             _context.SaveChanges();
             return new NoContentResult{};
-        }
-
-        public IActionResult Update(Language item) 
-        {
-            var language = _context.Language.First( t => t.Key == item.Key);
-            
-            if (language == null) 
-                return new NotFoundResult{};
-
-            language.Name = item.Name;
-
-            _context.Language.Update(language);
-            _context.SaveChanges();
-            return new NoContentResult {};
-        }
-
-        public IActionResult Delete(string languageKey) 
-        {
-            var language = _context.Language.First(t => t.Key == languageKey);
-
-            if (language == null)
-                return new NotFoundResult {};
-
-            _context.Language.Remove(language);
-            _context.SaveChanges();
-            return new NoContentResult {};
         }
 
         //

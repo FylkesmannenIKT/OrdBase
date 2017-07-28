@@ -1,39 +1,40 @@
 'use strict';
 
 import * as App from './App.js';
-import * as Api from '../lib/Api.js';
+import * as Route from '../lib/Route.js';
+import { force } from '../lib/Util.js'; 
 
 import { View_EditClient }        from '../views/edit-client.js';
 
-import { Component_ButtonSelect  } from '../components/button-select.js';
+import { Component_SelectButton  } from '../components/button-select.js';
 import { Component_ItemGenerator } from '../components/item-generator.js';
 import { Component_ItemFlipper   } from '../components/item-flipper.js';
-import { Component_FormClient    } from '../components/form-client.js';
+import { Component_ClientForm    } from '../components/form-client.js';
 
 import { loadSelectClient } from './loadSelectClient.js';
 
-export function loadEditClient(client) {
+export function loadEditClient(clientKey) {
 
     //
     // 0. Create component instances
     //
-    const view = new View_EditClient;     
+    const view      = new View_EditClient;     
     const generator = new Component_ItemGenerator;
-    const flipper = new Component_ItemFlipper;
-    const form = new Component_FormClient;
+    const flipper   = new Component_ItemFlipper;
+    const form      = new Component_ClientForm;
 
     //
     // 1. Async calls 
     //
-    async_getGeneratorData(generator, client);
-    async_getFlipperData(flipper, client);
-    async_getFormData(form, client);
+    __async__populateGenerator({generator: generator, clientKey: clientKey});
+    __async__populateFlipper({flipper: flipper, clientKey: clientKey});
+    __async__populateForm({form: form, clientKey: clientKey});
 
     //
     // 3. Set up header
     //
-    App.HEADER.setTextBig('Ordbase');    
-    App.HEADER.setTextSmall(`Edit ${client}`);
+    App.HEADER.setTextSmall('Ordbase');    
+    App.HEADER.setTextBig(`Edit ${clientKey}`);
     
     App.HEADER.setButtonIconLeft(App.ICON_BARS);
     App.HEADER.setButtonIconRight0(App.ICON_NONE);        
@@ -48,13 +49,19 @@ export function loadEditClient(client) {
     //
     // 4. Set up container generator
     //
-    generator.setGenerateFunction(() => {
-        let button = new Component_ButtonSelect;
+    generator.OnGenerate(()=> {
+        let button = new Component_SelectButton;
         let value = generator.getValue();
+
         button.setId(value);
         button.setText(value);
         button.setSelected(true);
-        return button;
+        
+        button.OnClick(() => {
+            generator.removeItem(button);
+        });
+
+        generator.addItem(button);
     });
 
     //
@@ -66,10 +73,10 @@ export function loadEditClient(client) {
     //
     // 6. Set up form
     //
-    form.setSubmitText(`Update ${client}`);
+    form.setSubmitText(`Update ${clientKey}`);
     form.addEventListener('submit', e => {
         e.preventDefault();
-        async_submitFormData(client, form, generator, flipper);            
+        __async__updateClient({ clientKey: clientKey, form: form, generator: generator, flipper: flipper});            
     });
 
     //
@@ -84,20 +91,26 @@ export function loadEditClient(client) {
 //
 // 8. Fill container buttons into generator
 //
-function async_getGeneratorData(generator, client) {
+function __async__populateGenerator({
+            generator = force('generator'), 
+            clientKey = force('clientKey'),
+    }) {
 
-    Api.client.getDefaultContainers(client)
+    Route.client_getDefaultContainers(clientKey)
     .then( containers => {
         console.log('containers ', containers);
 
         containers.forEach( container => {
 
-            const button = new Component_ButtonSelect;
+            const button = new Component_SelectButton;
 
             button.setId(container);
             button.setText(container);
             button.setSelected(true);
 
+            button.OnClick(() => {
+                generator.removeItem(button);
+            });
             generator.addItem(button);
         });
     })
@@ -107,25 +120,31 @@ function async_getGeneratorData(generator, client) {
 //
 // 9. Fill languages into flipper
 //
-function async_getFlipperData(flipper, client) {
-
+function __async__populateFlipper({
+            flipper = force('flipper'), 
+            clientKey = force('clientKey'),
+    }) {
     let buttonArray = new Array();
 
-    Api.language.getGlobal()
+    Route.language_getGlobal()
     .then(languages => {
         console.log('global ', languages);
 
         languages.forEach(lang => {
-            let button = new Component_ButtonSelect;
+            let button = new Component_SelectButton;
 
             button.setId(lang.key);
             button.setText( `${lang.name} - ${lang.key}`);
             button.setSelected(false);
 
+            button.OnClick(() => {
+                button.toggleSelected();
+            });
+
             buttonArray.push(button);
             flipper.addItem(button, { selected : false });
         });
-        return Api.client.getDefaultLanguages(client);
+        return Route.client_getDefaultLanguages(clientKey);
     })
     .then(languages => {
         console.log('selected ', languages);
@@ -150,8 +169,12 @@ function async_getFlipperData(flipper, client) {
 //
 // 10. Fill client data into form
 //
-function async_getFormData(form, client) {
-    Api.client.get(client)
+function __async__populateForm({
+            form = force('form'), 
+            clientKey = force('clientKey'),
+    }) {
+
+    Route.client_get(clientKey)
     .then(client => {
         form.setClient(client[0]);
     })
@@ -161,29 +184,21 @@ function async_getFormData(form, client) {
 //
 // 11. Submit data from form, generator and flipper
 //
-function async_submitFormData(clientKey, form, generator, flipper){
+function __async__updateClient({
+            clientKey = force('clientKey'), 
+            form      = force('form'), 
+            generator = force('generator'), 
+            flipper   = force('flipper')
+    }) {
 
-    let clientObject = form.getClient();
+    let clientObject   = form.getClient();
+    let containerArray = generator.getItemArray().map(button => { return button.getId(); });
+    let languageArray  = flipper.getSelectedItemArray().map(button => { return button.getId(); });
 
-    let containerArray = [].slice.call(generator.getItems())
-        .map(button => {
-            return button.getId();
-        });
+    Route.client_update(clientObject).then(response => {
 
-    console.log(containerArray);
-
-    let languageArray = [].slice.call(flipper.getSelectedItems())
-        .map(button => {                
-            return button.getId();
-        });
-
-    console.log('Updating existing client...');
-
-    Api.client.update(clientObject).then(response => {
-        console.log('editresponse', response);
-
-        Api.client.updateDefaultContainers(clientKey, containerArray).catch(error => console.error(error));
-        Api.client.updateDefaultLanguages(clientKey,  languageArray).catch(error => console.error(error));
+        Route.client_updateDefaultContainers(clientKey, containerArray).catch(error => console.error(error));
+        Route.client_updateDefaultLanguages(clientKey,  languageArray).catch(error => console.error(error));
 
         loadSelectClient();
     })

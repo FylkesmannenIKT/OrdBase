@@ -3,13 +3,19 @@ import html from './card-client.html';
 
 
 
-export class Component_CardClient extends HTMLElement {
+export class Component_ClientCard extends HTMLElement {
 
     constructor() {
         super();
         this.root = this.createShadowRoot();
         this.root.innerHTML = html;
         this.button = this.root.querySelector('button');
+
+        this.selectHandler = () => console.log('default.....');
+        this.editHandler   = () => console.log('default.....');
+        this.deleteHandler = () => console.log('default.....');
+
+        this.button.onclick = this.selectHandler;
     }
 
     setHeading (name){
@@ -31,22 +37,28 @@ export class Component_CardClient extends HTMLElement {
         this.root.getElementById('card-img').src = url;
     }
 
-
-    setState_Selectable() {
+    toggleEditable() {
+        this.button.classList.toggle('editable');
         this.button.classList.remove('deleteable');
-        this.button.classList.remove('editable');
-        this.button.onclick = this.selectHandler;        
-    }
-    setState_Deleteable() {
-        this.button.classList.remove('editable');
-        this.button.classList.add('deleteable');
-        this.button.onclick = this.deleteHandler;                
+
+        if(this.isEditable())
+            this.button.onclick = this.editHandler;
+        else 
+            this.button.onclick = this.selectHandler;
+
     }
 
-    setState_Editable() {
-        this.button.classList.remove('deleteable');
-        this.button.classList.add('editable');
-        this.button.onclick = this.editHandler;
+    toggleDeleteable() {
+        this.button.classList.toggle('deleteable');
+        this.button.classList.remove('editable');
+       
+        if(this.isDeleteable()) 
+             this.button.onclick = this.deleteHandler;
+        else
+            this.button.onclick = this.selectHandler;
     }
+
+    isEditable()   { return this.button.classList.contains('editable'); }
+    isDeleteable() { return this.button.classList.contains('deleteable'); }
 }
-customElements.define('component-card-client', Component_CardClient);
+customElements.define('component-card-client', Component_ClientCard);

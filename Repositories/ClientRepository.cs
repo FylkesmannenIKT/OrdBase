@@ -122,17 +122,24 @@ namespace OrdBaseCore.Repositories
 
         public IActionResult UpdateDefaultContainers(string clientKey, IEnumerable<string> defaultContainers) 
         {
-            var newContainers = from dc in defaultContainers
-                                select new ClientContainer {
-                                    ClientKey = clientKey,
-                                    ContainerKey = dc
-                                };
+            // @doc Why List? here --> https://stackoverflow.com/questions/2113498/sqlexception-from-entity-framework-new-transaction-is-not-allowed-because-ther
+            List<ClientContainer> newContainers = (from dc in defaultContainers
+                                                    select new ClientContainer {
+                                                        ClientKey = clientKey,
+                                                        ContainerKey = dc
+                                                    })
+                                                    .ToList();
 
-            var oldContainers = from cc in _context.ClientContainer
-                                where cc.ClientKey == clientKey
-                                select cc;
+            List<ClientContainer> oldContainers = (from cc in _context.ClientContainer
+                                                    where cc.ClientKey == clientKey
+                                                    select cc)
+                                                    .ToList();
 
-            foreach (var cont in newContainers) 
+
+            //
+            // ADD New containers
+            //
+            foreach (ClientContainer cont in newContainers) 
             {
                 if (_context.Container.Where(c => c.Key == cont.ContainerKey).Count() == 0) 
                 {
@@ -145,45 +152,69 @@ namespace OrdBaseCore.Repositories
                 }
             };
 
-            foreach (var cont in oldContainers) 
+            //
+            // REMOVE Containers that don't exist anymore + all translations with that clientContainer
+            //
+            foreach (ClientContainer cont in oldContainers) 
             {
                 if (newContainers.Where(nc => nc.ContainerKey == cont.ContainerKey).Count() == 0) 
                 {
-                    _context.ClientContainer.Remove(cont);
+                    IList<Translation> containerTranslations = (from t in _context.Translation
+                                                                where t.ClientKey == cont.ClientKey && t.ContainerKey == cont.ContainerKey
+                                                                select t)
+                                                                .ToList();
+
+                    _context.RemoveRange(containerTranslations);
+                    _context.ClientContainer.Remove(cont);     
                 } 
             }
+            _context.SaveChanges();                           
             
-            _context.SaveChanges();
             return new NoContentResult {};            
         }
         
         public IActionResult UpdateDefaultLanguages(string clientKey, IEnumerable<string> newDefaultLanguages) 
         {
-            var newLanguages = from ncl in newDefaultLanguages
-                                select new ClientLanguage {
-                                    ClientKey = clientKey,
-                                    LanguageKey = ncl
-                                };        
+            List<ClientLanguage> newLanguages = (from ncl in newDefaultLanguages
+                                                select new ClientLanguage {
+                                                    ClientKey = clientKey,
+                                                    LanguageKey = ncl
+                                                })
+                                                .ToList();        
 
-            var oldLanguages = from cl in _context.ClientLanguage
-                               where cl.ClientKey == clientKey
-                               select cl;
+            List<ClientLanguage> oldLanguages = (from cl in _context.ClientLanguage
+                                                where cl.ClientKey == clientKey
+                                                select cl)
+                                                .ToList();
 
-            foreach (var lang in newLanguages)
+            //
+            // Add new clientLanguages
+            //
+            foreach (ClientLanguage lang in newLanguages)
             {
-                if (!oldLanguages.Contains(lang)) {
+                if (oldLanguages.Where(ol => ol.LanguageKey == lang.LanguageKey).Count() == 0) {
                     _context.ClientLanguage.Add(lang);
                 }
             };
 
-            foreach (var lang in oldLanguages) 
+            //
+            // Remove old clientLanguages + all translations with that clientLanguage 
+            //
+            foreach (ClientLanguage lang in oldLanguages) 
             {
-                if (!newLanguages.Contains(lang)) {
+                if (newLanguages.Where(nl => nl.LanguageKey == lang.LanguageKey).Count() == 0) {
+
+                    List<Translation> languageTranslations = (from t in _context.Translation
+                                                              where t.ClientKey == lang.ClientKey && t.LanguageKey == lang.LanguageKey
+                                                              select t)
+                                                              .ToList();
+
+                    _context.Translation.RemoveRange(languageTranslations);
                     _context.ClientLanguage.Remove(lang);
                 }
             }
-
             _context.SaveChanges();
+            
             return new NoContentResult {};            
         }
 

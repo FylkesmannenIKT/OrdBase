@@ -24,42 +24,16 @@ namespace OrdBaseCore.Controllers
             return _languageRepo.GetGlobal();
         }
 
-        [HttpGet("api/{client}/language")]
-        [HttpGet("api/{client}/language/all")]        
-        public IEnumerable<Language> GetAll(string clientKey) 
-        {
-            return _languageRepo.GetAll(clientKey);
-        }
-
         //
-        // CREATE, UPDATE, DELETE   @doc https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-vsc#implement-the-other-crud-operations|
+        // CREATE
         //
         [HttpPost("api/language/create")]
         public IActionResult Create([FromBody] Language language) 
         {   
             if (language == null)
                 return  BadRequest();
+                
             return _languageRepo.Create(language);
         }
-
-        //
-        // @note unsure if this should be part of the API, or that the languages should be hard-coded into the system
-        //        from the beginning.  - JSolsvik 26.06.17
-        /* 
-        [HttpPut("api/language/update/{key}")]
-        public IActionResult Update(string key, [FromBody]Language language) 
-        {
-            if (language == null || language.Key != key) 
-                return BadRequest();
-
-            return _languageRepo.Update(language);
-        }
-
-        [HttpDelete("api/language/delete/{key}")]
-        public IActionResult Delete(string key) 
-        {
-            return _languageRepo.Delete(key);
-        }
-        */
     }
 }

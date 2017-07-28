@@ -1,5 +1,15 @@
     <style>
+        @import url('/node_modules/font-awesome/css/font-awesome.min.css');
+    
+        
+
         :host {
+            --box-shadow-color: var(--ordbase-color-success);
+            --box-shadow-min: 20px;
+            --box-shadow-max: 70px 3px;
+
+            --animation-speed: .3s;
+
             width: 250px;
             height: 220px;
             flex-shrink: 0;
@@ -30,13 +40,59 @@
             padding: 0px 5px 0px 10px;
         }
 
-        .editable {
-            box-shadow: 0px 0px 15px blueviolet;
+        /*---------------    --------      --------------- */ 
+        /*--------------- Flashy Animation --------------- */
+        /*---------------    ---------     --------------- */         
+        @keyframes focusAnimation {
+            from { box-shadow: 0px 0px var(--box-shadow-min) var(--box-shadow-color);  }
+            to {  box-shadow: 0px 0px var(--box-shadow-max) var(--box-shadow-color); }
+        }
+        
+        @keyframes defocusAnimation {
+            from {  box-shadow: 0px 0px var(--box-shadow-max) var(--box-shadow-color); }
+            to   { box-shadow: 0px 0px var(--box-shadow-min) var(--box-shadow-color);  }
+            
         }
 
-        .deleteable {
-            box-shadow: 0px 0px 15px red;
+        /* SELECTABLE */
+        button {
+            --box-shadow-color: var(--ordbase-color-success);                        
+            box-shadow: 0px 0px var(--box-shadow-min) var(--ordbase-color-success);            
+            
+            animation-name: defocusAnimation;
+            animation-duration: var(--animation-speed);    
         }
+        
+        button:focus,
+        button:hover {
+            box-shadow: 0px 0px var(--box-shadow-max) var(--ordbase-color-success);
+            
+            animation-name: focusAnimation;
+            animation-duration: var(--animation-speed);
+        }
+
+        /* EDITABLE */        
+        .editable {
+            --box-shadow-color: var(--ordbase-color-select);
+            box-shadow: 0px 0px var(--box-shadow-min) var(--ordbase-color-select);            
+        }
+        .editable:focus,
+        .editable:hover {
+            box-shadow: 0px 0px var(--box-shadow-max) var(--ordbase-color-select);
+        }
+
+        /* DELETEABLE */
+        .deleteable {
+            --box-shadow-color: var(--ordbase-color-danger);            
+            box-shadow: 0px 0px var(--box-shadow-min) var(--ordbase-color-danger);                        
+        }
+        .deleteable:focus,
+        .deleteable:hover {
+            box-shadow: 0px 0px var(--box-shadow-max) var(--ordbase-color-danger);
+        }
+
+
+
     </style>
 
     <button class="card-button">

@@ -105,7 +105,7 @@ namespace OrdBaseCore.Models
         {
         //    ContainerRepository.AddTestData(context);
             //LanguageRepository.AddTestData(context);
-            ClientRepository.AddTestData(context);
+           // ClientRepository.AddTestData(context);
         //  TranslationRepository.AddTestData(context);
 
             context.SaveChanges();

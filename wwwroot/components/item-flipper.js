@@ -1,7 +1,7 @@
 'use strict';
 
 import  html  from './item-flipper.html';
-import { mandatory } from '../lib/Util.js';
+import { force } from '../lib/Util.js';
 
 export class Component_ItemFlipper extends HTMLElement { 
   
@@ -14,7 +14,7 @@ export class Component_ItemFlipper extends HTMLElement {
         this.div_flipDown = this.root.getElementById('flip-down');
     }
 
-    addItem(item, options = mandatory()) {
+    addItem(item, options = force()) {
         
         (arguments[1].selected) ? this.div_flipUp.appendChild(item):
                                   this.div_flipDown.appendChild(item);
@@ -38,6 +38,7 @@ export class Component_ItemFlipper extends HTMLElement {
             this.div_flipDown.appendChild(item);
         }
 
+        item.focus();
     }
 
     setHeaderUp(text)   { 
@@ -48,8 +49,8 @@ export class Component_ItemFlipper extends HTMLElement {
         this.root.getElementById('header-flip-down').innerHTML = text;
     }
 
-    getSelectedItems() {
-        return this.div_flipUp.children;
+    getSelectedItemArray() {
+        return [].slice.call(this.div_flipUp.children);
     }
 }
 customElements.define('component-item-flipper', Component_ItemFlipper);

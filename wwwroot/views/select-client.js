@@ -12,4 +12,4 @@ export class View_SelectClient extends HTMLElement {
 
     appendCard(card)  {   this.root.appendChild(card);                 }
 }
-customElements.define('component-select-client', View_SelectClient);
+customElements.define('view-select-client', View_SelectClient);

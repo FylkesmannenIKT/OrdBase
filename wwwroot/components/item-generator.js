@@ -4,6 +4,7 @@ import html from './item-generator.html';
 const ESC   = 27;
 const ENTER = 13;
 const TAB   = 9;
+const BACKSPACE = 8;
 
 export class Component_ItemGenerator extends HTMLElement {
 
@@ -16,88 +17,95 @@ export class Component_ItemGenerator extends HTMLElement {
         this.button = this.root.getElementById('button-generate');
         this.faIcon = this.button.querySelector('i');
 
-        this.generateFunction = () => { return document.createElement('div'); }
+        this.generateHandler  = (item) => { console.log('Default OnGenerate...') }
 
         //
         // Event click
         //
         this.button.addEventListener('click',  e => { 
 
-            this.button.classList.toggle('cancel');
-            this.faIcon.classList.toggle('fa-plus');
-            this.faIcon.classList.toggle('fa-times'); 
-            
-            if(this.input.style.display === 'block')
-                this.input.style.display = 'none';
+            if (this.input.style.display === 'block') {
+                this.deactivateInput();
+
+                if(this.input.value != ''){
+                    this.input.value = '';
+                }
+            }
             else {
-                this.input.style.display = 'block';
-                this.input.focus();
+                this.activateInput();                
             }
         });
+    }
 
-        //
-        // Event focusout
-        //
-        this.input.addEventListener('focusout', e => {
-            this.generateItem();
-            this.input.style.display = 'none';
-            this.button.classList.remove('cancel');
-            this.faIcon.classList.add('fa-plus');
-            this.faIcon.classList.remove('fa-times');            
-        });
+    deactivateInput() {
+        this.input.style.display = 'none';
+        this.button.classList.remove('cancel');
+        this.faIcon.classList.remove('fa-times');                 
+        this.faIcon.classList.add('fa-plus');
 
-        //
-        // Event keyup
-        //
+        this.button.focus();
+    }
+
+    activateInput() {
+        this.input.style.display = 'block';
+        
+        this.faIcon.classList.remove('fa-plus');
+        this.faIcon.classList.add('fa-times'); 
+        this.button.classList.add('cancel');   
+        
+        this.input.focus();
+    }
+
+    OnGenerate(handler) {
+        this.generateHandler = handler;
+
         this.input.addEventListener('keydown', e => {
-            if (e.keyCode === ENTER) {  // ENTER or TAB
-                this.generateItem();
-            }   
+            if (e.keyCode === ENTER) {
+
+                if(this.input.value != '') {
+                    this.generateHandler.apply(this, e);
+                    this.input.value = '';
+                }
+            }
+            else if (e.keyCode === ESC) {
+                this.deactivateInput();
+            }
         });
     }
-
-    generateItem() {
-        if (this.input.value != '') {
-            // 1. Create item and insert in proper place
-            const item = this.generateFunction.apply(this);
-            
-            this.addItem(item);
-            this.input.value = '';
-        }
+        
+    setInputValue(_value) {
+        this.input.value = _value;
     }
-
-    destroyItem(item) {
-
-        if (item.nextSibling.classList.contains('generated')) {
-            item.nextSibling.focus();
-        }
-        else if (item.previousSibling.nodeName != '#text') {
-            item.previousSibling.focus();       
-        }
-        else {         
-            this.button.focus();
-        }
-        this.root.removeChild(item);
-    }
-
 
     getValue() {
         return this.input.value;
     }
 
-    setGenerateFunction(func) {
-        this.generateFunction = func; 
+    setButtonHeight(height) {
+        this.button.style.height = `${height}px`;
+        this.input.style.height  = `${height-10}px`
     }
 
-    getItems() {
-        return this.root.querySelectorAll('.generated');
+    getItemArray() {
+            return [].slice.apply(this.root.getElementById('div-generated-items').children);
     }
 
     addItem(item) {
         item.classList.add('generated')
-        this.root.insertBefore(item, this.input);
-        item.addEventListener('click', e => this.destroyItem(item));
+        this.root.getElementById('div-generated-items').appendChild(item);
     }
+
+    removeItem(item) {
+        this.root.getElementById('div-generated-items').removeChild(item);
+        this.deactivateInput();
+    }
+
+    clearItems() {
+        this.root.getElementById('div-generated-items').innerHTML = '';
+    }
+
+    activate()   { this.button.style.display = 'block'; }
+    deactivate() { this.button.style.display  = 'none'; }
 }
 
 customElements.define('component-item-generator', Component_ItemGenerator);

@@ -4,19 +4,28 @@
     input {
         display: none;
         width: 100%;
-        height: var(--ordbase-button-height);
+        height: 45px;
         font-size: var(--ordbase-input-font-size);
         text-align: center;
     }
 
     #button-generate {
-        font-size:  var(--ordbase-button-font-size);
+        font-size: 3.2rem;
         cursor: pointer;
-        height: var(--ordbase-button-height);
+        height: 50px;
         width: 100%;
         background-color: transparent;
-        color: var(--ordbase-color-dark);
-        border: 0px;
+
+        color: var(--ordbase-color-success);
+
+        border: 1px solid var(--ordbase-color-success);
+        border-width: 0px 0px 2px 0px 
+    }
+
+    #button-generate.cancel {
+     
+        color: var(--ordbase-color-danger);
+        border-color: var(--ordbase-color-danger);
     }
 
     #button-generate:focus {
@@ -37,6 +46,10 @@
     }
 
 </style>
+
+<div id="div-generated-items">
+
+</div>
 
 <input type="text" value="">
 <button id="button-generate" class="button-add-item">

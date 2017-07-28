@@ -8,6 +8,12 @@ export class View_Header extends HTMLElement {
         super();
         this.root = this.createShadowRoot();
         this.root.innerHTML = html;
+
+        [].slice.apply(this.root.querySelectorAll('.icon-button')).forEach(button => {
+            button.addEventListener('click', e => {
+                button.blur();
+            })
+        })
     }
 
     setTextBig(text) { 
@@ -39,6 +45,11 @@ export class View_Header extends HTMLElement {
         this.root.querySelector('#btn-header-right2 i.fa')
                  .setAttribute('class', `fa ${icon}`);
     }
+
+    setButtonColorLeft(color) {
+        console.log('asdfsdf', `var(${color})`)
+        this.root.querySelector('#btn-header-left i').style.color = `var(${color})`;
+    } 
 
     getButtonLeft() { 
         return this.root.getElementById('btn-header-left');

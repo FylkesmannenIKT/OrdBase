@@ -2,11 +2,17 @@
 /* 62.5% font-size makes 1em == 10px */ 
 /* Rems and ems - https://css-tricks.com/rems-ems/ */
 
+
+/* EXTERNAL CSS */
+
+@import url('./node_modules/font-awesome/css/font-awesome.min.css');
+@import url('https://fonts.googleapis.com/css?family=Muli');
+
 /* Main color set */
 :root {
-    --ordbase-color-dark:   #3e4444;
-    --ordbase-color-light:  #f2ede9;
-    --ordbase-color-white:  #ffffff;
+    --ordbase-color-dark:    #3e4444;
+    --ordbase-color-light:   #f2ede9;
+    --ordbase-color-white:   #ffffff;
     --ordbase-color-success: #4CAF50;
     --ordbase-color-danger:  #d9534f;
     --ordbase-color-select:  #55b8ff;
@@ -19,7 +25,7 @@
     --ordbase-h1-font-size:    3.6rem;
     --ordbase-h2-font-size:    2.2rem;
     --ordbase-h3-font-size:    1.5rem;
-    --ordbase-form-font-size:   1rem;
+    --ordbase-form-font-size:  1rem;
 }
 
 html, body {

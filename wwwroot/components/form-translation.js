@@ -1,7 +1,7 @@
 'use strict';
 import html from './form-translation.html';
 
-export class Component_FormTranslation extends HTMLElement {
+export class Component_TranslationForm extends HTMLElement {
     
     constructor(){
         super();
@@ -10,4 +10,4 @@ export class Component_FormTranslation extends HTMLElement {
     }
 }
 
-customElements.define('component-form-translation', Component_FormTranslation);
+customElements.define('component-form-translation', Component_TranslationForm);

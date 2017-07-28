@@ -17,7 +17,7 @@ namespace OrdBaseCore.Controllers
         }
 
         //
-        // GET REQUESTS
+        // GET translation
         //
         [HttpGet("api/{clientKey}/translation/{containerKey}/{translationKey}/{languageKey}")]
     	public IEnumerable<Translation> Get(string clientKey, string languageKey, string containerKey, string translationKey)
@@ -25,7 +25,6 @@ namespace OrdBaseCore.Controllers
             return _translationRepo.Get(clientKey, languageKey, containerKey, translationKey); 
         }
         
-        [HttpGet("api/{clientKey}/translation")]        
         [HttpGet("api/{clientKey}/translation/all")]
         public IEnumerable<Translation> GetAll(string clientKey)
         {
@@ -33,16 +32,47 @@ namespace OrdBaseCore.Controllers
         }
 
         //
-        // @note Groups together translations by key. 
-        //       All translations which share the same key are grouped together.
+        // GET translation/group
         //
-        [HttpGet("api/{clientKey}/translation/group")]        
+        [HttpGet("api/{clientKey}/translation/group/{translationKey}")]
+        public IEnumerable<Translation> GetGroup(string clientKey, string translationKey) 
+        {
+            return  _translationRepo.GetGroup(clientKey, translationKey);
+        }   
+
         [HttpGet("api/{clientKey}/translation/group/all")]
-        public IEnumerable<object> GetGroupAll(string clientKey)
+        public IEnumerable<IEnumerable<Translation>> GetGroupAll(string clientKey)
         {
             return _translationRepo.GetGroupAll(clientKey);
         } 
 
+        //
+        // GET translation/group/meta
+        //
+        [HttpGet("api/{clientKey}/translation/group/meta/{translationKey}")]
+        public TranslationGroupMeta GetGroupMeta(string clientKey, string translationKey)
+        {
+            return _translationRepo.GetGroupMeta(clientKey, translationKey);
+        } 
+        
+        [HttpGet("api/{clientKey}/translation/group/meta/container/{containerKey}")]
+        public IEnumerable<TranslationGroupMeta> GetGroupMetaOnContainer(string clientKey, string containerKey)
+        {
+            return _translationRepo.GetGroupMetaOnContainer(clientKey, containerKey);
+        } 
+
+
+        [HttpGet("api/{clientKey}/translation/group/meta/all")]
+        [HttpGet("api/{clientKey}/translation/group/meta/container/all")]        
+        public IEnumerable<TranslationGroupMeta> GetGroupMetaAll(string clientKey)
+        {
+            return _translationRepo.GetGroupMetaAll(clientKey);
+        } 
+
+
+        //
+        // GET translation/container
+        //
         [HttpGet("api/{clientKey}/translation/container/{containerKey}")]
         public IEnumerable<object> GetOnContainer(string clientKey, string containerKey)
         {
@@ -55,12 +85,10 @@ namespace OrdBaseCore.Controllers
             return _translationRepo.GetOnContainerLanguage(clientKey, languageKey, containerKey); 
         }
 
-        [HttpGet("api/{clientKey}/translation/key/{translationKey}")]
-        public IEnumerable<Translation> GetOnKey(string clientKey, string translationKey)
-        {
-            return _translationRepo.GetOnKey(clientKey, translationKey); 
-        }
 
+        //
+        // GET translation/language
+        //
         [HttpGet("api/{clientKey}/translation/language/{languageKey}")]
         public IEnumerable<Translation> GetOnLanguage(string clientKey, string languageKey)
         {
@@ -68,7 +96,7 @@ namespace OrdBaseCore.Controllers
         }
         
         //
-        // CREATE, UPDATE, DELETE REQUESTS
+        // POST, PUT, DELETE translation
         //  @doc https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-vsc#implement-the-other-crud-operations|
         //
         [HttpPost("api/translation/create")]
@@ -78,6 +106,15 @@ namespace OrdBaseCore.Controllers
                 return  BadRequest();
             return _translationRepo.Create(translation);
         } 
+
+
+        [HttpPost("api/translation/create/many")]
+        public IActionResult CreateMany([FromBody]IEnumerable<Translation> translationArray) 
+        {   
+            if (translationArray == null)
+                return  BadRequest();
+            return _translationRepo.CreateMany(translationArray);
+        }
 
         [HttpPut("api/translation/update/{clientKey}/{containerKey}/{translationKey}/{languageKey}")]
         public IActionResult Update(string clientKey, string languageKey, string containerKey, string translationKey,
@@ -97,6 +134,12 @@ namespace OrdBaseCore.Controllers
         public IActionResult Delete(string clientKey, string languageKey, string containerKey, string translationKey)
         {
             return _translationRepo.Delete(clientKey, languageKey, containerKey, translationKey);
+        }
+
+        [HttpDelete("api/translation/delete/group/{clientKey}/{containerKey}/{translationKey}")]
+        public IActionResult DeleteGroup(string clientKey, string containerKey, string translationKey)
+        {
+            return _translationRepo.DeleteGroup(clientKey, containerKey, translationKey);
         }
     }
 }

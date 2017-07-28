@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using OrdBaseCore.Models;
 using OrdBaseCore.IData;
 
+// CRUD operations - @doc https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-vsc#implement-the-other-crud-operations|
+
 namespace OrdBaseCore.Controllers
 {
     public class ClientController : Controller
@@ -17,7 +19,7 @@ namespace OrdBaseCore.Controllers
         }
 
         //
-        // GET
+        // GET client
         //
         [HttpGet("api/")]
     	[HttpGet("api/client")]
@@ -33,20 +35,25 @@ namespace OrdBaseCore.Controllers
             return _clientRepo.Get(clientKey);
     	}
 
-        [HttpGet("api/{clientKey}/default/containers")]
+        //
+        // GET client/default
+        //
+        [HttpGet("api/{clientKey}/default/container")]        
+        [HttpGet("api/{clientKey}/default/container/all")]
         public IEnumerable<string> GetDefaultContainers(string clientKey) 
         {
             return _clientRepo.GetDefaultContainers(clientKey);
         }
 
-        [HttpGet("api/{clientKey}/default/languages")] 
+        [HttpGet("api/{clientKey}/default/language")] 
+        [HttpGet("api/{clientKey}/default/language/all")] 
         public IEnumerable<string> GetDefaultLanguages(string clientKey) 
         {
             return _clientRepo.GetDefaultLanguages(clientKey);
         }
 
         //
-        // CREATE, UPDATE, DELETE  @doc https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-vsc#implement-the-other-crud-operations|
+        // CREATE, UPDATE, DELETE client  
         //
         [HttpPost("api/client/create")]
         public IActionResult Create([FromBody] Client client) 
@@ -64,7 +71,7 @@ namespace OrdBaseCore.Controllers
 
         public IActionResult Update(string clientKey, [FromBody] Client client)
         {
-            if (client == null || client.Key  != clientKey) 
+            if (client == null || client.Key != clientKey) 
                 return BadRequest();
             return _clientRepo.Update(client);
         }        
@@ -75,7 +82,11 @@ namespace OrdBaseCore.Controllers
             return _clientRepo.Delete(clientKey);
         }
 
-        [HttpPost("api/{clientKey}/default/containers/create")]
+        //
+        // CREATE client/default  
+        //
+        [HttpPost("api/{clientKey}/default/container/create")]        
+        [HttpPost("api/{clientKey}/default/container/create/many")]
         public IActionResult  CreateDefaultContainers(string clientKey, [FromBody] string[] defaultContainers)
         {
             // Check if any of the data is null og nullstring            
@@ -86,7 +97,8 @@ namespace OrdBaseCore.Controllers
             return StatusCode(201);
         }
 
-        [HttpPost("api/{clientKey}/default/languages/create")]         
+        [HttpPost("api/{clientKey}/default/language/create")]         
+        [HttpPost("api/{clientKey}/default/language/create/many")]         
         public IActionResult CreateDefaultLanguages(string clientKey, [FromBody] string[] defaultLanguages) 
         {
             // Check if any of the data is null og nullstring
@@ -97,7 +109,11 @@ namespace OrdBaseCore.Controllers
             return StatusCode(201);
         }
 
-        [HttpPost("api/{clientKey}/default/containers/update")]
+        //
+        // UPDATE client/default  
+        //
+        [HttpPost("api/{clientKey}/default/container/update")]
+        [HttpPost("api/{clientKey}/default/container/update/many")]        
         public IActionResult  UpdateDefaultContainers(string clientKey, [FromBody] string[] defaultContainers)
         {
             // Check if any of the data is null og nullstring            
@@ -108,7 +124,8 @@ namespace OrdBaseCore.Controllers
             return StatusCode(201);
         }
 
-        [HttpPost("api/{clientKey}/default/languages/update")] 
+        [HttpPost("api/{clientKey}/default/language/update")] 
+        [HttpPost("api/{clientKey}/default/language/update/many")]         
         public IActionResult UpdateDefaultLanguages(string clientKey, [FromBody] string[] defaultLanguages) 
         {
             // Check if any of the data is null og nullstring

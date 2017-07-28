@@ -22,17 +22,10 @@ namespace OrdBaseCore.Controllers
 			return _containerRepo.GetGlobal();
 		}
 
-    	[Route("api/{clientKey}/container")]
     	[Route("api/{clientKey}/container/all")]		
     	public string[] GetAll(string clientKey) 
     	{
     		return _containerRepo.GetAll(clientKey); 
     	}
-
-    	[Route("api/{clientKey}/container/group/{translationKey}")]
-    	public string[] GetGroup(string clientKey, string translationKey) 
-    	{
-    		return _containerRepo.GetGroup(clientKey, translationKey); 
-    	} 
     }
 }

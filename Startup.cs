@@ -93,9 +93,7 @@ namespace OrdBaseCore {
             }
 
             TranslationDb.Seed(context);
-            
-           // app.UseDefaultFiles();
-            //app.UseStaticFiles();
+
             app.UseFileServer();
             app.UseMvc();            
        }

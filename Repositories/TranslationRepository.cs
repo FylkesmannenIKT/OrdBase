@@ -15,46 +15,111 @@ namespace OrdBaseCore.Repositories
         { 
             _context = context; 
         }
+
+        //
+        // GET translation
+        //
         public IEnumerable<Translation> Get(string clientKey, string languageKey, string containerKey, string translationKey)
         {
             return (from t in _context.Translation
-
                     where t.ClientKey    == clientKey &&
                           t.LanguageKey  == languageKey &&
                           t.ContainerKey == containerKey &&
                           t.Key          == translationKey
-
                     select t)
-                        .ToArray();        
+                    .ToArray();        
         }
 
         public IEnumerable<Translation> GetAll(string clientKey)
         {
             return (from t in _context.Translation
-
                     where t.ClientKey == clientKey
                     select t)
-                        .ToArray();
+                    .ToArray();
         }
 
-        public IEnumerable<object> GetGroupAll(string clientKey)
+        //
+        // GET translation/group
+        // 
+        public IEnumerable<Translation> GetGroup(string clientKey, string translationKey)
+        {
+            return (from t in _context.Translation
+                    where t.ClientKey == clientKey && t.Key == translationKey
+                    select t)
+                    .ToArray();
+        }
+
+
+        public IEnumerable<IEnumerable<Translation>> GetGroupAll(string clientKey)
         {
             return (from t in _context.Translation
                     where t.ClientKey == clientKey
                     group t by t.Key
                     into grp
-                    select new {
+                    select grp.ToArray())
+                    .ToArray();
+        }
+
+
+        public TranslationGroupMeta GetGroupMeta(string clientKey, string translationKey)
+        {
+            return (from t in _context.Translation
+                    where t.ClientKey == clientKey && t.Key == translationKey
+                    group t by t.Key
+                    into grp
+                    select new TranslationGroupMeta
+                    {
                         Key = grp.Key,
-                        IsComplete = grp.ToDictionary(o => o.LanguageKey, o => o.IsComplete)
-                    });
+                        ClientKey   = clientKey,
+                        ContainerKey = grp.First().ContainerKey,
+                        IsComplete = grp.Select(o => new KeyValuePair<string, bool> (o.LanguageKey, o.IsComplete))
+                                        .ToArray()
+                    })
+                    .First();
+        }
+
+
+        public IEnumerable<TranslationGroupMeta> GetGroupMetaOnContainer(string clientKey, string containerKey)
+        {
+            return (from t in _context.Translation
+                    where t.ClientKey == clientKey && t.ContainerKey == containerKey
+                    group t by t.Key
+                    into grp
+                    select new TranslationGroupMeta
+                    {
+                        Key = grp.Key,
+                        ClientKey    = clientKey,
+                        ContainerKey = containerKey,
+                        IsComplete = grp.Select(o => new KeyValuePair<string, bool> (o.LanguageKey, o.IsComplete))
+                                        .ToArray()
+                    })
+                    .ToArray();
         }
         
+        public IEnumerable<TranslationGroupMeta> GetGroupMetaAll(string clientKey)
+        {
+            return (from t in _context.Translation
+                    where t.ClientKey == clientKey
+                    group t by t.Key
+                    into grp
+                    select new TranslationGroupMeta
+                    {
+                        Key = grp.Key,
+                        ClientKey    = clientKey,
+                        ContainerKey = grp.First().ContainerKey,
+                        IsComplete = grp.Select(o => new KeyValuePair<string, bool> (o.LanguageKey, o.IsComplete))
+                                        .ToArray()
+                    })
+                    .ToArray();
+        }
+
+        //
+        // GET translation/container
+        //
         public IEnumerable<Translation> GetOnContainer (string clientKey, string containerKey) 
         {
             return (from t in _context.Translation
-
-                    where t.ClientKey == clientKey &&
-                          t.ContainerKey == containerKey
+                    where t.ClientKey == clientKey && t.ContainerKey == containerKey
                     select t)
                         .ToArray();
         }
@@ -62,24 +127,14 @@ namespace OrdBaseCore.Repositories
          public IEnumerable<KeyValuePair<string,string>> GetOnContainerLanguage (string clientKey, string languageKey, string containerKey) 
         {
             return (from t in _context.Translation
-
-                    where t.ClientKey    == clientKey &&
-                          t.LanguageKey  == languageKey &&
-                          t.ContainerKey == containerKey
+                    where t.ClientKey == clientKey && t.LanguageKey  == languageKey && t.ContainerKey == containerKey
                     select t)
                         .ToDictionary(o => o.Key, o => o.Text);            
         }
 
-        public IEnumerable<Translation> GetOnKey(string clientKey, string translationKey)
-        {
-            return (from t in _context.Translation
-
-                    where t.ClientKey == clientKey &&
-                          t.Key       == translationKey
-                    select t)
-                        .ToArray();
-        }
-
+        //
+        // GET translation/language
+        //
         public IEnumerable<Translation> GetOnLanguage(string clientKey, string languageKey)
         {
             return (from t in _context.Translation
@@ -91,17 +146,22 @@ namespace OrdBaseCore.Repositories
         }
 
         //
-        // POST - Create, update, delete
+        // POST, PUT, DELETE translation
         //
         public IActionResult Create(Translation translation) 
         {   
-            //
-            // @TODO - validate that ClientKey and languae already exists!! - JSolsvik 23.06
-            //
             _context.Translation.Add(translation);
             _context.SaveChanges();
             return new NoContentResult {};
         }
+
+        public IActionResult CreateMany(IEnumerable<Translation> translationArray) 
+        {   
+            _context.Translation.AddRange(translationArray);            
+            _context.SaveChanges();
+            return new NoContentResult {};
+        }
+
 
         public IActionResult Update(Translation item) 
         {   
@@ -123,7 +183,7 @@ namespace OrdBaseCore.Repositories
             return new NoContentResult {};
         }
 
-        public IActionResult Delete(string clientKey, string languageKey, string containerKey, string translationKey) 
+        public IActionResult Delete(string clientKey,string containerKey, string translationKey, string languageKey) 
         {   
             var translation = _context.Translation.First(
                 t => t.ClientKey    == clientKey &&
@@ -139,8 +199,24 @@ namespace OrdBaseCore.Repositories
             return new NoContentResult {};
         }
 
+
+        public IActionResult DeleteGroup(string clientKey, string containerKey, string translationKey) 
+        {   
+            var translationGroup = _context.Translation.Where(
+                t => t.ClientKey    == clientKey &&
+                     t.ContainerKey == containerKey &&
+                     t.Key          == translationKey);    
+            
+            if (translationGroup == null)
+                return new NotFoundResult {};
+
+            _context.Translation.RemoveRange(translationGroup);
+            _context.SaveChanges();
+            return new NoContentResult {};
+        }
+
         //
-        // TESTDATA add
+        // TESTDATA translation
         //
         public static void AddTestData(TranslationDb context) 
         { 
