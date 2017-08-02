@@ -5,60 +5,94 @@ import html from './card-client.html';
 
 export class Component_ClientCard extends HTMLElement {
 
+    
+    //
+    // PRIVATE
+    //
     constructor() {
         super();
-        this.root = this.createShadowRoot();
-        this.root.innerHTML = html;
-        this.button = this.root.querySelector('button');
+        this._root = this.createShadowRoot();
+        this._root.innerHTML = html;
+        this._button = this._root.querySelector('button');
 
-        this.selectHandler = () => console.log('default.....');
-        this.editHandler   = () => console.log('default.....');
-        this.deleteHandler = () => console.log('default.....');
+        this._clickHandler  = () => console.log('default click.....');
+        this._selectHandler = () => console.log('default select.....');
+        this._editHandler   = () => console.log('default edit.....');
+        this._deleteHandler = () => console.log('default delete.....');
 
-        this.button.onclick = this.selectHandler;
+        this._root.addEventListener('click', e => {
+            this._clickHandler(this, e);
+        });
+
+        this._button.addEventListener('focus', () => {
+            if(!this._button.classList.contains('animated'))
+                this._button.classList.add('animated');
+        })
+        
+        this._button.addEventListener('mouseover', () => {
+            if(!this._button.classList.contains('animated'))           
+                this._button.classList.add('animated');
+        })  
+    }
+
+    //
+    // PUBLIC 
+    //
+    OnSelect(handler)  { this._selectHandler = handler; }
+    OnEdit(handler)    { this._editHandler   = handler; }
+    OnDelete(handler)  { this._deleteHandler = handler; }
+    
+    setSelectable() {
+        this._button.classList.remove('editable');
+        this._button.classList.remove('deleteable');
+        this._clickHandler = this._selectHandler;        
+
+    }
+ 
+    setEditable() {
+        this._button.classList.add('editable');
+        this._button.classList.remove('deleteable');
+        this._clickHandler = this._editHandler;
+        
+    }
+
+    setDeleteable() {
+        this._button.classList.add('deleteable');
+        this._button.classList.remove('editable');
+
+        this._clickHandler = this._deleteHandler;
+        
+    }
+
+    isEditable()   { return this._button.classList.contains('editable'); }
+    isDeleteable() { return this._button.classList.contains('deleteable'); }
+
+    //
+    // get Set internal data
+    // @note I could have used getters and setters here, but they are not staticly checked in javascript, 
+    //       , which means that if someone mispells a getter or a setter name, no error is thrown, 
+    //       even if there are no getter or setter with that name. functions on the other hand throw
+    //       errors when not found, which is really great.  - JSolsvik 01.08.17
+    //
+    getKey() {
+        return this.getAttribute('id');
     }
 
     setHeading (name){
-        this.root.getElementById('card-h2')
-                 .innerHTML = name || '{{ null heading }}';
+        this._root.getElementById('card-h2').innerHTML = name;
         this._name = name;
-    }
-    
-    setId(id) {
-        this.setAttribute('id', id);
+    }    
+
+    setKey(key) {
+        this.setAttribute('id', key);
     }
 
     setText(text) {
-        this.root.getElementById('card-p')
-                 .innerHTML = text || '{{ null text }}';
+        this._root.getElementById('card-p').innerHTML = text;
     }
-
+                
     setThumbnail (url) { 
-        this.root.getElementById('card-img').src = url;
+        this._root.getElementById('card-img').src = url;
     }
-
-    toggleEditable() {
-        this.button.classList.toggle('editable');
-        this.button.classList.remove('deleteable');
-
-        if(this.isEditable())
-            this.button.onclick = this.editHandler;
-        else 
-            this.button.onclick = this.selectHandler;
-
-    }
-
-    toggleDeleteable() {
-        this.button.classList.toggle('deleteable');
-        this.button.classList.remove('editable');
-       
-        if(this.isDeleteable()) 
-             this.button.onclick = this.deleteHandler;
-        else
-            this.button.onclick = this.selectHandler;
-    }
-
-    isEditable()   { return this.button.classList.contains('editable'); }
-    isDeleteable() { return this.button.classList.contains('deleteable'); }
 }
 customElements.define('component-card-client', Component_ClientCard);

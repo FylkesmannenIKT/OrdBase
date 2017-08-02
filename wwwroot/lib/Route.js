@@ -1,5 +1,6 @@
 'use strict';
 
+import { force }  from './Util.js';
 import * as Fetch from './Fetch.js';
 
 //
@@ -9,212 +10,193 @@ import * as Fetch from './Fetch.js';
 //
 
 //
-// @function routeBuilder(...args)
-// @doc https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments
+// CLIENT ROUTES
 //
-export function routeBuilder() {
-    let route = '';
-    for (let i = 0; i < arguments.length; i++) {
-        route += '/' + arguments[i];
-    }
-    return route;
-}
 
 //
-// GET client
+// GET api/client
 //
-export function client_getAll () {
+export function client_get({ clientKey = '' } = {}) {
+
     return Fetch.GET({  
-        route: routeBuilder('api','client', 'all') 
+        route: `api/client/?clientKey=${clientKey}`, 
     });
 }
 
-export function client_get (clientKey) {
-    return Fetch.GET({  
-        route: routeBuilder('api', clientKey) 
-    });
-}
+export function client_getContainers({ clientKey = force('clientKey') } = {}) {
 
-//
-// GET client/default
-//
-export function client_getDefaultContainers (clientKey) {
     return Fetch.GET({ 
-        route: routeBuilder('api', clientKey, 'default', 'container', 'all'), 
+        route: `api/client/containers/?clientKey=${clientKey}`, 
     });
 };
 
-export function client_getDefaultLanguages  (clientKey) {
+export function client_getLanguages({ clientKey = force('clientKey') } = {}) {
+
     return Fetch.GET({ 
-        route: routeBuilder('api', clientKey, 'default', 'language', 'all'), 
+        route: `api/client/languages/?clientKey=${clientKey}`, 
     });
 };
 
 //
-// CREATE, UPDATE, DELETE client
+// CREATE, UPDATE, DELETE api/client
 //
-export function client_create (client) {
+export function client_create({ client = force('client') } = {}) {
+
     return Fetch.POST({ 
-        route: routeBuilder('api', 'client', 'create'), 
+        route: `api/client`, 
         data:  client 
     });
 } 
 
-export function client_update (client) {  
+export function client_update({ clientKey = force('clientKey'), 
+                                client    = force('client') } = {}) {  
+
     return Fetch.PUT({
-        route: routeBuilder('api', 'client', 'update', client.key),
+        route: `api/client/?clientKey=${clientKey}`,
         data:  client, 
     });
 }
 
-export function client_delete (clientKey) {
+export function client_delete({ clientKey = force('clientKey'), } = {}) {
+
     return Fetch.DELETE({
-        route: routeBuilder('api', 'client', 'delete', clientKey)
+        route: `api/client/?clientKey=${clientKey}`,
     });
 }
 
 //
-// CREATE client/default
+// SET ROOT/clients/containers and languages
 //
-export function client_createDefaultContainers (clientKey, _containers) {
+export function client_setContainers({ clientKey      = force('clientKey'),  
+                                       containerArray = force('containerArray') } = {}) {
+
     return Fetch.POST({ 
-        route: routeBuilder('api', clientKey, 'default', 'container', 'create', 'many'), 
-        data:  _containers 
+        route: `api/client/containers/?clientKey=${clientKey}`, 
+        data:  containerArray,
     });
 };
 
-export function client_createDefaultLanguages  (clientKey, _languages) {
+export function client_setLanguages({ clientKey     = force('clientKey'),  
+                                      languageArray = force('languageArray') } = {}) {
     return Fetch.POST({ 
-        route: routeBuilder('api', clientKey, 'default', 'language', 'create', 'many'), 
-        data:  _languages 
+        route: `api/client/languages/?clientKey=${clientKey}`, 
+        data:  languageArray,
     });
 };
 
-//
-// UPDATE client/default
-//
-export function client_updateDefaultContainers (clientKey, _containers) {
-    return Fetch.POST({ 
-        route: routeBuilder('api', clientKey, 'default', 'container', 'update', 'many'), 
-        data:  _containers
-    });
-};
 
-export function client_updateDefaultLanguages  (clientKey, _languages) {
-    return Fetch.POST({ 
-        route: routeBuilder('api', clientKey, 'default', 'language', 'update', 'many'), 
-        data:  _languages 
-    });
-};
+//
+// TRANSLATION ROUTES
+//
+function translation_makeQuery(clientKey, languageKey, containerKey, translationKey) {
+    return ;
+}
 
 //
 // GET translation
 //
-export function translation_get (clientKey, containerKey, translationKey, languageKey) { 
+export function translation_get({ clientKey      = '',  
+                                  languageKey    = '',  
+                                  containerKey   = '',  
+                                  translationKey = '', } = {}) { 
+
+    const queryString = `clientKey=${clientKey}&languageKey=${languageKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
+    
     return Fetch.GET({  
-        route: routeBuilder('api', clientKey, 'translation', containerKey, translationKey, languageKey) 
-    }); 
-}
-
-export function translation_getAll (clientKey) {  
-    return Fetch.GET({
-        route: routeBuilder('api', clientKey, 'translation', 'all') 
-    }); 
-}
-
-//
-// GET translation/group
-//
-export function translation_getGroup(clientKey, translationKey) {
-    return Fetch.GET({
-        route: routeBuilder('api', clientKey, 'translation', 'group', translationKey)
-    })
-}
-
-export function translation_getGroupAll (clientKey) {
-    return Fetch.GET({
-        route: routeBuilder('api', clientKey, 'translation', 'group', 'all')
-    })
-}
-
-export function translation_getGroupMeta(clientKey, translationKey) {
-    return Fetch.GET({
-        route: routeBuilder('api', clientKey, 'translation', 'group', 'meta', translationKey)
-    })
-}
-
-export function translation_getGroupMetaOnContainer (clientKey, containerKey) {
-    return Fetch.GET({
-        route: routeBuilder('api', clientKey, 'translation', 'group', 'meta', 'container', containerKey)
-    })
-}
-
-export function translation_getGroupMetaAll (clientKey) {
-    return Fetch.GET({
-        route: routeBuilder('api', clientKey, 'translation', 'group', 'meta', 'all')
-    })
-}
-
-
-//
-// GET translation/container
-//
-export function translation_getOnContainer (clientKey, containerKey) { 
-    return Fetch.GET({
-        route: routeBuilder('api', clientKey, 'translation', 'container', containerKey) 
-    }); 
-}
-
-export function translation_getOnContainerLanguage(clientKey, containerKey, languageKey) { 
-    return Fetch.GET({
-        route: routeBuilder('api', clientKey, 'translation', 'container', containerKey, languageKey) 
+        route: `api/translation/?${queryString}`,
     }); 
 }
 
 
-//
-// GET translation/language
-//
-export function translation_getOnLanguage(clientKey, languageKey) { 
+export function translation_getGroup({ clientKey      = '',  
+                                       containerKey   = '', 
+                                       translationKey = '', } = {}) {
+
+    const queryString = `clientKey=${clientKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
+
     return Fetch.GET({
-        route: routeBuilder('api', clientKey, 'translation', 'language', languageKey) 
-    }); 
+        route: `api/translation/group/?${queryString}`,
+    })
+}
+
+export function translation_getGroupMeta({ clientKey      = '',  
+                                           containerKey   = '', 
+                                           translationKey = '', } = {}) {
+
+    const queryString = `clientKey=${clientKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
+
+    return Fetch.GET({
+        route: `api/translation/group/meta/?${queryString}`,
+    })
 }
 
 //
 // POST, PUT, DELETE translation
 //
-export function translation_create (translation) {
+export function translation_create({ translation = force('translation') } = {}) {
+
     return Fetch.POST({
-        route: routeBuilder('api', 'translation', 'create'),
+        route: `api/translation`,
         data:  translation 
     }); 
 }
 
 
-export function translation_createMany (translationArray) {
+export function translation_createArray({ translationArray = force('translationArray') } = {}) {
+
     return Fetch.POST({
-        route: routeBuilder('api', 'translation', 'create', 'many'),
+        route: `api/translation/array`,
         data:  translationArray 
     }); 
 }
 
-export function translation_update (translation) {  
+export function translation_update({ clientKey      = force('clientKey'),  
+                                     languageKey    = force('languageKey'),  
+                                     containerKey   = force('containerKey'),  
+                                     translationKey = force('translationKey'),
+                                     translation    = force('translation') } = {}) {  
+
+    const queryString = `clientKey=${clientKey}&languageKey=${languageKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
+
     return Fetch.PUT({
-        route: routeBuilder('api', 'translation', 'update', translation.clientKey, translation.containerKey, translation.key, translation.languageKey),
+        route: `api/translation/?${queryString}`,       
         data:  translation 
     });
 }
 
-export function translation_delete(clientKey, containerKey, translationKey, languageKey) {
-    return Fetch.DELETE({
-        route: routeBuilder('api', 'translation', 'delete', clientKey, containerKey, translationKey, languageKey) 
+export function translation_updateArray({ clientKey        = force('clientKey'),  
+                                          containerKey     = force('containerKey'),  
+                                          translationKey   = force('translationKey'),
+                                          translationArray = force('translationGroup') } = {}) {  
+
+    const queryString = `clientKey=${clientKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
+
+    return Fetch.PUT({
+        route: `api/translation/array/?${queryString}`,       
+        data:  translationArray
     });
 }
 
-export function translation_deleteGroup(clientKey, containerKey, translationKey) {
+export function translation_delete({ clientKey      = force('clientKey'),  
+                                     languageKey    = force('languageKey'),  
+                                     containerKey   = force('containerKey'),  
+                                     translationKey = force('translationKey'), } = {}) {
+
+    const queryString = `clientKey=${clientKey}&languageKey=${languageKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
+
     return Fetch.DELETE({
-        route: routeBuilder('api', 'translation', 'delete', 'group', clientKey, containerKey, translationKey) 
+        route: `api/translation/?${queryString}`
+    });
+}
+
+export function translation_deleteGroup({ clientKey      = force('clientKey'),  
+                                          containerKey   = force('containerKey'),  
+                                          translationKey = force('translationKey'), } = {}) {
+
+    const queryString = `clientKey=${clientKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
+
+    return Fetch.DELETE({
+        route: `api/translation/?${queryString}`, 
     });
 }
 
@@ -222,24 +204,24 @@ export function translation_deleteGroup(clientKey, containerKey, translationKey)
 //
 // ROUTE container
 //
-export function container_getGlobal () {
+export function container_get({ containerKey = '' } = {}) {
     return Fetch.GET({  
-        route: routeBuilder('api', 'container') 
+        route: `api/container/?containerKey=${containerKey}`,
     });
 }
 
 //
 // ROUTE language
 //
-export function language_getGlobal () {
+export function language_get ({ languageKey = '' } = {}) {
     return Fetch.GET({  
-        route: routeBuilder('api', 'language') 
+        route: `api/language/?languageKey=${languageKey}`,
     });
 }
 
-export function language_create (language) {
+export function languages_create ({ language = force('language') } = {}) {
     return Fetch.POST({ 
-        route: routeBuilder('api', 'language', 'create'), 
+        route: 'api/language/create', 
         data:  language 
     });
 }

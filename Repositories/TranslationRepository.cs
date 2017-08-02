@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Collections.Generic;
+using System;
+
+using System.Diagnostics;
 
 using OrdBaseCore.Models;
 using OrdBaseCore.IData;
@@ -19,130 +22,65 @@ namespace OrdBaseCore.Repositories
         //
         // GET translation
         //
-        public IEnumerable<Translation> Get(string clientKey, string languageKey, string containerKey, string translationKey)
+        public IEnumerable<Translation> Get(TranslationQuery query)
         {
             return (from t in _context.Translation
-                    where t.ClientKey    == clientKey &&
-                          t.LanguageKey  == languageKey &&
-                          t.ContainerKey == containerKey &&
-                          t.Key          == translationKey
-                    select t)
-                    .ToArray();        
+                    where  t.ClientKey    == query.ClientKey        || query.ClientKey      == null           
+                    where  t.LanguageKey  == query.LanguageKey      || query.LanguageKey    == null       
+                    where  t.ContainerKey == query.ContainerKey     || query.ContainerKey   == null     
+                    where  t.Key          == query.TranslationKey   || query.TranslationKey == null 
+                    select t).ToArray();        
         }
 
-        public IEnumerable<Translation> GetAll(string clientKey)
+        public IEnumerable<KeyValuePair<string,string>> GetKeyValue (TranslationQuery query) 
         {
             return (from t in _context.Translation
-                    where t.ClientKey == clientKey
-                    select t)
-                    .ToArray();
+                    where t.ClientKey    == query.ClientKey      || query.ClientKey      == null 
+                    where t.LanguageKey  == query.LanguageKey    || query.LanguageKey    == null
+                    where t.ContainerKey == query.ContainerKey   || query.ContainerKey   == null
+                    where t.Key          == query.TranslationKey || query.TranslationKey == null
+                    select new KeyValuePair<string,string>(t.Key, t.Text)).ToArray();            
         }
 
         //
         // GET translation/group
         // 
-        public IEnumerable<Translation> GetGroup(string clientKey, string translationKey)
+        public IEnumerable<TranslationGroup> GetGroup(TranslationGroupQuery query)
         {
             return (from t in _context.Translation
-                    where t.ClientKey == clientKey && t.Key == translationKey
-                    select t)
-                    .ToArray();
-        }
-
-
-        public IEnumerable<IEnumerable<Translation>> GetGroupAll(string clientKey)
-        {
-            return (from t in _context.Translation
-                    where t.ClientKey == clientKey
+                    where t.ClientKey    == query.ClientKey      || query.ClientKey       == null
+                    where t.ContainerKey == query.ContainerKey   || query.ContainerKey    == null
+                    where t.Key          == query.TranslationKey || query.TranslationKey  == null
                     group t by t.Key
                     into grp
-                    select grp.ToArray())
-                    .ToArray();
+                    select new TranslationGroup
+                    {
+                        Key          = grp.Key,
+                        ClientKey    = query.ClientKey,
+                        ContainerKey = query.ContainerKey,
+                        Items        = grp.ToArray()
+                    }).ToArray();
         }
 
-
-        public TranslationGroupMeta GetGroupMeta(string clientKey, string translationKey)
+        public IEnumerable<TranslationGroupMeta> GetGroupMeta(TranslationGroupQuery query)
         {
             return (from t in _context.Translation
-                    where t.ClientKey == clientKey && t.Key == translationKey
+                    where t.ClientKey    == query.ClientKey      || query.ClientKey      == null
+                    where t.ContainerKey == query.ContainerKey   || query.ContainerKey   == null
+                    where t.Key          == query.TranslationKey || query.TranslationKey == null
                     group t by t.Key
                     into grp
                     select new TranslationGroupMeta
                     {
-                        Key = grp.Key,
-                        ClientKey   = clientKey,
-                        ContainerKey = grp.First().ContainerKey,
-                        IsComplete = grp.Select(o => new KeyValuePair<string, bool> (o.LanguageKey, o.IsComplete))
-                                        .ToArray()
-                    })
-                    .First();
-        }
-
-
-        public IEnumerable<TranslationGroupMeta> GetGroupMetaOnContainer(string clientKey, string containerKey)
-        {
-            return (from t in _context.Translation
-                    where t.ClientKey == clientKey && t.ContainerKey == containerKey
-                    group t by t.Key
-                    into grp
-                    select new TranslationGroupMeta
-                    {
-                        Key = grp.Key,
-                        ClientKey    = clientKey,
-                        ContainerKey = containerKey,
-                        IsComplete = grp.Select(o => new KeyValuePair<string, bool> (o.LanguageKey, o.IsComplete))
-                                        .ToArray()
-                    })
-                    .ToArray();
-        }
-        
-        public IEnumerable<TranslationGroupMeta> GetGroupMetaAll(string clientKey)
-        {
-            return (from t in _context.Translation
-                    where t.ClientKey == clientKey
-                    group t by t.Key
-                    into grp
-                    select new TranslationGroupMeta
-                    {
-                        Key = grp.Key,
-                        ClientKey    = clientKey,
-                        ContainerKey = grp.First().ContainerKey,
-                        IsComplete = grp.Select(o => new KeyValuePair<string, bool> (o.LanguageKey, o.IsComplete))
-                                        .ToArray()
-                    })
-                    .ToArray();
-        }
-
-        //
-        // GET translation/container
-        //
-        public IEnumerable<Translation> GetOnContainer (string clientKey, string containerKey) 
-        {
-            return (from t in _context.Translation
-                    where t.ClientKey == clientKey && t.ContainerKey == containerKey
-                    select t)
-                        .ToArray();
-        }
-
-         public IEnumerable<KeyValuePair<string,string>> GetOnContainerLanguage (string clientKey, string languageKey, string containerKey) 
-        {
-            return (from t in _context.Translation
-                    where t.ClientKey == clientKey && t.LanguageKey  == languageKey && t.ContainerKey == containerKey
-                    select t)
-                        .ToDictionary(o => o.Key, o => o.Text);            
-        }
-
-        //
-        // GET translation/language
-        //
-        public IEnumerable<Translation> GetOnLanguage(string clientKey, string languageKey)
-        {
-            return (from t in _context.Translation
-
-                    where t.ClientKey   == clientKey &&
-                          t.LanguageKey == languageKey
-                    select t)
-                        .ToArray();
+                        Key          = grp.Key,
+                        ClientKey    = query.ClientKey,
+                        ContainerKey = query.ContainerKey,
+                        Items        = grp.Select(t => new TranslationGroupMeta.Item 
+                        {  
+                            LanguageKey= t.LanguageKey, 
+                            IsComplete = t.IsComplete
+                        }).ToArray()
+                    }).ToArray();
         }
 
         //
@@ -152,67 +90,92 @@ namespace OrdBaseCore.Repositories
         {   
             _context.Translation.Add(translation);
             _context.SaveChanges();
-            return new NoContentResult {};
+            return new StatusCodeResult(201);
         }
 
-        public IActionResult CreateMany(IEnumerable<Translation> translationArray) 
+        public IActionResult CreateArray(IEnumerable<Translation> translationArray) 
         {   
             _context.Translation.AddRange(translationArray);            
             _context.SaveChanges();
-            return new NoContentResult {};
+            return new StatusCodeResult (201);
         }
 
 
-        public IActionResult Update(Translation item) 
+        public IActionResult Update(TranslationQuery query, Translation translation) 
         {   
-            // @note - Documentation suggest using FirstOrDefault here. I Do not fully understand what default means in this context - JSolsvik 23.06.17
-            var translation = _context.Translation.First(
-                t => t.ClientKey == item.ClientKey &&
-                     t.LanguageKey == item.LanguageKey &&
-                     t.Container == item.Container &&
-                     t.Key == item.Key);
+            var _translation = _context.Translation.First(
+                t => t.ClientKey    == query.ClientKey    &&
+                     t.LanguageKey  == query.LanguageKey  &&
+                     t.ContainerKey == query.ContainerKey &&
+                     t.Key          == query.TranslationKey);
 
-            if (translation == null) 
+            if (_translation == null) 
                 return new NotFoundResult {};
 
-            translation.Text = item.Text;
-            translation.IsComplete = item.IsComplete;
+            _translation.Key        = translation.Key;
+            _translation.Text       = translation.Text;
+            _translation.IsComplete = translation.IsComplete;
             
-            _context.Translation.Update(translation);
+            _context.Translation.Update(_translation);
             _context.SaveChanges();
-            return new NoContentResult {};
+            return new StatusCodeResult(204); 
         }
 
-        public IActionResult Delete(string clientKey,string containerKey, string translationKey, string languageKey) 
+
+        public IActionResult UpdateArray(TranslationGroupQuery query, IEnumerable<Translation> translationArray) 
+        {   
+
+            foreach (var translation in translationArray) {
+
+                var found = _context.Translation.First(t => t.ClientKey    == translation.ClientKey    &&
+                                                            t.LanguageKey  == translation.LanguageKey  &&
+                                                            t.ContainerKey == translation.ContainerKey &&
+                                                            t.Key          == translation.Key);
+
+
+                if (found == null) 
+                    return new NotFoundResult {};
+
+                found.Key  = translation.Key;
+                found.Text = translation.Text;
+                found.IsComplete = translation.IsComplete;
+                _context.Translation.Update(found);
+    
+                _context.SaveChanges();            
+            }            
+            return new StatusCodeResult(204); 
+        }
+
+        public IActionResult Delete(TranslationQuery query) 
         {   
             var translation = _context.Translation.First(
-                t => t.ClientKey    == clientKey &&
-                     t.LanguageKey  == languageKey &&
-                     t.ContainerKey == containerKey &&
-                     t.Key          == translationKey);    
+                t => t.ClientKey    == query.ClientKey    &&
+                     t.LanguageKey  == query.LanguageKey  &&
+                     t.ContainerKey == query.ContainerKey &&
+                     t.Key          == query.TranslationKey);    
             
             if (translation == null)
                 return new NotFoundResult {};
 
             _context.Translation.Remove(translation);
             _context.SaveChanges();
-            return new NoContentResult {};
+            return new StatusCodeResult(200); // OK
         }
 
 
-        public IActionResult DeleteGroup(string clientKey, string containerKey, string translationKey) 
+        public IActionResult DeleteGroup(TranslationGroupQuery query) 
         {   
             var translationGroup = _context.Translation.Where(
-                t => t.ClientKey    == clientKey &&
-                     t.ContainerKey == containerKey &&
-                     t.Key          == translationKey);    
+                t => t.ClientKey    == query.ClientKey &&
+                     t.ContainerKey == query.ContainerKey &&
+                     t.Key          == query.TranslationKey);    
             
             if (translationGroup == null)
-                return new NotFoundResult {};
+                return new StatusCodeResult(404); // Notfoundresult
 
             _context.Translation.RemoveRange(translationGroup);
             _context.SaveChanges();
-            return new NoContentResult {};
+            return new StatusCodeResult(204);
         }
 
         //

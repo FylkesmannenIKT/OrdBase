@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,7 +8,7 @@ using OrdBaseCore.Models;
 using OrdBaseCore.IData;
 
 namespace OrdBaseCore.Controllers
-{
+{   
     public class TranslationController : Controller
     {   
         private readonly ITranslationData _translationRepo;
@@ -19,127 +21,104 @@ namespace OrdBaseCore.Controllers
         //
         // GET translation
         //
-        [HttpGet("api/{clientKey}/translation/{containerKey}/{translationKey}/{languageKey}")]
-    	public IEnumerable<Translation> Get(string clientKey, string languageKey, string containerKey, string translationKey)
-        {
-            return _translationRepo.Get(clientKey, languageKey, containerKey, translationKey); 
-        }
-        
-        [HttpGet("api/{clientKey}/translation/all")]
-        public IEnumerable<Translation> GetAll(string clientKey)
-        {
-            return _translationRepo.GetAll(clientKey); 
+        [HttpGet("api/translation")]
+    	public IEnumerable<Translation> Get([FromQuery] TranslationQuery query)
+        {   
+            if (!ModelState.IsValid)
+                return null;
+
+            return _translationRepo.Get(query); 
         }
 
-        //
-        // GET translation/group
-        //
-        [HttpGet("api/{clientKey}/translation/group/{translationKey}")]
-        public IEnumerable<Translation> GetGroup(string clientKey, string translationKey) 
+        [HttpGet("api/translation/group")]
+        public IEnumerable<TranslationGroup> GetGroup([FromQuery] TranslationGroupQuery query) 
         {
-            return  _translationRepo.GetGroup(clientKey, translationKey);
+            return  _translationRepo.GetGroup(query);
         }   
 
-        [HttpGet("api/{clientKey}/translation/group/all")]
-        public IEnumerable<IEnumerable<Translation>> GetGroupAll(string clientKey)
+        [HttpGet("api/translation/meta")]        
+        [HttpGet("api/translation/group/meta")]
+        public IEnumerable<TranslationGroupMeta> GetGroupMeta([FromQuery] TranslationGroupQuery query)
         {
-            return _translationRepo.GetGroupAll(clientKey);
+            return _translationRepo.GetGroupMeta(query);
         } 
 
-        //
-        // GET translation/group/meta
-        //
-        [HttpGet("api/{clientKey}/translation/group/meta/{translationKey}")]
-        public TranslationGroupMeta GetGroupMeta(string clientKey, string translationKey)
+        [HttpGet("api/translation/keyvalue")]
+        public IEnumerable<KeyValuePair<string,string>> GetKeyValue([FromQuery] TranslationQuery query)
         {
-            return _translationRepo.GetGroupMeta(clientKey, translationKey);
-        } 
-        
-        [HttpGet("api/{clientKey}/translation/group/meta/container/{containerKey}")]
-        public IEnumerable<TranslationGroupMeta> GetGroupMetaOnContainer(string clientKey, string containerKey)
-        {
-            return _translationRepo.GetGroupMetaOnContainer(clientKey, containerKey);
-        } 
-
-
-        [HttpGet("api/{clientKey}/translation/group/meta/all")]
-        [HttpGet("api/{clientKey}/translation/group/meta/container/all")]        
-        public IEnumerable<TranslationGroupMeta> GetGroupMetaAll(string clientKey)
-        {
-            return _translationRepo.GetGroupMetaAll(clientKey);
-        } 
-
-
-        //
-        // GET translation/container
-        //
-        [HttpGet("api/{clientKey}/translation/container/{containerKey}")]
-        public IEnumerable<object> GetOnContainer(string clientKey, string containerKey)
-        {
-            return _translationRepo.GetOnContainer(clientKey, containerKey); 
+            return _translationRepo.GetKeyValue(query); 
         }
 
-        [HttpGet("api/{clientKey}/translation/container/{containerKey}/{languageKey}")]
-        public IEnumerable<KeyValuePair<string,string>> GetOnContainerLanguage(string clientKey, string languageKey, string containerKey)
-        {
-            return _translationRepo.GetOnContainerLanguage(clientKey, languageKey, containerKey); 
-        }
-
-
-        //
-        // GET translation/language
-        //
-        [HttpGet("api/{clientKey}/translation/language/{languageKey}")]
-        public IEnumerable<Translation> GetOnLanguage(string clientKey, string languageKey)
-        {
-            return _translationRepo.GetOnLanguage(clientKey, languageKey); 
-        }
-        
         //
         // POST, PUT, DELETE translation
         //  @doc https://docs.microsoft.com/en-us/aspnet/core/tutorials/web-api-vsc#implement-the-other-crud-operations|
         //
-        [HttpPost("api/translation/create")]
+        [HttpPost("api/translation")]
         public IActionResult Create([FromBody] Translation translation) 
         {   
             if (translation == null)
                 return  BadRequest();
+
             return _translationRepo.Create(translation);
         } 
 
 
-        [HttpPost("api/translation/create/many")]
-        public IActionResult CreateMany([FromBody]IEnumerable<Translation> translationArray) 
+        [HttpPost("api/translation/array")]
+        public IActionResult CreateArray([FromBody] IEnumerable<Translation> translationArray) 
         {   
             if (translationArray == null)
                 return  BadRequest();
-            return _translationRepo.CreateMany(translationArray);
+
+            return _translationRepo.CreateArray(translationArray);
         }
 
-        [HttpPut("api/translation/update/{clientKey}/{containerKey}/{translationKey}/{languageKey}")]
-        public IActionResult Update(string clientKey, string languageKey, string containerKey, string translationKey,
-                                         [FromBody] Translation translation)
+        [HttpPut("api/translation")]
+        public IActionResult Update([FromQuery] TranslationQuery query, [FromBody] Translation translation)
         {   
-            if (translation == null || translation.ClientKey    != clientKey 
-                                    || translation.LanguageKey  != languageKey
-                                    || translation.ContainerKey != containerKey 
-                                    || translation.Key          != translationKey) 
+            if (query == null || translation == null || query.ClientKey      != translation.ClientKey    ||
+                                                        query.LanguageKey    != translation.LanguageKey  ||
+                                                        query.ContainerKey   != translation.ContainerKey ||
+                                                        query.TranslationKey != translation.Key) 
                 return BadRequest();
             
-
-            return _translationRepo.Update(translation);
+            return _translationRepo.Update(query, translation);
         }
 
-        [HttpDelete("api/translation/delete/{clientKey}/{containerKey}/{translationKey}/{languageKey}")]
-        public IActionResult Delete(string clientKey, string languageKey, string containerKey, string translationKey)
-        {
-            return _translationRepo.Delete(clientKey, languageKey, containerKey, translationKey);
+        [HttpPut("api/translation/array")]
+        public IActionResult UpdateArray([FromQuery] TranslationGroupQuery query, [FromBody] IEnumerable<Translation> translationArray)
+        {   
+           if (query == null || translationArray == null || query.ClientKey      != translationArray.First().ClientKey    ||
+                                                            query.ContainerKey   != translationArray.First().ContainerKey ||
+                                                            query.TranslationKey != translationArray.First().Key) 
+               return BadRequest();
+           
+           return _translationRepo.UpdateArray(query, translationArray);
+       
+            //return translationArray;
         }
 
-        [HttpDelete("api/translation/delete/group/{clientKey}/{containerKey}/{translationKey}")]
-        public IActionResult DeleteGroup(string clientKey, string containerKey, string translationKey)
+
+        [HttpDelete("api/translation")]
+        public IActionResult Delete([FromQuery] TranslationQuery query)
         {
-            return _translationRepo.DeleteGroup(clientKey, containerKey, translationKey);
+            if (query == null || query.ClientKey      == null
+                              || query.LanguageKey    == null
+                              || query.ContainerKey   == null
+                              || query.TranslationKey == null)
+                return BadRequest();
+
+            return _translationRepo.Delete(query);
+        }
+
+        [HttpDelete("api/translation/group")]
+        public IActionResult DeleteGroup([FromQuery] TranslationGroupQuery query)
+        {
+            if (query == null || query.ClientKey      == null
+                              || query.ContainerKey   == null
+                              || query.TranslationKey == null)
+                return BadRequest();
+
+            return _translationRepo.DeleteGroup(query);
         }
     }
 }

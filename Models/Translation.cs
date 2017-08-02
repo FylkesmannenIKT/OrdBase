@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -26,5 +27,20 @@ namespace OrdBaseCore.Models
         
         [Required]
         public bool IsComplete { get; set; }
+    }
+
+    public class TranslationQuery
+    {  
+        [FromQuery(Name="clientKey")]
+        public string ClientKey      { get; set; }
+
+        [FromQuery(Name="languageKey")]
+        public string LanguageKey    { get; set; }
+
+        [FromQuery(Name="containerKey")]
+        public string ContainerKey   { get; set; } 
+        
+        [FromQuery(Name="translationKey")]
+        public string TranslationKey { get; set; }
     }
 }

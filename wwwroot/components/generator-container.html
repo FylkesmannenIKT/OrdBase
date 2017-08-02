@@ -1,0 +1,101 @@
+<style>
+    @import url('/node_modules/font-awesome/css/font-awesome.min.css');
+    
+    
+    h2 {
+        font-size: var(--ordbase-h2-font-size);
+        margin-left: 10px;
+    }
+
+    /* INPUT */
+    input {
+        display: none;
+        width: 100%;
+        height: 45px;
+        font-size: var(--ordbase-input-font-size);
+        text-align: center;
+    }
+
+    /* BUTTON activate */
+    #button-activate {
+        font-size: 3.2rem;
+        cursor: pointer;
+        height: 50px;
+        width: 100%;
+        background-color: transparent;
+
+        color: var(--ordbase-color-dark);
+
+        border: 1px solid var(--ordbase-color-success);
+        border-width: 0px 0px 2px 0px 
+    }
+
+    #button-activate.cancel {
+        border-color: var(--ordbase-color-danger);
+    }
+
+    #button-activate:focus {
+        outline: none;
+    }
+
+    #button-activate:focus,
+    #button-activate:hover {
+        background-color: var(--ordbase-color-success);
+        color: var(--ordbase-color-white);
+    }     
+
+    #button-activate.cancel:focus,
+    #button-activate.cancel:hover {
+        background-color: var(--ordbase-color-danger);
+        color: var(--ordbase-color-white);
+    }
+
+    /* BUTTON CONTAINER */
+    .button-container {
+        margin      : 0px;
+        padding     : 0px;
+        outline:   none;
+
+        height: var(--ordbase-button-height);
+        font-size: var(--ordbase-button-font-size);
+        width: 100%;
+        cursor: pointer;
+        background-color: transparent;
+        color: var(--ordbase-color-dark);
+
+        border: 10px solid transparent;
+        border-width: 0px 0px 0px 10px;
+    }   
+
+
+    .button-container:focus {
+        outline-color: var(--ordbase-color-dark);
+        outline-width: 2px;
+    }
+    .button-container:focus,
+    .button-container:hover {
+        background-color: var(--ordbase-color-dark);
+        color: var(--ordbase-color-white);
+    } 
+
+    .button-container.selected:focus,
+    .button-container.selected {
+        border-color: var(--ordbase-color-select);
+    }
+
+</style>
+
+<h2>Containers</h2>        
+
+<div id="div-generated-items">
+
+</div>
+
+<input id="generator-input" type="text" value="">
+<button id="button-activate" class="button-add-item">
+    <i class="fa fa-plus" aria-hidden="true"></i>
+</button>
+
+<template id="template-item">
+    <button class="button-container"></button>
+</template>

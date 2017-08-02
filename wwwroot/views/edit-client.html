@@ -4,42 +4,33 @@
             height: 100%;
             display: flex;
         }
-        
-        h2 {
-            font-size: var(--ordbase-h2-font-size);
-            margin-left: 10px;
-        }
 
-        #edit-cleint-left-menu {
+        #edit-client-left-menu {
             flex: 0 0 350px;
             background-color: var(--ordbase-color-light); 
+            z-index: 1;
+            box-shadow: 1px 0 5px -2px var(--ordbase-color-dark);
         }
 
-        #list-add-containers-on-client {
-            margin: 0px;
+        component-flipper-language {
+            margin-top: 10px;
             padding: 0px;
         }
 
+        component-generator-container {margin-top: 10px; }
+
     </style>
 
-        <div id="edit-cleint-left-menu">
-            <section id="list-add-containers-on-client">
-                <h2>Containers</h2>        
-                
-                <!--ordbase-item-generator></ordbase-item-generator-->
-                <!--ordbase-item-generator></ordbase-item-generator-->
-            </section>
+    <section id="edit-client-left-menu">
 
-            <section id="list-add-languages-on-client">
-                <h2>Languages</h2>
-                <!--ordbase-button-select></ordbase-button-select-->
-                <!--ordbase-button-select></ordbase-button-select-->
+        <div id="slot-generator" class="slot"></div>
+            
+        <div id="slot-flipper" class="slot"></div>
 
-            </section> 
-        </div>
+    </section>
 
     <!--ordbase-form-client></ordbase-form-client-->
-    <div id="form-hook" style="display: none;"></div>
+    <div id="slot-form" class="slot"></div>
     
     <!--ordbase-card-client></ordbase-card-client-->    
-    <div id="hook-card" style="display: none;"></div>
+    <div id="slot-card" class="slot"></div>

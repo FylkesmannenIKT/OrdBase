@@ -2,27 +2,34 @@
 
         :host {
             display: flex;
-            height: 100%;
+            min-height: 100%;
         }
 
 
         h2 {
-            margin-left: 20px;
+            padding: 10px;
+            margin: 0px;
             font-size: var(--ordbase-h2-font-size);
+            box-shadow: 0px 1px 5px -2px var(--ordbase-color-dark);            
         }
 
-        #section-containers-on-client {
-                height: 100%;
-                width: 300px;
-                display: flex;
-                flex-direction: column;
-                background-color: var(--ordbase-color-light);
+        #select-translation-menu {
+            min-height: 100%;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--ordbase-color-light);
+            z-index: 1;
+            box-shadow: 1px 0 5px -2px var(--ordbase-color-dark);
         }
 
-        #section-translations-on-client {
+        #select-translation-table {
+            min-height: 100%;
             display: flex;
             flex-direction: column;
             flex: 1;
+
+            background-color: var(--ordbase-color-white);
         }
 
         ordbase-button-select {
@@ -35,20 +42,13 @@
 
     </style>
 
-    <section id="section-containers-on-client">
-        <h2>Containers</h2>        
+    <section id="select-translation-menu">
+        
 
-        <div id="list-containers-on-client">
-            <!--<ordbase-button-select> </ordbase-button-select>-->
-            <!--<ordbase-button-select> </ordbase-button-select>-->
-            <!--<ordbase-button-select> </ordbase-button-select>-->
-        </div>
     </section>
 
-    <section id="section-translations-on-client">
-        <h2>Translations</h2>
-            
-            <!--<ordbase-card-translation> </ordbase-card-translation>-->
-            <!--<ordbase-card-translation> </ordbase-card-translation>-->
-            <!--<ordbase-card-translation> </ordbase-card-translation>-->
+    <section id="select-translation-table">
+
+    
     </section>
+

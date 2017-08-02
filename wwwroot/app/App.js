@@ -3,7 +3,7 @@
 // COMPILE WITH BABEL - https://css-tricks.com/transpiling-es6/
 // TRanspile with webpack - https://webpack.github.io/docs/tutorials/getting-started/
 
-import { View_Header }      from '../views/header.js'; 
+import { Component_Header } from '../components/header.js'; 
 import { loadSelectClient } from './loadSelectClient.js';
 
 //
@@ -20,6 +20,18 @@ export const ICON_CHECK      = 'fa-check';
 export const ICON_PENCIL     = 'fa-pencil';
 export const ICON_TRASH      = 'fa-trash';
 
+
+export const COLOR_SUCCESS = 'var(--ordbase-color-success)';
+export const COLOR_SELECT  = 'var(--ordbase-color-select)';
+export const COLOR_DANGER  = 'var(--ordbase-color-danger)';
+
+
+export const HTTP_OK = 200;
+export const HTTP_CREATED = 201;
+export const HTTP_UPDATED = 204;
+export const HTTP_NOTFOUND = 404;
+
+
 const BACKSPACE = 8;
 const HOME = 36;
 
@@ -27,15 +39,19 @@ const HOME = 36;
 
 // @note hack-below I am not proud of the way I am filling in the Header view here.
 //        Open for suggestions - JSolsvik 24.07.17
-document.getElementById('ordbase-header').appendChild(new View_Header);
+document.getElementById('ordbase-header').appendChild(new Component_Header);
 
-export const HEADER         = document.getElementById('ordbase-header').querySelector('view-header');
+export const HEADER = document.getElementById('ordbase-header').querySelector('component-header');
 export const defaultHandler = (event) => console.log('Default handler... nothing happened');
 
 export function switchView(view) {
     MAIN.innerHTML = '';
     MAIN.appendChild(view);
     return view;
+}
+
+export function flashError(text) {
+    App.HEADER.flashError(text);
 }
 
 const MAIN = document.getElementById('ordbase-main');    

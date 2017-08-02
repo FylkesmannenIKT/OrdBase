@@ -15,18 +15,12 @@ namespace OrdBaseCore.Controllers
             _languageRepo = languageRepo;
         }
 
-        //
-        // GET
-        //
         [HttpGet("api/language")]
-        public IEnumerable<Language> GetGlobal()
+        public IEnumerable<Language> Get([FromQuery] string languageKey)
         {
-            return _languageRepo.GetGlobal();
+            return _languageRepo.Get(languageKey);
         }
 
-        //
-        // CREATE
-        //
         [HttpPost("api/language/create")]
         public IActionResult Create([FromBody] Language language) 
         {   

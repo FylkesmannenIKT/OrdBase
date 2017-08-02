@@ -12,11 +12,13 @@ namespace OrdBaseCore.Models
             :base(options)
         {}
 
+        // Base tables
         public DbSet<Client> Client { get; set; }
         public DbSet<Language> Language { get; set; }
         public DbSet<Translation> Translation { get; set; }
         public DbSet<Container> Container { get; set; }
 
+        // Many to many linking tables
         public DbSet<ClientLanguage> ClientLanguage { get; set; }
         public DbSet<ClientContainer> ClientContainer { get; set; }
 
@@ -31,11 +33,6 @@ namespace OrdBaseCore.Models
             modelBuilder
                 .Entity<Client>()
                 .HasIndex(c => c.ApiKey)
-                .IsUnique();
-
-            modelBuilder
-                .Entity<Client>()
-                .HasIndex(c => c.WebpageUrl)
                 .IsUnique();
 
             //
@@ -56,7 +53,7 @@ namespace OrdBaseCore.Models
             modelBuilder
                 .Entity<ClientContainer>()
                 .HasOne(cc => cc.Client)
-                .WithMany(c => c.DefaultContainers)
+                .WithMany(c => c.Containers)
                 .HasForeignKey(cc => cc.ClientKey);
 
             modelBuilder
@@ -79,7 +76,7 @@ namespace OrdBaseCore.Models
             modelBuilder
                 .Entity<ClientLanguage>()
                 .HasOne(cl => cl.Client)
-                .WithMany(c => c.DefaultLanguages)
+                .WithMany(c => c.Languages)
                 .HasForeignKey(cl => cl.ClientKey);
 
             modelBuilder
@@ -103,10 +100,10 @@ namespace OrdBaseCore.Models
 
         public static void Seed(TranslationDb context) 
         {
-        //    ContainerRepository.AddTestData(context);
-            //LanguageRepository.AddTestData(context);
-           // ClientRepository.AddTestData(context);
-        //  TranslationRepository.AddTestData(context);
+            ContainerRepository.AddTestData(context);
+            LanguageRepository.AddTestData(context);
+            ClientRepository.AddTestData(context);
+            TranslationRepository.AddTestData(context);
 
             context.SaveChanges();
             context.Dispose();

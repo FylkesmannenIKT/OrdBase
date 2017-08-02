@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 
 using OrdBaseCore.Models;
 using OrdBaseCore.IData;
@@ -16,16 +17,9 @@ namespace OrdBaseCore.Controllers
         }
 
 		[Route("api/container")]
-		[Route("api/container/all")]
-		public string[] GetGlobal() 
+		public IEnumerable<Container> Get([FromQuery] string containerKey) 
 		{
-			return _containerRepo.GetGlobal();
+			return _containerRepo.Get(containerKey);
 		}
-
-    	[Route("api/{clientKey}/container/all")]		
-    	public string[] GetAll(string clientKey) 
-    	{
-    		return _containerRepo.GetAll(clientKey); 
-    	}
     }
 }

@@ -10,6 +10,10 @@ export class View_SelectClient extends HTMLElement {
         this.root.innerHTML = html;
     }
 
-    appendCard(card)  {   this.root.appendChild(card);                 }
+    addCard(card)  {   this.root.appendChild(card); }
+
+    getCardArray() {
+        return [].slice.apply(this.root.querySelectorAll('component-card-client'));
+    }
 }
 customElements.define('view-select-client', View_SelectClient);

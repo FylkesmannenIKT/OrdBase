@@ -19,121 +19,72 @@ namespace OrdBaseCore.Controllers
         }
 
         //
-        // GET client
+        // GET api/client/*
         //
-        [HttpGet("api/")]
     	[HttpGet("api/client")]
-    	[HttpGet("api/client/all")]                
-    	public IEnumerable<Client> GetAll()
+    	public IEnumerable<Client> Get([FromQuery] ClientQuery query)
     	{
-    		return _clientRepo.GetAll();
+    		return _clientRepo.Get(query);
     	}
 
-    	[HttpGet("api/{clientKey}")]
-    	public IEnumerable<Client> Get(string clientKey) 
-    	{
-            return _clientRepo.Get(clientKey);
-    	}
-
-        //
-        // GET client/default
-        //
-        [HttpGet("api/{clientKey}/default/container")]        
-        [HttpGet("api/{clientKey}/default/container/all")]
-        public IEnumerable<string> GetDefaultContainers(string clientKey) 
+        [HttpGet("api/client/containers")]        
+        public IEnumerable<string> GetContainers([FromQuery] ClientQuery query) 
         {
-            return _clientRepo.GetDefaultContainers(clientKey);
+            return _clientRepo.GetContainers(query);
         }
 
-        [HttpGet("api/{clientKey}/default/language")] 
-        [HttpGet("api/{clientKey}/default/language/all")] 
-        public IEnumerable<string> GetDefaultLanguages(string clientKey) 
+        [HttpGet("api/client/languages")] 
+        public IEnumerable<string> GetLanguages([FromQuery] ClientQuery query) 
         {
-            return _clientRepo.GetDefaultLanguages(clientKey);
+            return _clientRepo.GetLanguages(query);
         }
 
         //
-        // CREATE, UPDATE, DELETE client  
+        // CREATE, UPDATE, DELETE api/client/*
         //
-        [HttpPost("api/client/create")]
+        [HttpPost("api/client")]
         public IActionResult Create([FromBody] Client client) 
         {   
-            // @note validates if JSON body has the correct type
             if (client == null)
                 return  BadRequest();
 
-            _clientRepo.Create(client);
-            return StatusCode(201);
+            return _clientRepo.Create(client);
         }
 
-
-        [HttpPut("api/client/update/{clientKey}")]
-
-        public IActionResult Update(string clientKey, [FromBody] Client client)
+        [HttpPut("api/client")]
+        public IActionResult Update([FromQuery] ClientQuery query, [FromBody] Client client)
         {
-            if (client == null || client.Key != clientKey) 
+            if (client == null || client.Key != query.ClientKey) 
                 return BadRequest();
-            return _clientRepo.Update(client);
+
+            return _clientRepo.Update(query, client);
         }        
 
-        [HttpDelete("api/client/delete/{clientKey}")]
-        public IActionResult Delete(string clientKey) 
+        [HttpDelete("api/client")]
+        public IActionResult Delete([FromQuery] ClientQuery query) 
         {
-            return _clientRepo.Delete(clientKey);
+            return _clientRepo.Delete(query);
         }
 
         //
-        // CREATE client/default  
+        // SET containers and languages connected to client
         //
-        [HttpPost("api/{clientKey}/default/container/create")]        
-        [HttpPost("api/{clientKey}/default/container/create/many")]
-        public IActionResult  CreateDefaultContainers(string clientKey, [FromBody] string[] defaultContainers)
+        [HttpPost("api/client/containers")]
+        public IActionResult  SetContainers([FromQuery] ClientQuery query, [FromBody] string[] containerArray)
         {
-            // Check if any of the data is null og nullstring            
-            if (defaultContainers == null)
+            if (containerArray ==  null)
                 return  BadRequest();
 
-            _clientRepo.CreateDefaultContainers(clientKey, defaultContainers);
-            return StatusCode(201);
+            return _clientRepo.SetContainers(query, containerArray);
         }
 
-        [HttpPost("api/{clientKey}/default/language/create")]         
-        [HttpPost("api/{clientKey}/default/language/create/many")]         
-        public IActionResult CreateDefaultLanguages(string clientKey, [FromBody] string[] defaultLanguages) 
+        [HttpPost("api/client/languages")]         
+        public IActionResult SetLanguages([FromQuery] ClientQuery query, [FromBody] string[] languageArray) 
         {
-            // Check if any of the data is null og nullstring
-            if (defaultLanguages == null)
+            if (languageArray == null)
                 return  BadRequest();
 
-            _clientRepo.CreateDefaultLanguages(clientKey, defaultLanguages);
-            return StatusCode(201);
-        }
-
-        //
-        // UPDATE client/default  
-        //
-        [HttpPost("api/{clientKey}/default/container/update")]
-        [HttpPost("api/{clientKey}/default/container/update/many")]        
-        public IActionResult  UpdateDefaultContainers(string clientKey, [FromBody] string[] defaultContainers)
-        {
-            // Check if any of the data is null og nullstring            
-            if (defaultContainers == null)
-                return  BadRequest();
-
-            _clientRepo.UpdateDefaultContainers(clientKey, defaultContainers);
-            return StatusCode(201);
-        }
-
-        [HttpPost("api/{clientKey}/default/language/update")] 
-        [HttpPost("api/{clientKey}/default/language/update/many")]         
-        public IActionResult UpdateDefaultLanguages(string clientKey, [FromBody] string[] defaultLanguages) 
-        {
-            // Check if any of the data is null og nullstring
-            if (defaultLanguages == null)
-                return  BadRequest();
-
-            _clientRepo.UpdateDefaultLanguages(clientKey, defaultLanguages);
-            return StatusCode(201);
+            return _clientRepo.SetLanguages(query, languageArray);
         }
     }
 }

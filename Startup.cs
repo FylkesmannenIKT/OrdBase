@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging.Debug;
 
 // EntityFramework
 using Microsoft.EntityFrameworkCore;
@@ -86,13 +87,14 @@ namespace OrdBaseCore {
                               ILoggerFactory loggerFactory,
                               TranslationDb context)
         {
-            loggerFactory.AddConsole();
+            loggerFactory.AddConsole()
+                         .AddDebug();
 
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
 
-            TranslationDb.Seed(context);
+            // TranslationDb.Seed(context);
 
             app.UseFileServer();
             app.UseMvc();            

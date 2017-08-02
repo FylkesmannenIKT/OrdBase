@@ -1,0 +1,146 @@
+    <style>
+        @import url('/node_modules/font-awesome/css/font-awesome.min.css');
+
+        
+        /* --- HEADER --- */
+        #button-row {           
+            display: flex;
+            text-align:  center;
+            min-height: 100px;
+            background-color: var(--ordbase-color-dark);
+            color: var(--ordbase-color-white);
+        }
+        /* --------------- */
+
+        button {
+            background-color: transparent;
+            border: none;
+        }
+
+        /* HEADER-ICON-BUTTON */
+        .icon-button {
+            font-size: 40px;
+            flex: 0;
+            flex-basis: 130px;
+            display: flex;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        i {
+            width: 100%;
+            height: 100%;
+
+            color: var(--ordbase-color-white);
+        }
+        /* --------------- */
+
+
+        /* HEADER-TEXT-BUTTON */
+        .header-text-button {
+            flex-grow: 1;
+            color: var(--ordbase-color-white);
+            display: flex;
+            align-items: center;
+        }
+
+        h1 {   
+            text-align: left;
+            font-size: var(--ordbase-h1-font-size);
+        }
+
+        h2 {
+            padding: 10px 0px 0px 20px;
+            font-size: var(--ordbase-h2-font-size);
+        }
+        /* --------------- */
+
+
+        #btn-header-right0:focus i,
+        #btn-header-right0:hover i
+         {
+             color: var(--ordbase-color-danger);
+         }  
+        #btn-header-right1:focus i,
+        #btn-header-right1:hover i
+         {
+             color:var(--ordbase-color-select);
+         }
+
+        #btn-header-right2:focus i,
+        #btn-header-right2:hover i
+         {
+             color: var(--ordbase-color-success);    
+         }
+
+
+         #error-banner 
+         {
+            color: white;
+            text-align: center;
+            font-size: 3rem;
+            background-color: var(--ordbase-color-danger);
+         }
+
+         #error-banner.active 
+         {
+            height: 100px;
+            padding: 30px;
+         }
+
+         /* BANNER ANIMATION */
+         #error-banner.animated 
+         {
+            animation-name: unFlashError;
+            animation-duration: .5s;
+         }
+
+         #error-banner.active.animated 
+         {
+            animation-name: flashError;
+            animation-duration: .5s;
+         }
+
+         @keyframes flashError 
+         {
+             from { height: 0px;   padding-top: 0px; }
+             to   { height: 100px; padding-top: 30px;   }             
+         }
+
+        @keyframes unFlashError 
+         {
+             from { height: 100px;   padding-top: 30px;}
+             to   { height: 0px;  padding-top: 0px;   }             
+         }
+
+
+    </style>
+
+    <div id="button-row">
+        <button id="btn-header-left" class="icon-button">
+            <i class="fa fa-square" aria-hidden="true"></i>
+        </button>
+
+        <button id="btn-header-mid" class="header-text-button">
+            <h1 id="btn-header-mid-big">  </h1>
+            <h2 id="btn-header-mid-small"></h2>
+        </button>
+
+
+        <button id="btn-header-right0" class="icon-button">
+            <i class="fa fa-none" aria-hidden="true"></i>
+        </button>
+
+        <button id="btn-header-right1" class="icon-button">
+            <i class="fa fa-square" aria-hidden="true"></i>
+        </button>
+
+        <button id="btn-header-right2" class="icon-button">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </button>
+    </div>
+
+    <div id="error-banner">
+    </div>
+
+

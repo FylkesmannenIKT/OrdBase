@@ -6,7 +6,7 @@ namespace OrdBaseCore.IData
 {
     public interface ILanguageData
     {
-        IEnumerable<Language> GetGlobal();
+        IEnumerable<Language> Get(string languageKey);
         IActionResult Create(Language Language);
     }	
 }

@@ -1,0 +1,52 @@
+
+<style>
+    h2 {
+        font-size: var(--ordbase-h2-font-size);
+        margin-left: 10px;
+    }
+
+    h3 {
+        font-size: var(--ordbase-h3-font-size);
+        margin: 15px;
+    }
+
+    /* BUTTON language */
+    .button-container {
+        height: var(--ordbase-button-height);
+        font-size: var(--ordbase-button-font-size);
+        width: 100%;
+        cursor: pointer;
+        background-color: transparent;
+        color: var(--ordbase-color-dark);
+        
+        border: none;
+
+        border: 10px solid transparent;
+        border-width: 0px 0px 0px 10px;
+        /*border: 1px solid var(--ordbase-color-select);*/
+    }   
+
+
+    .button-container:focus {
+        outline-color: var(--ordbase-color-dark);
+        outline-width: 2px;
+    }
+    .button-container:focus,
+    .button-container:hover {
+        background-color: var(--ordbase-color-dark);
+        color: var(--ordbase-color-white);
+    } 
+
+    .button-container.selected:focus,
+    .button-container.selected {
+        border-color: var(--ordbase-color-select);
+    }
+
+</style>
+
+<h2 id="div-container-header">Containers</h2>
+<div id="div-container-buttons"></div>
+
+<template id="template-button">
+    <button class="button-container"></button>
+</template>

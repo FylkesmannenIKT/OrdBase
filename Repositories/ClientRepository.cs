@@ -22,200 +22,127 @@ namespace OrdBaseCore.Repositories
         //
         // GET
         // 
-        public IEnumerable<Client> Get(string clientKey) 
+        public IEnumerable<Client> Get(ClientQuery query) 
         {
         	return (from c in _context.Client
-        			where c.Key == clientKey
+        			where c.Key == query.ClientKey || query.ClientKey == null
         			select c)
-        				.ToArray();
+        			.ToArray();
         } 
 
-        public IEnumerable<Client> GetAll() 
-        {
-        	return _context.Client.ToArray();
-        }
-        
-        public IEnumerable<string> GetDefaultContainers(string clientKey)
+        public IEnumerable<string> GetContainers(ClientQuery query)
         {
             return (from cl in _context.ClientContainer
-                    where cl.ClientKey == clientKey
+                    where cl.ClientKey == query.ClientKey || query.ClientKey == null
                     select cl.ContainerKey)
-                        .ToArray();
+                    .ToArray();
         }     
 
-        public IEnumerable<string> GetDefaultLanguages(string clientKey)
+        public IEnumerable<string> GetLanguages(ClientQuery query) 
         {
             return (from cl in _context.ClientLanguage
-                    where cl.ClientKey == clientKey
+                    where cl.ClientKey == query.ClientKey || query.ClientKey == null
                     select cl.LanguageKey)
-                        .ToArray();
+                    .ToArray();
         }
+
         //
         // CREATE, Update, delete
         //
+        
         public IActionResult Create(Client client)  
-        {
+        {   
+            //
+            // @todo Adding a client which already exists with the same key, apikey, will throw a 
+            //       server 500 error here. This could be handled by the front-end but, it would also be nice
+            //       if the back-end failed in a more gracefull manner, giving a better feedback on what 
+            //       went wrong - JSolsvik
+            //
             _context.Client.Add(client);
             _context.SaveChanges();
-            return new NoContentResult {};
+            return new StatusCodeResult(201);
         }
 
-        public IActionResult Update(Client item) 
+        public IActionResult Update(ClientQuery query, Client client) 
         {
             // @note Do some research into if there is any better cleaner way to update entry in the database. -JSolsvik 26.07.17
-            var client = _context.Client.First(c => c.Key == item.Key);
+            var _client = _context.Client.First(c => c.Key == query.ClientKey);
 
-            if (client == null)
-                return new NotFoundResult {};
+            if (_client == null)
+                return new StatusCodeResult(404);
 
-            client.Key          = item.Key;
-            client.ApiKey       = item.ApiKey;
-            client.WebpageUrl   = item.WebpageUrl;
-            client.ThumbnailUrl = item.ThumbnailUrl;
+            _client.Key          = client.Key;
+            _client.ApiKey       = client.ApiKey;
+            _client.WebpageUrl   = client.WebpageUrl;
+            _client.ThumbnailUrl = client.ThumbnailUrl;
 
-            _context.Client.Update(client);
+            _context.Client.Update(_client);
             _context.SaveChanges();
-            return new NoContentResult {};   
+            return new StatusCodeResult(204);
         }
 
-        public IActionResult Delete(string clientKey) 
+        public IActionResult Delete(ClientQuery query) 
         {
-            var client = _context.Client.First(c => c.Key == clientKey);
+            var client = _context.Client.First(c => c.Key == query.ClientKey);
+            
             if (client == null)
-                return new NotFoundResult {};
+                return new StatusCodeResult(404);
 
             _context.Client.Remove(client);
             _context.SaveChanges();
-            return new NoContentResult {};
+            return new StatusCodeResult(200);
         }
 
-        public IActionResult CreateDefaultContainers(string clientKey, IEnumerable<string> defaultContainers)
+        //
+        // SET containers and langugaes on client
+        //
+        public IActionResult SetContainers(ClientQuery query, IEnumerable<string> containerArray)
         {
-
-            // @note This could be simplified using AddRange(select blabalbla)
-
-           foreach (var containerKey in defaultContainers) {
-                _context.ClientContainer.Add( new ClientContainer 
-                {
-                    ClientKey = clientKey,
-                    ContainerKey = containerKey,
-                });
-           };
-
+            var _clientContainers = _context.ClientContainer.Where(cc => cc.ClientKey == query.ClientKey);
+            _context.RemoveRange(_clientContainers);
             _context.SaveChanges();
-            return new NoContentResult {};
-        }
-        public IActionResult CreateDefaultLanguages(string clientKey, IEnumerable<string> defaultLanguages)
-        {
-            foreach (var languageKey in defaultLanguages) {
 
-                _context.ClientLanguage.Add( new ClientLanguage 
-                {
-                    ClientKey = clientKey,
-                    LanguageKey = languageKey,
-                });
-            };
-
-            _context.SaveChanges();
-            return new NoContentResult {};            
-        }
-
-        public IActionResult UpdateDefaultContainers(string clientKey, IEnumerable<string> defaultContainers) 
-        {
-            // @doc Why List? here --> https://stackoverflow.com/questions/2113498/sqlexception-from-entity-framework-new-transaction-is-not-allowed-because-ther
-            List<ClientContainer> newContainers = (from dc in defaultContainers
-                                                    select new ClientContainer {
-                                                        ClientKey = clientKey,
-                                                        ContainerKey = dc
-                                                    })
-                                                    .ToList();
-
-            List<ClientContainer> oldContainers = (from cc in _context.ClientContainer
-                                                    where cc.ClientKey == clientKey
-                                                    select cc)
-                                                    .ToList();
-
+            var clientContainers = containerArray.Select(containerKey => new ClientContainer 
+            { 
+                ClientKey = query.ClientKey, 
+                ContainerKey = containerKey,
+            });
 
             //
-            // ADD New containers
+            // @todo Here we make sure that a container has to exist in the Container table, before it can be used as a 
+            //      foreign key in the ClientContainer table. The SetLanguage method should probably also check this,
+            //      but I am currently relying upon the front-end to make sure that only valid languages
+            //      are set as new languages. This will throw an 500 error if  a 
+            //      lanaguage or container does not already exists. - JSolsvik 01.08.17
             //
-            foreach (ClientContainer cont in newContainers) 
-            {
-                if (_context.Container.Where(c => c.Key == cont.ContainerKey).Count() == 0) 
-                {
-                    _context.Container.Add(new Container { Key = cont.ContainerKey});
-                }
+            foreach(var cc in clientContainers) {
 
-                if (oldContainers.Where(oc => oc.ContainerKey == cont.ContainerKey).Count() == 0) 
-                {
-                    _context.ClientContainer.Add(cont);
-                }
-            };
-
-            //
-            // REMOVE Containers that don't exist anymore + all translations with that clientContainer
-            //
-            foreach (ClientContainer cont in oldContainers) 
-            {
-                if (newContainers.Where(nc => nc.ContainerKey == cont.ContainerKey).Count() == 0) 
-                {
-                    IList<Translation> containerTranslations = (from t in _context.Translation
-                                                                where t.ClientKey == cont.ClientKey && t.ContainerKey == cont.ContainerKey
-                                                                select t)
-                                                                .ToList();
-
-                    _context.RemoveRange(containerTranslations);
-                    _context.ClientContainer.Remove(cont);     
-                } 
-            }
-            _context.SaveChanges();                           
-            
-            return new NoContentResult {};            
-        }
-        
-        public IActionResult UpdateDefaultLanguages(string clientKey, IEnumerable<string> newDefaultLanguages) 
-        {
-            List<ClientLanguage> newLanguages = (from ncl in newDefaultLanguages
-                                                select new ClientLanguage {
-                                                    ClientKey = clientKey,
-                                                    LanguageKey = ncl
-                                                })
-                                                .ToList();        
-
-            List<ClientLanguage> oldLanguages = (from cl in _context.ClientLanguage
-                                                where cl.ClientKey == clientKey
-                                                select cl)
-                                                .ToList();
-
-            //
-            // Add new clientLanguages
-            //
-            foreach (ClientLanguage lang in newLanguages)
-            {
-                if (oldLanguages.Where(ol => ol.LanguageKey == lang.LanguageKey).Count() == 0) {
-                    _context.ClientLanguage.Add(lang);
-                }
-            };
-
-            //
-            // Remove old clientLanguages + all translations with that clientLanguage 
-            //
-            foreach (ClientLanguage lang in oldLanguages) 
-            {
-                if (newLanguages.Where(nl => nl.LanguageKey == lang.LanguageKey).Count() == 0) {
-
-                    List<Translation> languageTranslations = (from t in _context.Translation
-                                                              where t.ClientKey == lang.ClientKey && t.LanguageKey == lang.LanguageKey
-                                                              select t)
-                                                              .ToList();
-
-                    _context.Translation.RemoveRange(languageTranslations);
-                    _context.ClientLanguage.Remove(lang);
+                if (_context.Container.Where(c => c.Key == cc.ContainerKey).Count() == 0){
+                    _context.Container.Add(new Container { Key = cc.ContainerKey});
                 }
             }
+
+            _context.AddRange(clientContainers);
             _context.SaveChanges();
-            
-            return new NoContentResult {};            
+
+            return new StatusCodeResult(201);
+        }
+        public IActionResult SetLanguages(ClientQuery query, IEnumerable<string> languageArray)
+        {
+            var _clientLanguages = _context.ClientLanguage.Where(cl => cl.ClientKey == query.ClientKey);
+            _context.RemoveRange(_clientLanguages);
+            _context.SaveChanges();
+
+            var clientLanguages = languageArray.Select(languageKey => new ClientLanguage 
+            { 
+                ClientKey   = query.ClientKey, 
+                LanguageKey = languageKey,
+            });
+
+            _context.AddRange(clientLanguages);
+            _context.SaveChanges();
+
+            return new StatusCodeResult(201);            
         }
 
         //

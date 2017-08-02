@@ -1,13 +1,18 @@
     <style>    
 @import url('./node_modules/font-awesome/css/font-awesome.min.css');
 
+
+
         :host {
             width:100%;
+            
+            --fieldset-count: 0;
+            --input-height: 55px;
         }
 
         button {
-            background-color: transparent;
-            border: none; 
+            background-color: var(--ordbase-color-light);
+
             color: var(--ordbase-color-dark); 
 
             display: flex;
@@ -19,6 +24,9 @@
             width:100%;
             min-height: 75px;
             font-size: var(--ordbase-button-font-size);
+
+            border: 10px solid transparent;
+            border-width: 0px 0px 0px 10px;
         }
 
         button span {
@@ -35,8 +43,7 @@
 
         button.selected:focus,
         button.selected {
-            background-color: var(--ordbase-color-select);
-            color: var(--ordbase-color-white);
+            border-color: var(--ordbase-color-select);
         }
 
         #array-languagekey-complete {
@@ -60,15 +67,91 @@
             color: var(--ordbase-color-danger);
         }
 
+        button.selected.deleteable,
         .deleteable {
-            box-shadow: 0px 0px 5px red;
+            border: 10px solid var(--ordbase-color-danger);
+            border-width: 0px 0px 0px 10px;
+            margin: 2px 0px 2px 0px;
         }
+
+        /* FORM */
+
+        form {
+            height: 0px;
+            background-color: var(--ordbase-color-light);
+            box-shadow: inset 2px 0 10px -2px var(--ordbase-color-dark);
+        }
+
+        form.active {
+            height: calc(100px + var(--fieldset-count) * var(--input-height));
+            padding: 20px;
+        }
+
+        label {
+            color: var(--ordbase-color-dark);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+
+        input {
+            font-size: var(--ordbase-input-font-size);
+            margin: 0px 20px 10px 4px;
+            width: 400px;
+        }
+
+        fieldset {
+            display: none;
+            border: none;
+        }
+
+        #button-submit {
+            font-size: var(--ordbase-button-font-size);
+            width: 400px;
+            height: 30px; 
+
+            cursor: pointer;
+            
+            background-color: transparent;
+            color: var(--ordbase-color-dark); 
+            border: 2px solid var(--ordbase-color-success);
+            border-width: 0px 0px 2px 0px;
+        }
+
+        #button-submit:focus,
+        #button-submit.selected,
+        #button-submit:hover {
+            background-color: var(--ordbase-color-success);
+            color: var(--ordbase-color-white);
+        }
+
+        /* From ANIMATION */
+
+        @keyframes pushForm {
+            from {  height: 0px   }
+             to   { height: calc(100px + var(--fieldset-count) * var(--input-height)); }   
+        }
+        @keyframes popForm  {
+             from { height: calc(100px + var(--fieldset-count) * var(--input-height));  }
+             to   { height: 0px;    } 
+        }
+
+        form.animated {
+            animation-name: popForm;
+            animation-duration: 160ms;
+        }
+
+        form.active.animated {
+            animation-name: pushForm;
+            animation-duration: 160ms;
+        }
+
 </style>
 
     <button class="btn-load-translation-editor">
-        <span class="translation-key">{{ translationKey }}</span>
+        <span id="card-translation-key" class="translation-key">{{ translationKey }}</span>
         
-        <div  id="array-languagekey-complete">
+        <div id="array-languagekey-complete">
             
             <template id="template-languagekey-complete">
 
@@ -81,3 +164,24 @@
 
         </div>
     </button>  
+
+
+    <form>
+        <fieldset>
+            <label for="form-translation-key">Key</label><br>
+            <input id="form-translation-key" type="text" data-min-size="20" value="">
+        </fieldset>
+
+        <template id = "template-fieldset">
+            <fieldset class = "generated">
+                <label for  = "form-translation-{{ languageCode }}">Key</label><br>
+                <input id   = "form-translation-{{ languageCode  }}" type="text" data-min-size="20" value="">
+
+                <input type="checkbox"> Validated </input>
+            </fieldset>
+        </template>
+        
+        <fieldset id="fieldset-button-submit">
+            <button id="button-submit" type="submit"> Update </button>
+        </fieldset>
+    </form>

@@ -13,36 +13,19 @@ namespace OrdBaseCore.IData
 		//
 		// GET translation
 		//
-    	IEnumerable<Translation> Get(string clientKey, string languageKey, string containerKey, string translationKey);
-    	IEnumerable<Translation> GetAll(string clientKey);
-
-		//
-		// GET translation/group
-		//
-		IEnumerable<Translation> GetGroup(string clientKey, string translationKey);		
-		IEnumerable<IEnumerable<Translation>> GetGroupAll(string clientKey);
-    	TranslationGroupMeta GetGroupMeta(string clientKey, string translationKey);
-    	IEnumerable<TranslationGroupMeta> GetGroupMetaOnContainer(string clientKey, string containerKey);    	
-		IEnumerable<TranslationGroupMeta> GetGroupMetaAll(string clientKey);
-	
-		//
-		// GET translation/container
-		//
-    	IEnumerable<Translation> GetOnContainer(string clientKey, string containerKey);
-		IEnumerable<KeyValuePair<string,string>> GetOnContainerLanguage(string clientKey, string containerKey, string languageKey); // @optimize
-		
-		//
-		// GET translation/language
-		//
-    	IEnumerable<Translation> GetOnLanguage(string clientKey, string languageKey);
+    	IEnumerable<Translation> Get(TranslationQuery query);
+		IEnumerable<KeyValuePair<string,string>> GetKeyValue(TranslationQuery query); 
+		IEnumerable<TranslationGroup> GetGroup(TranslationGroupQuery query);		
+    	IEnumerable<TranslationGroupMeta> GetGroupMeta(TranslationGroupQuery query);
 		
 		//
 		// Create, update, delete
 		//
 		IActionResult Create(Translation translation);
-		IActionResult CreateMany(IEnumerable<Translation> array);		
-		IActionResult Update(Translation Translation);
-		IActionResult Delete(string clientKey, string containerKey, string translationKey, string languageKey);
-		IActionResult DeleteGroup(string clientKey, string containerKey, string translationKey);		
+		IActionResult CreateArray(IEnumerable<Translation> translationArray);		
+		IActionResult Update(TranslationQuery query, Translation Translation);
+		IActionResult UpdateArray(TranslationGroupQuery query, IEnumerable<Translation> Translation);
+		IActionResult Delete(TranslationQuery query);
+		IActionResult DeleteGroup(TranslationGroupQuery query);		
     }	
 }

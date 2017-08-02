@@ -53,22 +53,31 @@
             to   { box-shadow: 0px 0px var(--box-shadow-min) var(--box-shadow-color);  }
             
         }
+        
+        button.animated 
+        {
+            animation-name: defocusAnimation;
+            animation-duration: var(--animation-speed); 
+        }
+
+        button.animated:focus,
+        button.animated:hover {
+            animation-name: focusAnimation;
+            animation-duration: var(--animation-speed);
+        }
+
 
         /* SELECTABLE */
         button {
             --box-shadow-color: var(--ordbase-color-success);                        
             box-shadow: 0px 0px var(--box-shadow-min) var(--ordbase-color-success);            
-            
-            animation-name: defocusAnimation;
-            animation-duration: var(--animation-speed);    
+             
         }
-        
+
+
         button:focus,
         button:hover {
             box-shadow: 0px 0px var(--box-shadow-max) var(--ordbase-color-success);
-            
-            animation-name: focusAnimation;
-            animation-duration: var(--animation-speed);
         }
 
         /* EDITABLE */        

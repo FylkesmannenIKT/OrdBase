@@ -6,10 +6,9 @@ import { force } from '../lib/Util.js';
 
 import { View_EditClient }  from '../views/edit-client.js';
 
-import { Component_ItemGenerator } from '../components/item-generator.js';
-import { Component_ItemFlipper }   from '../components/item-flipper.js';
-import { Component_ClientForm }    from '../components/form-client.js';
-import { Component_SelectButton }  from '../components/button-select.js';
+import { Component_ContainerGenerator } from '../components/generator-container.js';
+import { Component_LanguageFlipper }   from '../components/flipper-language.js';
+import { Component_ClientForm }        from '../components/form-client.js';
 
 import { loadSelectClient } from './loadSelectClient.js';
 
@@ -18,42 +17,40 @@ export function loadNewClient(clientKey) {
     //
     // 0. Create component instances
     //
+    const header    = App.HEADER;
     const view      = new View_EditClient;     
-    const generator = new Component_ItemGenerator;
-    const flipper   = new Component_ItemFlipper;
+    const generator = new Component_ContainerGenerator;
+    const flipper   = new Component_LanguageFlipper;
     const form      = new Component_ClientForm;
     
     //
     // 1. Fire async call
     //
-    __async__populateFlipper({flipper: flipper});
-
-    //
-    // 2. Set up header
-    //
-    App.HEADER.setTextBig(   'Ordbase');    
-    App.HEADER.setTextSmall( 'New client');
-    App.HEADER.setButtonIconLeft  (App.ICON_BARS);
-    App.HEADER.setButtonIconRight0(App.ICON_NONE);    
-    App.HEADER.setButtonIconRight1(App.ICON_NONE);    
-    App.HEADER.setButtonIconRight2(App.ICON_TIMES);
-
-    App.HEADER.getButtonLeft().onclick   = App.defaultHandler;
-    App.HEADER.getButtonRight0().onclick = App.defaultHandler;    
-    App.HEADER.getButtonRight1().onclick = App.defaultHandler;
-    App.HEADER.getButtonRight2().onclick = event => loadSelectClient();
-
-    //
-    // 3. Component generator
-    //
-    generator.OnGenerate(() => {
-        let button = new Component_SelectButton;
-        let value = generator.getValue();
-        button.setId(value);
-        button.setText(value);
-        button.setSelected(true);
-        return button;
+    __async__client_getLanguageKeyArray({
+        success: languageKeyArray => {
+            languageKeyArray.forEach(lang => {
+                flipper.makeItem({ key: lang.key,  text: `${lang.name} - ${lang.key}`, selected: false });
+            });
+        }
     });
+
+    //
+    // 2. Set up header event handlers
+    //
+    header.button0_OnClick(App.defaultHandler);
+    header.button1_OnClick(App.defaultHandler);    
+    header.button2_OnClick(App.defaultHandler);
+    header.button3_OnClick(event => loadSelectClient());
+
+    //
+    // 3. Bind data to header
+    //
+    header.setTextSmall('Ordbase');    
+    header.setTextBig('New client');
+    header.button0_setIcon(App.ICON_BARS);
+    header.button1_setIcon(App.ICON_NONE);    
+    header.button2_setIcon(App.ICON_NONE);    
+    header.button3_setIcon(App.ICON_TIMES);
 
     //
     // 4. Component flipper
@@ -67,7 +64,13 @@ export function loadNewClient(clientKey) {
     form.setSubmitText('Create client');
     form.addEventListener('submit', e => {
         e.preventDefault();
-        __async__submitNewClient({form: form, generator: generator, flipper: flipper});            
+
+        __async__client_create({ 
+            client: form.getClient(), 
+            containerArray: generator.getContainerKeyArray(), 
+            languageArray: flipper.getLanguageKeyArray(), 
+            success: () => loadSelectClient(),
+        });            
     });
 
     //
@@ -80,46 +83,60 @@ export function loadNewClient(clientKey) {
 
 }
 
-function __async__populateFlipper({ flipper = force('flipper') }) {
-    //
-    // 6. Promise fill in available languages
-    //
-    Route.language_getGlobal().then(languages => {
+//
+// @function __async__client_getLanguageKeyArray
+//  @note @todo
+//
+function __async__client_getLanguageKeyArray({ success = force('success')}) {
 
-        languages.forEach(lang => {
-            let button = new Component_SelectButton;
+    Route.language_get().then(languageKeyArray => {
 
-            button.setId(lang.key);
-            button.setText( `${lang.name} - ${lang.key}`);
-            button.setSelected(false);
-
-            flipper.addItem(button, { selected : false });
-        });
-    })
+        if (languageKeyArray.length > 0) {
+            success(languageKeyArray);
+        }
+        else {
+            App.HEADER.flashError('There are no supported languages in the database....');
+        }
+    }) 
     .catch(error => console.log(error));
 }
 
-function __async__submitNewClient({
-            form      = force('form'), 
-            generator = force('generator'), 
-            flipper   = force('flipper'),
-    }) {
+//
+// @function __async__client_create
+//  @note @todo
+//
+function __async__client_create({ success        = force('success'),
+                                 client         = force('client'), 
+                                 containerArray = force('containerArray'), 
+                                 languageArray  = force('languageArray'), }) {
 
-    //
-    //  @doc https://stackoverflow.com/questions/31676135/javascript-map-is-not-a-function
-    //
-    let client         = form.getClient();
-    let containerArray = generator.getItemArray().map(button =>       { return button.getId(); });
-    let languageArray  = flipper.getSelectedItemArray().map(button => { return button.getId(); });
+    Route.client_create({client: client})
+    .then(res => {
+        console.log('client_create(): ', res.status)
 
-    Route.client_create(client)
-    .then(response => {
-        
-        Route.client_createDefaultContainers(client.key, containerArray).catch(error => console.error(error));        
-        Route.client_createDefaultLanguages(client.key, languageArray).catch(error => console.error(error));           
+        if (res.status == App.HTTP_CREATED) {
 
-        loadSelectClient();
+            Route.client_setContainers({clientKey: client.key, containerArray: containerArray}).then(res => {
+                if (res.status != App.HTTP_CREATED) { 
+                    App.HEADER.flashError(`code ${res.status}: clientContainers could not be created`);
+                }
+                console.log('client_setContainers(): ', res.status)
+                
+            }).catch(error => console.error(error));
+
+            Route.client_setLanguages({clientKey:  client.key, languageArray: languageArray}).then(res => {
+                if (res.status != App.HTTP_CREATED) { 
+                    App.HEADER.flashError(`code ${res.status}: clientLanguages could not be created`);
+                }
+                console.log('client_setLanguages(): ', res.status)
+            }).catch(error => console.error(error));    
+            
+            success();        
+        }
+        else {
+            App.HEADER.flashError(`code ${res.status}: Client could not be created. Client may already exist`);
+        }
     })
-    .catch(error => console.error(error)); // @TODO Display error in view
+    .catch(error => App.HEADER.flash(error)); // @TODO Display error in view
 } 
 

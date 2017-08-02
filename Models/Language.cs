@@ -6,16 +6,16 @@ namespace OrdBaseCore.Models
 {
 	public class Language 
 	{
-                [Key]
-                [StringLength(8)]
-                [DatabaseGenerated(DatabaseGeneratedOption.None)]
-                public string Key { get; set; } 
+        [Key]
+        [StringLength(8)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string Key { get; set; } 
 
-                [Required]
-                [StringLength(64)]
-                public string Name { get; set; }
+        [Required]
+        [StringLength(64)]
+        public string Name { get; set; }
 
-                // @note Many to many navigational property
-                public virtual List<ClientLanguage> Clients { get; set; }
+        // @note Many to many navigational property
+        public virtual List<ClientLanguage> Clients { get; set; }
 	}
 }

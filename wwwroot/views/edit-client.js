@@ -5,24 +5,26 @@ export class View_EditClient extends HTMLElement {
 
     constructor() {
         super();
-        this.root = this.createShadowRoot();
-        this.root.innerHTML = html;
+        this._root = this.createShadowRoot();
+        this._root.innerHTML = html;
     }
 
     setContainerGenerator(generator) {
-        this.root.getElementById('list-add-containers-on-client').appendChild(generator);
+        this._root.getElementById('edit-client-left-menu')
+                  .insertBefore(generator, this._root.getElementById('slot-generator'));
     }
 
     setLanguageFlipper(flipper) {
-        this.root.getElementById('list-add-languages-on-client').appendChild(flipper);
+        this._root.getElementById('edit-client-left-menu')
+                  .insertBefore(flipper, this._root.getElementById('slot-flipper'));
     }
 
     setClientForm(form) {
-        this.root.insertBefore(form, this.root.getElementById('hook-form'));
+        this._root.insertBefore(form, this._root.getElementById('slot-form'));
     }
 
     setClientCard(card) {
-        this.root.insertBefore(card, this.root.getElementById('hook-card'));  
+        this._root.insertBefore(card, this._root.getElementById('slot-card'));  
     }
 }
 
