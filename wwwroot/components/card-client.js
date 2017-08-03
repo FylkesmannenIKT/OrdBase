@@ -38,10 +38,12 @@ export class Component_ClientCard extends HTMLElement {
     //
     // PUBLIC 
     //
-    OnSelect(handler)  { this._selectHandler = handler; }
-    OnEdit(handler)    { this._editHandler   = handler; }
-    OnDelete(handler)  { this._deleteHandler = handler; }
-    
+    setEventHandlers({onselect, onedit, ondelete}) {
+        this._selectHandler = onselect;
+        this._editHandler   = onedit;
+        this._deleteHandler = ondelete;
+    }
+
     setSelectable() {
         this._button.classList.remove('editable');
         this._button.classList.remove('deleteable');

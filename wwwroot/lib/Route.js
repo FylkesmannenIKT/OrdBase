@@ -196,7 +196,7 @@ export function translation_deleteGroup({ clientKey      = force('clientKey'),
     const queryString = `clientKey=${clientKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
 
     return Fetch.DELETE({
-        route: `api/translation/?${queryString}`, 
+        route: `api/translation/group/?${queryString}`, 
     });
 }
 

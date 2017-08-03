@@ -66,7 +66,7 @@ export function loadSelectTranslation (clientKey) {
 
                     // On picker-item click, reload all translation cards
                     onclick: e => {
-
+                        
                         __async__translation_getGroupMetaArray({
                             clientKey: clientKey, 
                             containerKey: picker.getContainerKey(),
@@ -78,7 +78,11 @@ export function loadSelectTranslation (clientKey) {
                                 }) 
                             },
                         });
+
+                        header.setColor(App.COLOR_SUCCESS);
+                        header.setTextBig('Select translation');
                     },
+
                 });
             });
             picker.setDefaultItem();
@@ -92,6 +96,8 @@ export function loadSelectTranslation (clientKey) {
     cardPrototype.setEventHandlers({
         onopen: (card, e) => { 
 
+            
+
             // Generate fieldsets
             __async__translation_getGroup({ 
                 clientKey:     clientKey, 
@@ -99,15 +105,23 @@ export function loadSelectTranslation (clientKey) {
                 translationKey: card.getTranslationKey(),
                 success: group => {
                     group.items.forEach(item => {
-                        console.log('ITEM!!',item, item.languageKey);
                         card.makeFieldset({languageKey: item.languageKey, text:  item.text, isComplete: item.isComplete})
                     });
-
-                    card.open();                        
+                    card.display();
                 } 
             })
-            
+
+            // @TODO close other open cards
+            header.setColor(App.COLOR_SELECT);
+            header.setTextBig('Edit translation');
+            card.open({ languageCount: languageKeyArray.length });            
         },
+
+        onclose: () => {
+            header.setColor(App.COLOR_SUCCESS);
+            header.setTextBig('Select translation');
+        },
+
         ondelete:(card, e) => { 
             // Delete translation
             __async__translation_delete({ 
@@ -124,7 +138,7 @@ export function loadSelectTranslation (clientKey) {
 
             let translationArray = new Array();
             let formData = card.getFormData();
-            console.log(formData);
+
             formData.fieldsetArray.forEach(fieldset => {
             
                 translationArray.push({
@@ -167,15 +181,22 @@ export function loadSelectTranslation (clientKey) {
     //
     // 2. Setup header events
     //
-    header.button0_OnClick(App.defaultHandler);
-    header.button1_OnClick(App.defaultHandler);    
-    header.button2_OnClick( e => {
+    header.button0_OnClick(() => {
+        let cardArray = generator.getCardArray();
+        header.setTextBig('Select Translation');
+        header.setColor(App.COLOR_SUCCESS);
+        cardArray.forEach(card => card.setOpenable());   
+    });
+    
+    header.button1_OnClick( e => {
         
         let cardArray = generator.getCardArray();
 
+        console.log(cardArray);
         if(cardArray.length > 0) {
             if (!cardArray[0].isDeleteable()) {
                 header.setTextBig('Delete Translation');
+                header.setColor(App.COLOR_DANGER);
                 cardArray.forEach(card => { 
                     card.close(); 
                     card.setDeleteable();
@@ -183,10 +204,14 @@ export function loadSelectTranslation (clientKey) {
             }
             else {
                 header.setTextBig('Select Translation');
-                cardArray.forEach(card => card.setOpenable());            
+                header.setColor(App.COLOR_SUCCESS);
+                cardArray.forEach(card => card.setOpenable());   
+
             }
         }                
     });
+
+    header.button2_OnClick(App.defaultHandler);    
     header.button3_OnClick( e => loadSelectClient());
 
 
@@ -197,9 +222,9 @@ export function loadSelectTranslation (clientKey) {
     header.setTextBig( `Select Translation`);
 
     header.button0_setIcon( App.ICON_BARS);
-    header.button1_setIcon( App.ICON_NONE);
-    header.button2_setIcon( App.ICON_TRASH);
-    header.button3_setIcon( App.ICON_ARROW_LEFT);    
+    header.button1_setIcon(App.ICON_TRASH);
+    header.button2_setIcon(App.ICON_NONE);
+    header.button3_setIcon(App.ICON_ARROW_LEFT);    
 
 
     //
@@ -395,7 +420,7 @@ function __async__translation_delete({  success        = force('success'),
 
         console.log('translation_deleteGroup():', res.status);
         
-        if (res.status == App.HTTP_CREATED) {
+        if (res.status == App.HTTP_OK) {
             success();
         }
         else {

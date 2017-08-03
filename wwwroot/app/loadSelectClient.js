@@ -21,7 +21,6 @@ export function loadSelectClient() {
     //
     const header        = App.HEADER;
     const view          = new View_SelectClient;
-    const cardPrototype = new Component_ClientCard;
 
     //
     // 1. Fire async call
@@ -30,16 +29,24 @@ export function loadSelectClient() {
         success: clientArray => {
             clientArray.forEach((client, i) => {
 
-                let card = cardPrototype.cloneNode(true);
+                let card = new Component_ClientCard;
 
                 card.setKey(client.key);
                 card.setHeading(client.key);
                 card.setText(client.webpageUrl);
                 card.setThumbnail(client.thumbnailUrl);
                 
-                card.OnSelect(cardPrototype._selectHandler);
-                card.OnEdit(cardPrototype._editHandler);
-                card.OnDelete(cardPrototype._deleteHandler);
+                card.setEventHandlers({
+                    onselect: (card, e) => loadSelectTranslation(card.getKey()),
+                    onedit:   (card, e) => loadEditClient(card.getKey()),
+                    ondelete: (card, e) => {
+                        __async__client_delete({ clientKey: card.getKey(), 
+                            success: () => {
+                                view.root.removeChild(card);
+                            }
+                        });
+                    }
+                });
 
                 card.setSelectable();
                 view.addCard(card)
@@ -48,27 +55,13 @@ export function loadSelectClient() {
     });
 
     //
-    // 2. Set up card prototype event handlers
-    //
-    cardPrototype.OnSelect( (card, e) => loadSelectTranslation(card.getKey()) );
-    cardPrototype.OnEdit(   (card, e) => loadEditClient(card.getKey()));
-    
-    cardPrototype.OnDelete((card, e) => {
-        __async__client_delete({ clientKey: card.getKey(), 
-            success: () => {
-                view.root.removeChild(card);
-            }
-        });
-    });
-                                                               
-    //
     // 3. Set up header event handlers
     //   
     header.button0_OnClick(event => { 
         let cardArray = view.getCardArray();  
         header.setTextBig('Select Client');
         header.setColor(App.COLOR_SUCCESS);       
-        cardArray.forEach(card => card.setDeleteable()); 
+        cardArray.forEach(card => card.setSelectable()); 
     });     
 
     header.button1_OnClick(event => { 

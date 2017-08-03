@@ -24,9 +24,6 @@ namespace OrdBaseCore.Controllers
         [HttpGet("api/translation")]
     	public IEnumerable<Translation> Get([FromQuery] TranslationQuery query)
         {   
-            if (!ModelState.IsValid)
-                return null;
-
             return _translationRepo.Get(query); 
         }
 

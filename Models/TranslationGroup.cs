@@ -13,11 +13,17 @@ namespace OrdBaseCore.Models
     //
     public class TranslationGroup 
     {
+        public class Item {
+            public string LanguageKey { get; set; }
+            public string Text { get; set; }
+            public bool IsComplete { get; set; }
+        }
+
         public string Key { get; set; }
         public string ClientKey { get; set; }
         public string ContainerKey { get; set; }
 
-        public IEnumerable<Translation> Items{ get; set; }
+        public IEnumerable<Item> Items{ get; set; }
     }
 
     public class TranslationGroupMeta 

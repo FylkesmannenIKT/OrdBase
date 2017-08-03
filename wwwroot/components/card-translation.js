@@ -12,12 +12,11 @@ export class Component_TranslationCard extends HTMLElement {
         this.__template__languageKeyComplete = this._root.getElementById('template-languagekey-complete');
         this.__template__fieldset            = this._root.getElementById('template-fieldset');
 
-        this._isClosed = true;
-        
         this._clickHandler  = () => console.log('default click....');
         this._submitHandler = () => console.log('default submit....');
         this._deleteHandler = () => console.log('default delete.....');
         this._openHandler   = () => console.log('default select.....');
+        this._closeHandler  = () => console.log('default close.....');
 
         //
         // Enable animation
@@ -33,20 +32,12 @@ export class Component_TranslationCard extends HTMLElement {
         })  
 
         this._button.addEventListener('click', e => {  
-            
-            if  (this._isClosed) {
-                this._clickHandler(this, e);
-            }
-            else {
-                this.close();
-            }
+            this._clickHandler(this, e);
         });
 
         this._form.addEventListener('submit', e => {
             e.preventDefault();
-
             this._submitHandler(this, e);
-
         });
     }
 
@@ -54,18 +45,47 @@ export class Component_TranslationCard extends HTMLElement {
     //
     // PUBLIC
     //
-    open()  {
-        let fieldsetArray = [].slice.apply(this._root.querySelectorAll('fieldset'));
+    setEventHandlers({ onopen, onclose, ondelete, onsubmit }) {
+        
+        this._openHandler   = (that, e) => { 
+            onopen(that, e);
+            this._clickHandler = this._closeHandler;
+        }
 
+        this._deleteHandler = (that, e) => {
+            ondelete(that, e); 
+            this._clickHandler = this._selectHandler;
+        }
+
+        this._closeHandler = (that, e) => {
+            
+            onclose(that, e);
+            this.close();
+            this._clickHandler = this._openHandler;
+        } 
+
+        this._submitHandler = onsubmit;
+        this._clickHandler  = this._openHandler;
+    }
+
+    getEventHandlers() {
+        return {
+            onopen: this._openHandler,
+            ondelete: this._deleteHandler,
+            onsubmit: this._submitHandler,
+            onclose: this._closeHandler, 
+        }
+    }
+
+    open({languageCount})  {
         this._root.getElementById('form-translation-key').value = this.getTranslationKey();
 
         this._button.classList.add('selected');
-        this.style.setProperty('--fieldset-count', fieldsetArray.length);  // Give data to the animation
-        this._form.classList.add('active');                                      // Start the CSS animation 
-        setTimeout(() => fieldsetArray.forEach(fieldset => { fieldset.style.display = 'block'; }), 150); // 
-
-        this._isClosed = false;
+        this.style.setProperty('--fieldset-count', languageCount+2);  // Give data to the animation
+        this._form.classList.add('active');                           // Start the CSS animation 
     }
+
+    display() {[].slice.apply(this._root.querySelectorAll('fieldset')).forEach(fieldset => { fieldset.style.display = 'block'; }); }
 
     close() { 
         this._form.classList.remove('active');
@@ -78,34 +98,30 @@ export class Component_TranslationCard extends HTMLElement {
             else
                 fieldset.style.display = 'none';
         });
-
-        this._isClosed = true;
     }
 
-    focus() { this.button.focus(); }
+    focus() { this._button.focus(); }
 
-    toggleDeleteable() {
-        this.button.classList.toggle('deleteable');
-        
-        if (this.isDeleteable()) {
-            this._clickHandler = this._deleteHandler;
-        }
-        else {
-            this._clickHandler = this._openHandler;
-        }
+    delete() {
+        this.parentElement.removeChild(this);
     }
 
     isDeleteable() {
-        return this.button.classList.contains('deleteable');
+        return this._button.classList.contains('deleteable');
     }
 
 
     //
     // Getters and setters
     //
-    setOpenable()  {  this._clickHandler = this._openHandler;    }
-    setDeleteable(){  this._clickHandler = this._deleteHandler;  }
-    setCloseable() {  this._clickHandler = this._close;        }
+    setOpenable()  {  
+        this._clickHandler = this._openHandler;    
+        this._button.classList.remove('deleteable');
+    }
+    setDeleteable(){  
+        this._clickHandler = this._deleteHandler;
+        this._button.classList.add('deleteable');
+    }
 
     setTranslationKey(key){ 
         this._root.getElementById('card-translation-key').innerHTML = key;  
@@ -115,20 +131,6 @@ export class Component_TranslationCard extends HTMLElement {
         return this._root.getElementById('card-translation-key').innerHTML;
     }
 
-    setEventHandlers({ onopen, ondelete, onsubmit}) {
-        this._openHandler   = onopen;
-        this._deleteHandler = ondelete,
-        this._submitHandler = onsubmit;
-        this._clickHandler  = this._openHandler;
-    }
-
-    getEventHandlers() {
-        return {
-            onopen: this._openHandler,
-            ondelete: this._deleteHandler,
-            onsubmit: this._submitHandler, 
-        }
-    }
 
     getFormData() {
         return {

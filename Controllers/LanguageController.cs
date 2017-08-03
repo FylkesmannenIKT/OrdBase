@@ -21,7 +21,7 @@ namespace OrdBaseCore.Controllers
             return _languageRepo.Get(languageKey);
         }
 
-        [HttpPost("api/language/create")]
+        [HttpPost("api/language")]
         public IActionResult Create([FromBody] Language language) 
         {   
             if (language == null)

@@ -8,15 +8,15 @@ namespace OrdBaseCore.Models
     {   
         [ForeignKey("Client")]
         public string ClientKey { get; set; } 
-        public virtual Client Client { get; set; }
+        protected virtual Client Client { get; set; }
 
         [ForeignKey("Language")]
         public string LanguageKey { get; set; }
-        public virtual Language Language { get; set; }
+        protected virtual Language Language { get; set; }
 
         [ForeignKey("Container")]
         public string ContainerKey { get; set; }
-        public virtual Container Container { get; set; }
+        protected virtual Container Container { get; set; }
         
         [StringLength(127)]
         public string Key { get; set; } 

@@ -93,11 +93,22 @@
             font-weight: bold;
         }
 
-
-        input {
+        input.text-translation {
             font-size: var(--ordbase-input-font-size);
             margin: 0px 20px 10px 4px;
             width: 400px;
+        }
+
+        input.check-iscomplete {
+            cursor: pointer;
+            width:30px;
+            height:30px;
+            border-radius: 3px;
+            border:2px solid var(--ordbase-color-dark);
+        }
+
+        .checkbox-text {
+            font-size: 2rem;        
         }
 
         fieldset {
@@ -121,7 +132,7 @@
         #button-submit:focus,
         #button-submit.selected,
         #button-submit:hover {
-            background-color: var(--ordbase-color-success);
+                background-color: var(--ordbase-color-success);
             color: var(--ordbase-color-white);
         }
 
@@ -169,15 +180,15 @@
     <form>
         <fieldset>
             <label for="form-translation-key">Key</label><br>
-            <input id="form-translation-key" type="text" data-min-size="20" value="">
+            <input id="form-translation-key" class="text-translation" type="text" data-min-size="20" value="">
         </fieldset>
 
         <template id = "template-fieldset">
             <fieldset class = "generated">
                 <label for  = "form-translation-{{ languageCode }}">Key</label><br>
-                <input id   = "form-translation-{{ languageCode  }}" type="text" data-min-size="20" value="">
-
-                <input type="checkbox"> Validated </input>
+                <input class="text-translation" id= "form-translation-{{ languageCode  }}" type="text" data-min-size="20" value="">
+ 
+                <input class="check-iscomplete" type="checkbox"> <span class="checkbox-text">Complete </span></input>
             </fieldset>
         </template>
         

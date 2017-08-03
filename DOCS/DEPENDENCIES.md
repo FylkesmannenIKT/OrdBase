@@ -13,9 +13,7 @@
 ####Frontend:
 - Font Awesome for icons
     + ('/node_modules/font-awesome/css/font-awesome.min.css'
-
 - Google Font Roboto or Mani 
 - Flexbox CSS framework
-- Google Chrome Canary 60+ for development for ES2016 native support.
-- Babel for supporting older browsers in production.
+- Google Chrome 60 ES2016 native support + flag:web-platform for native javascript module support.(Javascript modules will be natively supported in Chrome 61)
 - Webpack for compiling javascript and minifying and transpiling
