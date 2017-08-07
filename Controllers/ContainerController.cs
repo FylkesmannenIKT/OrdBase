@@ -19,7 +19,13 @@ namespace OrdBaseCore.Controllers
 		[Route("api/container")]
 		public IEnumerable<Container> Get([FromQuery] string containerKey) 
 		{
-			return _containerRepo.Get(containerKey);
-		}
+            return _containerRepo.Get(containerKey);
+        }
+
+        [Route("api/container/noempty")]
+        public IEnumerable<Container> GetNoEmpty([FromQuery] string clientKey)
+        {
+            return _containerRepo.GetNoEmpty(clientKey);
+        }
     }
 }

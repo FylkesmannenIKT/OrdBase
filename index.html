@@ -2,36 +2,293 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Documentation - Ordbase</title>
-
+    <title>Diagram - Ordbase</title>
     <style>
-        html, body { width: 100%; height: 100%; font-family: Arial, Helvetica, sans-serif; font-size: 62.5%; }
-
+        html, body { width: 100%; min-height: 2000px; font-family: Arial, Helvetica, sans-serif; font-size: 62.5%;  color: #24292e; }
+        body {background-color: #e1e4e8; margin: 0px;}
         ul, li, ol { list-style: none; }
-        a { text-decoration: inherit; color: inherit; }
-        a:visited { color: inherit; }
+        a { text-decoration: none; }
 
-        header { color: white; font-size: 4rem; height: 100px; background-color:  #24292e; }
-        nav { height: 100%; display: flex; justify-content: space-around; align-items: center; }
+        p, a { font-size: 1.6rem; }
+        h1   { font-size: 3.0rem; }
+        h2   { font-size: 2.6rem; }
+        h3   { font-size: 2.2rem; }
+        pre  {  font-size: 1.5rem; }
 
+        /* header */
+        header a { color: grey; margin: 0px 20px 0px 20px; font-size: 2rem;  }
+        header a:hover { color: white; }
+        header a:visited { color: grey; }
+        header a.selected { color: white; }
+        header { position: fixed; width: 100%; color: white; height: 50px; background-color:  #24292e; box-shadow: 0px 0px 5px; z-index: 2; }
+        header nav { width: 100%;  height: 100%; display: flex;  align-items: center; }
+
+        main { padding: 100px; width: 900px; height: 100%; background-color: white; margin: auto; box-shadow: 0px 0px 5px grey; z-index: 1; }
+        section {padding-top: 100px;}
+
+        /* system-diagram */
+        pre { width: 100%; font-family: monospace;}
+        pre a { text-decoration: none; }
+        pre a:visited { color: blue; }
+        pre a:hover { background-color: #e1e4e8; }
 
     </style>
-
-    <script type="module" src="./index.js"></script>
 
 </head>
 <body>
     <header role="banner">
-        <nav> 
-            <a href="./">Api reference</a>
-            <a href="./">System diagram</a>
-            <a href="./">Model diagram</a>
-            <a href="./">Gallery</a>
+        <nav>
+            <a class="selected"href="./index.html">Ordbase - Diagrams</a>
+            <a href="#system-diagram">System overview</a>
+            <a href="#model-diagram">Data model</a>
+            <a href="https://github.com/Arxcis/OrdBase">Github</a>
         </nav>
     </header>
 
-    <main id="content" role="main"></main>
+    <main id="content" role="main">
+
+          
+        <section id="system-diagram">
+            <h1>System Overview</h1>
+            <p>Last updated: 04.08.2017 by Jonas Solsvik</p>
+
+            <pre>
+
+ ____________________________________                               
+| Components                         |
+|------------------------------------|
+| <a class="link01">card-client.html</a>              |
+| <a class="link01">card-client.js</a>                 |
+|------------------------------------|
+| <a class="link01">card-translation.html</a>       |
+| <a class="link01">card-translation.js</a>          |
+|------------------------------------|
+| <a class="link01">flipper-language.html</a>       |
+| <a class="link01">flipper-language.js</a>          |
+|------------------------------------|
+| <a class="link01">form-client.html</a>              |
+| <a class="link01">form-client.js</a>                 |
+|------------------------------------|
+| <a class="link01">generator-container.html</a>   |                ___________________________________
+| <a class="link01">generator-container.js</a>      |               | ViewComponents                   |
+|------------------------------------|               |----------------------------------|
+| <a class="link01">generator-translation.html</a> |               | <a class="link02">edit-client.html</a>            |
+| <a class="link01">generator-translation.js</a>    |              | <a class="link02">edit-client.js</a>               |
+|------------------------------------|               |----------------------------------|
+| <a class="link01">header.html</a>                    |               | <a class="link02">select-client.html</a>          |             __________________________________ 
+| <a class="link01">header.js</a>                       |               | <a class="link02">select-client.js</a>            |             | Network                          |
+|------------------------------------|               |----------------------------------|             |----------------------------------|
+| <a class="link01">picker-container.html</a>       |               | <a class="link02">select-translation.html</a>   |             | <a class="link03">Route.js</a>                       |
+| <a class="link01">picker-container.js</a>          |               | <a class="link02">select-translation.js</a>     |              | <a class="link03">Fetch.js</a>                      |
+|____________________________________|               |__________________________________|             |__________________________________|  
+                  |                                                |                                                   |
+                  |                                                |                                                   |
+                  |                                                |                                                   |
+                  |                                                |                                                   |             
+                  |                                                |                                                   |          
+                  |                                 _______________|__________________                                 |      
+                  |                                | App                              |                                | 
+                  |________________________________|----------------------------------|________________________________|
+                                                   | <a class="link04">App.js</a>                         |
+                                                   | <a class="link04">loadSelectClient.js</a>        |
+                                                   | <a class="link04">loadNewClient.js</a>            |
+                                                   | <a class="link04">loadEditClient.js</a>           |
+                                                   | <a class="link04">loadSelectTranslation.js</a>  |
+                                                   |__________________________________|    
+                                                                   |             
+                                                                   |
+                                                                    ---------------  <b>webpack babel es2016</b>
+                                                                   |
+                                                    _______________|_________________                               
+                                                   |  Webpacked app                   |
+                                                   |----------------------------------|                             
+                                                   | <a class="link05">bundle.demo.js</a>               |
+                                                   | <a class="link05">index.html</a>                    |
+                                                   | <a class="link05">index.css</a>                     |
+                                                   |__________________________________|  
+                                                                   |
+                                                                   |
+                                                                    ----- <b>Chrome 61 native (Chrome 60 with flags)</b>
+                                                                   |
+  <i>Web client</i>                                                       |
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - HTTP/Intranet
+  <i>Web server</i>            |
+                        |
+                         ------------ <b>http://ordbase.fylkesmannen.local</b>
+                        |
+         _______________|_________________                               
+        | IIS Proxy server                 |  
+        |----------------------------------|
+        | <a class="link06">web.config</a>                    |
+        |__________________________________|    
+                        |
+                        |
+                         --------------<b> dotnet run</b> and <b>http://localhost:5000</b>
+                        |               
+         _______________|__________________                               
+        | .net core Kestrel server         |  
+        |----------------------------------|
+        | <a class="link06">Program.cs</a>                    |
+        | <a class="link06">OrdBaseCore.csproj</a>                    |
+        |__________________________________|    
+                        |
+         _______________|__________________                               
+        | ASP MVC middleware               |  
+        |----------------------------------|
+        | <a class="link06">Startup.cs</a>                    |
+        |__________________________________|                       __________________________________
+                        |                                         | Models                           |
+         _______________|__________________                       |----------------------------------|      
+        | ASP MVC Controllers              |                      | <a class="link09">TranslationDb.cs</a>            |           
+        |----------------------------------|                      | <a class="link09">Translation.cs</a>               |      
+        | <a class="link07">TranslationController.cs</a> |                      | <a class="link09">TranslationGroup.cs</a>         |                           
+        | <a class="link07">ClientController.cs</a>        |                      | <a class="link09">Client.cs</a>                     |                             
+        | <a class="link07">ContainerController.cs</a>    |______________________| <a class="link09">Container.cs</a>                 |  
+        | <a class="link07">LanguageController.cs</a>     |                      | <a class="link09">Language.cs</a>                 |      
+        |__________________________________|                      |__________________________________|      
+                        |                                                |        |                
+         _______________|__________________                              |        | 
+        | Repositories                     |_____________________________|         ------- <b>dotnet ef migrations add</b>
+        |----------------------------------|                                      |
+        | <a class="link08">TranslationRepository.cs</a> |                       ________________|________________________                         
+        | <a class="link08">ClientRepository.cs</a>        |                      | Migrations                             |                              
+        | <a class="link08">ContainerRepository.cs</a>    |                      |----------------------------------------|
+        | <a class="link08">LanguageRepository.cs</a>     |                      | <a class="link10">TranslationDbModelSnapshot.cs</a> |               
+        |__________________________________|                      |________________________________________|        
+                        |                                                         |
+                        |                                                         |
+                         ------ <b>DBContext</b>                                          -------- <b>dotnet ef database update</b>
+                        |                                                         |
+  <i>Web server</i>            |                                                         |
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - SQL/localhost
+  <i>Sql database</i>                                      |
+                                     ______________ |__________________                               
+                                    | <a class="link06">config.demo.json</a>            |
+                                    |__________________________________|  
+                                                    |
+                                                     ------- <b>http://ordbase.fylkesmannen.sql</b>
+                                                     ------- <b> + Connection string</b>                                                
+                                                    |
+                                     ______________ |__________________                               
+                                    |                                  |  
+                                    | Microsoft SQL Express            |  
+                                    |__________________________________|    
+
+
+
+            </pre>
+        </section>
+        
+        <section id="model-diagram">
+            <h1>Data model</h1>
+            <p>Last updated: 04.08.2017 by Jonas Solsvik</p>
+            
+            <pre>
+    
+                
+
+
+
+                                _________________________________      __________________________________
+                               | <a class="link09">ClientContainer.cs</a>        |    | <a class="link09">ClientLanguage.cs</a>            |                                          
+                               |---------------------------------|    |-----------------------------------|      
+                               | string clientKey    { PPK, FK } |    | string    clientKey   { PPK, FK } |      
+                               | string containerKey { PPK, FK } |    | ISO_639-1 languageKey { PPK, FK } |      
+                               |_________________________________|    |___________________________________|      
+                                       | 0..*        0..* |                   | 0..*         0..* |                                        
+                                       |                  |                   |                   |                                    
+                                       |                  |                   |                   |                                    
+                                       |                  |                   |                   |
+                                       |                  |                   |                   |
+                                       |                  |                   |                   |
+                                  1..1 |                  | 1..1         1..1 |                   | 1..1
+         ______________________________|___        _______|___________________|______       ______|___________________________                                                                                                                                       
+        | <a class="link09">Container.cs</a>                 |      | <a class="link09">Client.cs</a>                     |     | <a class="link09">Language.cs</a>                   |                                 
+        |----------------------------------|      |----------------------------------|     |----------------------------------| 
+        | string key       { PK }          |      | string key         { PK }        |     | ISO_639-1 key       { PK }       |                               
+        |__________________________________|      | string apiKey      { AK }        |     | string    name                   |                               
+                          | 1..1                  | url    websiteUrl                |     |__________________________________|                               
+                          |                       |__________________________________|                       | 1..1
+                          |                                         | 1..1                                   |
+                          |                                         |                                        |
+                          |                                         |                                        |
+                          |                                         | 0..*                                   |
+                          |                 0..*   _________________|________________  0..*                  |        
+                          |_______________________| <a class="link09">Translation.cs</a>               |______________________|  
+                                                  |----------------------------------|
+                                                  | string clientKey     { PPK, FK } |
+                                                  | string languageKey   { PPK, FK } |
+                                                  | string containerKey  { PPK, FK } |
+                                                  | string key           { PPK }     |
+                                                  | string text                      |
+                                                  | bool   isComplete                |
+                                                  |__________________________________| 
+
+
+                
+            </pre>
+        </section>
+
+
+    </main>
 
     <footer role="contentinfo"></footer>
 </body>
+
+<script>
+    'use strict';
+
+    window.addEventListener('DOMContentLoaded', function(e) {
+        let headerAnchors = document.querySelectorAll('header a');
+        let lastFocusedElement = document.querySelector('nav a');;
+
+        for (let i = 0; i < headerAnchors.length; i++) {
+            headerAnchors[i].addEventListener('focus', function(e){
+
+                lastFocusedElement.classList.remove('selected');
+                e.target.classList.add('selected');
+                lastFocusedElement = e.target;
+            });
+        
+        }
+
+        const BASE_PATH = 'https://github.com/Arxcis/OrdBase/blob/master';
+
+        const DIRECTORY = [
+            { class: '.link01', path: 'wwwroot/components'},
+            { class: '.link02', path: 'wwwroot/views'},
+            { class: '.link03', path: 'wwwroot/lib'},
+            { class: '.link04', path: 'wwwroot/app'},
+            { class: '.link05', path: 'wwwroot'},
+            { class: '.link06', path: ''},
+            { class: '.link07', path: 'Controllers'},
+            { class: '.link08', path: 'Repositories'},
+            { class: '.link09', path: 'Models'},
+            { class: '.link10', path: 'Migrations'},
+        ];
+        
+        for(let i = 0; i < DIRECTORY.length; i++) {
+
+            let links = document.querySelectorAll(DIRECTORY[i].class);
+            console.log(DIRECTORY[i].class, links);
+
+            for(let j = 0; j < links.length; j++) {
+
+                let linkElement = links[j];
+                let file = linkElement.innerHTML;
+                let dir  = DIRECTORY[i].path;
+                
+                let fullPath = `${BASE_PATH}/${dir}/${file}`;
+                console.log(fullPath);
+
+                linkElement.setAttribute('href', fullPath);
+            }
+        }
+
+    });
+
+
+
+
+</script>
 </html>

@@ -1,20 +1,19 @@
 # GET - api/translation/meta
 
-<-- [__ /api/translation/keyvalue](GET-translation-keyvalue.md) | [/api](/DOCS/api/index.md)  | [api/translation](GET-translation.md) -->
-
+Last updated: 04.08.17 by Jonas solsvik
 
 ## Request example
 
-**URI parameters**
+**HTTP Method**
 ```
-clientKey: string            length: <= 127     optional
-containerKey: string         length: <= 64      optional
-translationKey: string       length: <= 127     optional 
+GET
 ``` 
 
-**GET request url**
+**URL**
 ```url
-http://localhost:5000/api/translation/meta/?clientKey=Ordbase&languageKey=&containerKey=error_messages
+http://localhost:5000/api/translation/meta/? clientKey=Ordbase
+                                           & containerKey=error_messages
+                                           & translationKey=error_create_client
 ``` 
 
 **JSON Response**
@@ -47,25 +46,10 @@ http://localhost:5000/api/translation/meta/?clientKey=Ordbase&languageKey=&conta
 
 <br>
 
-## Implementation Draft
+## Implementation draft - asp.net core mvc 1.1.2
 
-[**Route.js**](/wwwroot/lib/Route.js)
-```javascript
-export function translation_getGroupMeta({ clientKey      = '',  
-                                           containerKey   = '', 
-                                           translationKey = '', } = {}) {
 
-    const queryString = `clientKey=${clientKey}
-                         &containerKey=${containerKey}
-                         &translationKey=${translationKey}`;
-
-    return Fetch.GET({
-        route: `api/translation/group/meta/?${queryString}`,
-    })
-}
-```
-
-[**TranslationController.cs**](/controllers/TranslationController.cs)
+[**TranslationController.cs**](/Controllers/TranslationController.cs)
 ```cs
 [HttpGet("api/translation/meta")]        
 [HttpGet("api/translation/group/meta")]
@@ -75,7 +59,7 @@ public IEnumerable<TranslationGroupMeta> GetGroupMeta([FromQuery] TranslationGro
 } 
 ```
 
-[**TranslationRepository.cs**](/repositories/TranslationRepository.cs)
+[**TranslationRepository.cs**](/Repositories/TranslationRepository.cs)
 ```cs
 public IEnumerable<TranslationGroupMeta> GetGroupMeta(TranslationGroupQuery query)
 {

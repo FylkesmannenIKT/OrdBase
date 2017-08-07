@@ -47,7 +47,7 @@ export class Component_ContainerPicker extends HTMLElement {
             button.classList.add('selected');
             this._lastSelectedItem.classList.remove('selected');
             this._lastSelectedItem = button;
-            
+
             onclick(e);
         });
 
@@ -59,13 +59,17 @@ export class Component_ContainerPicker extends HTMLElement {
     }
 
     setDefaultItem() {
-        let defaultItem = this._root.getElementById('div-container-buttons').firstChild;
+        let defaultItem = this._root.getElementById('div-container-buttons').firstElementChild;
         defaultItem.classList.add('selected');
         this._lastSelectedItem = defaultItem;
     }
 
     setHeaderText(text)   { 
         this._root.getElementById('div-container-header').innerHTML = text;
+    }
+
+    focus()  {
+        this._root.getElementById('div-container-buttons').firstElementChild.focus();
     }
 }
 customElements.define('component-picker-container', Component_ContainerPicker);

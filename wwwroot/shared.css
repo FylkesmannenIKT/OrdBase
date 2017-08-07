@@ -16,6 +16,7 @@
     --ordbase-color-success: #4CAF50;
     --ordbase-color-danger:  #d9534f;
     --ordbase-color-select:  #55b8ff;
+    --ordbase-color-fresh:   #ffc107;
 
     --ordbase-button-height:    40px;
     
@@ -31,7 +32,7 @@
 html, body {
     font-family: 'Muli', sans-serif;
     margin: auto;
-    font-size: 62.5%;
+    font-size: 62.5%;   
     color: var(--ordbase-color-dark);
 
     height: 100%;

@@ -1,0 +1,7 @@
+{
+
+    // @doc mars - https://msdn.microsoft.com/en-us/library/h32h3abf(v=vs.100).aspx
+    "ConnectionStrings": {
+        "MicrosoftSQLProvider": "Data Source=.\\SQLEXPRESS;Initial Catalog=OrdBase.Models.TranslationDb;Integrated Security=True; MultipleActiveResultSets=true;"
+    }
+}

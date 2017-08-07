@@ -6,14 +6,14 @@ export class Component_Header extends HTMLElement {
 
     constructor() {
         super();
-        this.root = this.createShadowRoot();
-        this.root.innerHTML = html;
+        this._root = this.createShadowRoot();
+        this._root.innerHTML = html;
 
     }
 
-    flashError(message) {
+    flashMessage(message) {
 
-        let errorBanner = this.root.getElementById('error-banner');
+        let errorBanner = this._root.getElementById('error-banner');
 
         if(!errorBanner.classList.contains('animated'))
             errorBanner.classList.add('animated');
@@ -28,56 +28,50 @@ export class Component_Header extends HTMLElement {
         }, 3000);
     }
 
-    setTextBig(text) { 
-        this.root.getElementById('btn-header-mid-big')
-                 .innerHTML = text;    
+    setIcons({ button1 = null,
+               button2 = null } = {}) {
+
+        if (button1 !== null) this._root.querySelector('#btn-header-right1 i.fa').setAttribute('class', `fa ${button1}`);
+        if (button2 !== null) this._root.querySelector('#btn-header-right2 i.fa').setAttribute('class', `fa ${button2}`);
     }
 
-    setTextSmall(text) { 
-        this.root.getElementById('btn-header-mid-small')
-                 .innerHTML = text;    
-    }
+    
+    setEventHandlers({ button1_onclick = null,
+                       button2_onclick = null } = {}){
 
-    button0_setIcon(icon) { 
-        this.root.querySelector('#btn-header-left i.fa')
-                 .setAttribute('class', `fa ${icon}`) 
-    }
+        if (button1_onclick !== null) this._root.getElementById('btn-header-right1').onclick =  button1_onclick; 
+        if (button2_onclick !== null) this._root.getElementById('btn-header-right2').onclick =  button2_onclick; 
+    } 
 
-    button1_setIcon(icon) { 
-        this.root.querySelector('#btn-header-right0 i.fa')
-                 .setAttribute('class', `fa ${icon}`);
-    }
+    setTheme({ textBig    = 'nO THeme', 
+               textSmall  = 'Ordbase', 
+               editable   = false, 
+               selectable = false, 
+               deleteable = false,
+               newable    = false, } = {}){
+        
+        this._root.getElementById('btn-header-mid-small').innerHTML = textSmall;    
+        this._root.getElementById('btn-header-mid-big').innerHTML   = textBig;    
+                
+        let leftButton = this._root.getElementById('btn-header-left');
 
-    button2_setIcon(icon, color) {
-        console.log(color); 
-        this.root.querySelector('#btn-header-right1 i.fa')
-                 .setAttribute('class', `fa ${icon}`)
+        leftButton.classList.remove('selectable', 'editable', 'deleteable', 'newable');
+        leftButton.classList.remove('editable');
+        leftButton.classList.remove('deleteable'); 
+        leftButton.classList.remove('newable'); 
+
+        if (selectable) {
+            leftButton.classList.add('selectable');
+        
+        } else if (editable) {
+            leftButton.classList.add('editable');
         }
-
-    button3_setIcon(icon) { 
-        this.root.querySelector('#btn-header-right2 i.fa')
-                 .setAttribute('class', `fa ${icon}`);
+        else if (deleteable) {
+            leftButton.classList.add('deleteable');
+        }
+        else if (newable) {
+            leftButton.classList.add('newable');
+        }
     }
-
-    setColor(color) {
-        this.root.querySelector('#btn-header-left i').style.color = color;
-    } 
-
-    button0_OnClick(handler) { 
-        this.root.getElementById('btn-header-left').onclick = event => handler.apply(this, event);
-    }
-
-    button1_OnClick(handler) {
-        this.root.getElementById('btn-header-right0').onclick = event => handler.apply(this, event);
-    }
-
-    button2_OnClick(handler) { 
-        this.root.getElementById('btn-header-right1').onclick = event => handler.apply(this, event); 
-    }
-
-    button3_OnClick(handler) { 
-        this.root.getElementById('btn-header-right2').onclick = event => handler.apply(this, event); 
-    } 
-
 }
 customElements.define('component-header', Component_Header);

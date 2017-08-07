@@ -18,7 +18,6 @@ export class Component_ClientCard extends HTMLElement {
         this._clickHandler  = () => console.log('default click.....');
         this._selectHandler = () => console.log('default select.....');
         this._editHandler   = () => console.log('default edit.....');
-        this._deleteHandler = () => console.log('default delete.....');
 
         this._root.addEventListener('click', e => {
             this._clickHandler(this, e);
@@ -38,36 +37,27 @@ export class Component_ClientCard extends HTMLElement {
     //
     // PUBLIC 
     //
-    setEventHandlers({onselect, onedit, ondelete}) {
+    setEventHandlers({ onselect = (that, e) => { console.log('default onselect..')}, 
+                        onedit  = (that, e) => { console.log('default onselect..')}} = {}) {
         this._selectHandler = onselect;
         this._editHandler   = onedit;
-        this._deleteHandler = ondelete;
     }
 
     setSelectable() {
         this._button.classList.remove('editable');
-        this._button.classList.remove('deleteable');
         this._clickHandler = this._selectHandler;        
-
     }
  
     setEditable() {
         this._button.classList.add('editable');
-        this._button.classList.remove('deleteable');
-        this._clickHandler = this._editHandler;
-        
-    }
-
-    setDeleteable() {
-        this._button.classList.add('deleteable');
-        this._button.classList.remove('editable');
-
-        this._clickHandler = this._deleteHandler;
-        
+        this._clickHandler = this._editHandler;        
     }
 
     isEditable()   { return this._button.classList.contains('editable'); }
-    isDeleteable() { return this._button.classList.contains('deleteable'); }
+
+    focus(){
+        this._button.focus();
+    }
 
     //
     // get Set internal data

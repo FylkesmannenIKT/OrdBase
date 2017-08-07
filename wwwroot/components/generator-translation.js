@@ -124,8 +124,15 @@ export class Component_TranslationGenerator extends HTMLElement {
     }
 
     focus() {
+        //
+        // @NOTE this is a dependency that relies on an external component interface.
+        //       This is the only place in the app there exists a inter-component dependency of this kind.
+        //        JSolsvik - 08.08.17
+        //
         if(this._generatedItems.firstElementChild != null)
             this._generatedItems.firstElementChild._button.focus();
+        else 
+            this._button.focus();
     }
 
     getCardArray() {

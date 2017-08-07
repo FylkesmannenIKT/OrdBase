@@ -25,6 +25,17 @@ namespace OrdBaseCore.Repositories
                     .ToArray();
         }
     
+
+        public IEnumerable<Container> GetNoEmpty(string clientKey) 
+        {
+
+            return (from t in _context.Translation
+                    where t.ClientKey == clientKey
+                    select t.ContainerKey)
+                    .Distinct()
+                    .Select(key => new Container { Key = key });
+        }
+
         //
         // TESTDATA add
         //

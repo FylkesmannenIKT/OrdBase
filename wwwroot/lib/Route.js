@@ -210,6 +210,12 @@ export function container_get({ containerKey = '' } = {}) {
     });
 }
 
+export function container_getNoEmpty({ clientKey = ''} = {}) {
+    return Fetch.GET({
+        route: `api/container/noempty/?clientKey=${clientKey}`,
+    });
+} 
+
 //
 // ROUTE language
 //

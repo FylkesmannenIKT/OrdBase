@@ -1,12 +1,30 @@
     <style>
         @import url('/node_modules/font-awesome/css/font-awesome.min.css');
 
+        #btn-header-left.selectable i { color: var(--ordbase-color-success); }
+        #btn-header-left.editable   i { color: var(--ordbase-color-select); }
+        #btn-header-left.deleteable i { color: var(--ordbase-color-danger); }
+        #btn-header-left.newable    i { color: var(--ordbase-color-fresh); }
+
+        .icon-button:hover .fa-trash, 
+        .icon-button:focus .fa-trash, 
+        .icon-button:hover .fa-times,
+        .icon-button:focus .fa-times { color: var(--ordbase-color-danger); }
         
+        .icon-button:hover .fa-arrow-left,
+        .icon-button:focus .fa-arrow-left { color: var(--ordbase-color-success); }
+
+        .icon-button:hover .fa-pencil ,
+        .icon-button:focus .fa-pencil { color: var(--ordbase-color-select); }
+        .icon-button:hover .fa-plus, 
+        .icon-button:focus .fa-plus   { color: var(--ordbase-color-fresh); }
+ 
+
         /* --- HEADER --- */
         #button-row {           
             display: flex;
             text-align:  center;
-            min-height: 100px;
+            min-height: 60px;
             background-color: var(--ordbase-color-dark);
             color: var(--ordbase-color-white);
         }
@@ -55,24 +73,6 @@
             font-size: var(--ordbase-h2-font-size);
         }
         /* --------------- */
-
-
-        #btn-header-right0:focus i,
-        #btn-header-right0:hover i
-         {
-             color: var(--ordbase-color-danger);
-         }  
-        #btn-header-right1:focus i,
-        #btn-header-right1:hover i
-         {
-             color:var(--ordbase-color-select);
-         }
-
-        #btn-header-right2:focus i,
-        #btn-header-right2:hover i
-         {
-             color: var(--ordbase-color-success);    
-         }
 
 
          #error-banner 
@@ -127,17 +127,12 @@
             <h2 id="btn-header-mid-small"></h2>
         </div>
 
-
-        <button id="btn-header-right0" class="icon-button">
-            <i class="fa fa-none" aria-hidden="true"></i>
-        </button>
-
         <button id="btn-header-right1" class="icon-button">
-            <i class="fa fa-square" aria-hidden="true"></i>
+            <i class="fa" aria-hidden="true"></i>
         </button>
 
         <button id="btn-header-right2" class="icon-button">
-            <i class="fa fa-plus" aria-hidden="true"></i>
+            <i class="fa" aria-hidden="true"></i>
         </button>
     </div>
 

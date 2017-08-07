@@ -29,6 +29,10 @@ export class Component_ClientForm extends HTMLElement {
         this.root.getElementById('form-client-thumbnail').value = client.thumbnailUrl;
         this.root.getElementById('form-client-apikey').value = client.apiKey;
     }
+
+    focus() {
+        this.root.getElementById('form-client-name').focus();
+    }
 }
 
 customElements.define('component-form-client', Component_ClientForm);

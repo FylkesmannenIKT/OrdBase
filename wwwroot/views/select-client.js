@@ -15,5 +15,9 @@ export class View_SelectClient extends HTMLElement {
     getCardArray() {
         return [].slice.apply(this.root.querySelectorAll('component-card-client'));
     }
+
+    focus() {
+        this.root.querySelector('component-card-client').focus();
+    }
 }
 customElements.define('view-select-client', View_SelectClient);

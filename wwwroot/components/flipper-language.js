@@ -42,11 +42,11 @@ export class Component_LanguageFlipper extends HTMLElement {
         this._flipUp(this._root.getElementById(key));
     }
 
-    setHeaderUp(text)   { 
+    setTextUp(text)   { 
         this._root.getElementById('div-up-header').innerHTML = text;
     }
     
-    setHeaderDown(text) { 
+    setTextDown(text) { 
         this._root.getElementById('div-down-header').innerHTML = text;
     }
 

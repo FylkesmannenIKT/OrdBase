@@ -1,12 +1,20 @@
 # GET - api/translation
 
-<-- [__ /api/translation/meta](GET-translation-meta.md) | [__ /api ](../index.md)  | 
+Last updated: 04.08.17 by Jonas Solsvik
 
 ## Request example 
 
-**GET request url**
+**HTTP Method**
+```
+GET
+```
+
+**URL**
 ```url
-http://localhost:5000/api/translation/?clientKey=Ordbase&languageKey=en&containerKey=error_messages
+http://localhost:5000/api/translation/? clientKey=Ordbase
+                                      & languageKey=en
+                                      & containerKey=error_messages
+                                      & translationKey=
 ``` 
 
 **JSON Response**
@@ -31,15 +39,6 @@ http://localhost:5000/api/translation/?clientKey=Ordbase&languageKey=en&containe
 ]
 ```
 
-**URI parameters** 
-
-```
-clientKey: string             length: <= 127     optional
-languageKey: string           length: <= 8       optional
-containerKey: string          length: <= 64      optional
-translationKey: string        length: <= 127     optional 
-``` 
-
 **Response type**
 ```cs
     [] Translation
@@ -47,27 +46,10 @@ translationKey: string        length: <= 127     optional
 
 <br>
 
-## Implementation draft
+## Implementation draft - asp.net core mvc 1.1.2
 
-[**Route.js**](/wwwroot/lib/Route.js)
-```javascript
-export function translation_get({ clientKey      = '',  
-                                  languageKey    = '',  
-                                  containerKey   = '',  
-                                  translationKey = '', } = {}) { 
 
-    const queryString = `clientKey=${clientKey}
-                         &languageKey=${languageKey}
-                         &containerKey=${containerKey}
-                         &translationKey=${translationKey}`;
-    
-    return Fetch.GET({  
-        route: `api/translation/?${queryString}`,
-    }); 
-}
-```
-
-[**TranslationController.cs**](/controllers/TranslationController.cs)
+[**TranslationController.cs**](/Controllers/TranslationController.cs)
 ```cs
 [HttpGet("api/translation")]
 public IEnumerable<Translation> Get([FromQuery] TranslationQuery query)
@@ -76,7 +58,7 @@ public IEnumerable<Translation> Get([FromQuery] TranslationQuery query)
 }
 ```
 
-[**TranslationRepository.cs**](/repositories/TranslationRepository.cs)
+[**TranslationRepository.cs**](/Repositories/TranslationRepository.cs)
 ```cs
 public IEnumerable<Translation> Get(TranslationQuery query)
 {

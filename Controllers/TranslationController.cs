@@ -90,8 +90,6 @@ namespace OrdBaseCore.Controllers
                return BadRequest();
            
            return _translationRepo.UpdateArray(query, translationArray);
-       
-            //return translationArray;
         }
 
 

@@ -1,23 +1,21 @@
 # GET - api/translation/keyvalue
 
-<-- [__ /api/translation/group](GET-translation-group.md) | [__ /api ](../index.md)  | [__ /api/translation/meta](GET-meta.md) -->
-
+Last updated: 04.08.17 by Jonas Solsvik
 
 ## Request example 
-**URI parameters**
 
+**HTTP Method**
 ```
-clientKey: string            length: <= 127     optional
-languageKey: string          length: <= 8       optional
-containerKey: string         length: <= 64      optional
-translationKey: string       length: <= 127     optional 
-``` 
+GET
+```
 
-
-**GET Request URL**
+**URL**
 
 ```url
-http://localhost:5000/api/translation/keyvalue/?clientKey=Ordbase&languageKey=&containerKey=error_messages
+http://localhost:5000/api/translation/keyvalue/? clientKey=Ordbase
+                                               & languageKey=
+                                               &containerKey=error_messages
+                                               & translationKey=
 ``` 
 
 
@@ -42,25 +40,7 @@ http://localhost:5000/api/translation/keyvalue/?clientKey=Ordbase&languageKey=&c
 
 <br>
 
-## Implementation Draft
-
-[**Route.js**](/wwwroot/lib/Route.js)
-```javascript
-export function translation_getKeyValue({ clientKey      = '',  
-                                          languageKey    = '',  
-                                          containerKey   = '',  
-                                          translationKey = '', } = {}) { 
-
-    const queryString = `clientKey=${clientKey}
-                         &languageKey=${languageKey}
-                         &containerKey=${containerKey}
-                         &translationKey=${translationKey}`;
-
-    return Fetch.GET({
-        route: `api/translation/group/meta/?${queryString}`,
-    })
-}
-```
+## Implementation draft - asp.net core mvc 1.1.2
 
 [**TranslationController.cs**](/Controllers/TranslationController.cs)
 ```cs
