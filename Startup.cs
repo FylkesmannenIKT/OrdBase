@@ -113,10 +113,9 @@ namespace OrdBaseCore {
             }
 
             // TranslationDb.Seed(context);
-            app.UseResponseCompression();
 
-            // @doc caching static files - https://andrewlock.net/adding-cache-control-headers-to-static-files-in-asp-net-core/
             app.UseDefaultFiles();
+            // @doc caching static files  https://andrewlock.net/adding-cache-control-headers-to-static-files-in-asp-net-core/
             app.UseStaticFiles(new StaticFileOptions  
             {
                 OnPrepareResponse = ctx =>
@@ -126,6 +125,7 @@ namespace OrdBaseCore {
                 }
             });
             app.UseMvc();
+            app.UseResponseCompression();
             app.UseResponseCaching();   
        }
     }

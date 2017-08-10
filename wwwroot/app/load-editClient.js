@@ -27,15 +27,15 @@ export function load_editClient(clientKey) {
     //
     // 1. Async calls filling in data in components
     //
-    async_client_getContainerKeyArray_container_getNoEmptyArray({ 
+    async_container_getClientContainerKeyArray_container_getNonEmptyArray({ 
         clientKey: clientKey,
-        success : (containerKeyArray, containerNoEmptyArray) => {     
+        success : (containerKeyArray, containerNonEmptyArray) => {     
             containerKeyArray.forEach( containerKey => {
                 generator.makeItem({key: containerKey, selected: true}); 
             });
 
-            containerNoEmptyArray.forEach(container => {
-                let found = containerKeyArray.find(containerKey => { return containerKey == container.key; })
+            containerNonEmptyArray.forEach(container => {
+                let found = containerKeyArray.find(containerKey => { return container.key == containerKey; })
                 if (found === undefined)
                     generator.makeItem({ key: container.key, selected: false })
             });
@@ -45,16 +45,16 @@ export function load_editClient(clientKey) {
     });
 
 
-    async_language_getArray_client_getLanguageKeyArray({
+    async_language_getArray_client_getClientLanguageKeyArray({
         clientKey: clientKey, 
-        success: (languageArray, languageKeyArray) => {
+        success: (languageArray, clientLanguageKeyArray) => {
 
-            languageArray.forEach(lang => {
-                flipper.makeItem({ key: lang.key,  text: `${lang.name} - ${lang.key}`,  selected: false });
+            languageArray.forEach(language => {
+                flipper.makeItem({ key: language.key,  text: `${language.name} - ${language.key}`,  selected: false });
             });
 
-            languageKeyArray.forEach(key => {
-                flipper.selectItem(key);
+            clientLanguageKeyArray.forEach(clientLanguageKey => {
+                flipper.selectItem(clientLanguageKey);
             })            
         }
     });
@@ -90,8 +90,8 @@ export function load_editClient(clientKey) {
 
         async_client_update({ 
             client:         form.getClient(), 
-            containerArray: generator.getContainerKeyArray(), 
-            languageArray:  flipper.getLanguageKeyArray(), 
+            containerKeyArray: generator.getContainerKeyArray(), 
+            languageKeyArray:  flipper.getLanguageKeyArray(), 
             success: () => load_selectClient(),
         });
     });
@@ -108,18 +108,18 @@ export function load_editClient(clientKey) {
 }
 
 //
-// @function async_client_getContainerKeyArray_container_getNoEmptyArray
+// @function async_container_getClientContainerKeyArray_container_getNonEmptyArray
 //  @note @todo
 //
-function async_client_getContainerKeyArray_container_getNoEmptyArray({ clientKey = force('clientKey'),
-                                                                       success   = force('success'),  }) {
+function async_container_getClientContainerKeyArray_container_getNonEmptyArray({ clientKey = force('clientKey'),
+                                                                                success   = force('success'),  }) {
 
     let containerKeyArray = null;
 
-    Route.client_getContainers({clientKey: clientKey})
-    .then(_containerKeyArray => {
-        containerKeyArray = _containerKeyArray;
-        return Route.container_getNoEmpty({ clientKey: clientKey });
+    Route.container_getClientContainerArray({clientKey: clientKey})
+    .then(clientContainerArray => {
+        containerKeyArray = clientContainerArray.map(clientContainer => { return clientContainer.containerKey; });
+        return Route.container_getNonEmpty({ clientKey: clientKey });
     })
     .then(containerNoEmptyArray => {
         success(containerKeyArray, containerNoEmptyArray);
@@ -131,17 +131,17 @@ function async_client_getContainerKeyArray_container_getNoEmptyArray({ clientKey
 // @function _
 //  @note @todo
 //
-function async_language_getArray_client_getLanguageKeyArray({  success = force('success'),
-                                                               clientKey = force('clientKey'), }) {
+function async_language_getArray_client_getClientLanguageKeyArray({  success = force('success'),
+                                                                   clientKey = force('clientKey'), }) {
 
     let languageArray = null;
     Route.language_get()
     .then(_languageArray => {
         languageArray = _languageArray;
-        return Route.client_getLanguages({clientKey: clientKey});
+        return Route.language_getClientLanguageArray({clientKey: clientKey});
     })
-    .then(languageKeyArray => {
-        success(languageArray, languageKeyArray);    
+    .then(clientLanguageArray => {
+        success(languageArray, clientLanguageArray.map(clientLanguage => { return clientLanguage.languageKey; }));    
     })
     .catch(error => App.flashError(error));
 }
@@ -167,34 +167,40 @@ function async_clientGet({ success = force('success'),
 //  @note @todo
 //
 function async_client_update({ success = force('success'),
-                                  client         = force('client'), 
-                                  containerArray = force('containerArray'), 
-                                  languageArray  = force('languageArray')
+                               client         = force('client'), 
+                               containerKeyArray = force('containerKeyArray'), 
+                               languageKeyArray  = force('languageKeyArray')
     }) {
 
     Route.client_update({clientKey: client.key, client: client}).then(res => {
         console.log('client_update():', res.status);
         if (res.status == App.HTTP_UPDATED) {
 
-            Route.client_setContainers({clientKey: client.key, containerArray: containerArray}).then(res => {
+            Route.container_setClientContainerArray({
+                clientKey: client.key, 
+                clientContainerArray: containerKeyArray.map(containerKey => { return {containerKey: containerKey, clientKey: client.key }})
+            }).then(res => {
                 if (res.status != App.HTTP_CREATED) { 
                     App.flashError(`code ${res.status}: clientContainers could not be updated`);
                 } else {
-                    success();            
+                    success();        
                 }
                 console.log('client_setContainers(): ', res.status)
+                
+            }).catch(error => console.error(error));
 
-            }).catch(error => App.flashError(error));
-
-            Route.client_setLanguages({clientKey:  client.key, languageArray: languageArray}).then(res => {
+            Route.language_setClientLanguageArray({
+                clientKey:  client.key, 
+                clientLanguageArray: languageKeyArray.map(languageKey => { return { languageKey: languageKey, clientKey: client.key }}) 
+            }).then(res => {
                 if (res.status != App.HTTP_CREATED) { 
                     App.flashError(`code ${res.status}: clientLanguages could not be updated`);
                 }
                 else {
-                    success();
+                    success();        
                 }
                 console.log('client_setLanguages(): ', res.status)
-            }).catch(error => App.flashError(error));
+            }).catch(error => console.error(error)); 
             
         }
         else {

@@ -213,7 +213,7 @@ export function languages_create ({ language = force('language') } = {}) {
     });
 }
 
-export function client_getClientLanguageArray({ clientKey = force('clientKey') } = {}) {
+export function language_getClientLanguageArray({ clientKey = force('clientKey') } = {}) {
 
     return Fetch.GET({ 
         route: `api/language/active/?clientKey=${clientKey}`, 

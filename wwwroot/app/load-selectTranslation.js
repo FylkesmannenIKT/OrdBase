@@ -42,7 +42,7 @@ export function load_selectTranslation (clientKey) {
     // 1. Async calls
     //
     // Populate languageArray
-    async_client_getLanguageKeyArray({ 
+    async_language_getClientLanguageKeyArray({ 
         clientKey: clientKey,
         success: _languageKeyArray => {
             languageKeyArray.push.apply(languageKeyArray, _languageKeyArray);
@@ -50,7 +50,7 @@ export function load_selectTranslation (clientKey) {
     });
 
     // Populate picker and set up default item
-    async_client_getContainerKeyArray({ 
+    async_container_getClientContainerKeyArray({ 
         clientKey: clientKey, 
         success: containerKeyArray => {
             
@@ -335,13 +335,13 @@ function makeTranslationCard({ cardPrototype = force('cardPrototype'),
 }
 
 //
-// @function __async__getLanguageKeyArray
+// @function async_language_getClientLanguageKeyArray
 //
-function async_client_getLanguageKeyArray({ clientKey = force('clientKey'), 
-                                               success   = force('success') }){
+function async_language_getClientLanguageKeyArray({ clientKey = force('clientKey'), 
+                                                    success   = force('success') }){
         
-    Route.client_getLanguages({clientKey: clientKey}).then(languageKeyArray => {
-        success(languageKeyArray);
+    Route.language_getClientLanguageArray({clientKey: clientKey}).then(clientLanguageArray => {
+        success(clientLanguageArray.map(clientLanguage => { return  clientLanguage.languageKey; }));
     })
     .catch(err => console.error(err));      
 }
@@ -370,14 +370,14 @@ function async_translation_getGroup({ success       = force('success'),
 
 
 //
-// @function __async__getContainerKeyArray 
+// @function async_container_getClientContainerKeyArray 
 //
-function async_client_getContainerKeyArray ({  success  = force('success'),
-                                               clientKey   = force('clientKey') }) {
+function async_container_getClientContainerKeyArray ({  success  = force('success'),
+                                                     clientKey   = force('clientKey') }) {
 
-    Route.client_getContainers({clientKey: clientKey}).then(containerKeyArray => {        
-        if(containerKeyArray.length > 0) 
-            success(containerKeyArray);
+    Route.container_getClientContainerArray({clientKey: clientKey}).then(clientContainerArray => {        
+        if (clientContainerArray.length > 0) 
+            success(clientContainerArray.map(clientContainer => { return clientContainer.containerKey }));
         else {
             App.flashError('There are no containers in this client...');
         }
