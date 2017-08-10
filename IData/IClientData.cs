@@ -8,8 +8,6 @@ namespace OrdBaseCore.IData
     {
         // GET Client stuff
         IEnumerable<Client> Get(ClientQuery query);
-        IEnumerable<string> GetLanguages(ClientQuery query);
-        IEnumerable<string> GetContainers(ClientQuery query); 
 
         //
         // CREATE UPDATE DELETE client
@@ -18,10 +16,5 @@ namespace OrdBaseCore.IData
         IActionResult Update(ClientQuery query, Client client);
         IActionResult Delete(ClientQuery query);
        
-        //
-        // SET Containers and languages connected to client
-        //
-        IActionResult SetContainers(ClientQuery query, IEnumerable<string> containerArray);
-        IActionResult SetLanguages(ClientQuery query, IEnumerable<string> languageArray);
     }	
 }

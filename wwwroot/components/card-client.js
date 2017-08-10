@@ -1,25 +1,21 @@
 'use strict';
 import html from './card-client.html';
 
-
-
 export class Component_ClientCard extends HTMLElement {
-
     
-    //
-    // PRIVATE
-    //
     constructor() {
         super();
-        this._root = this.createShadowRoot();
-        this._root.innerHTML = html;
-        this._button = this._root.querySelector('button');
+        let root = this.createShadowRoot();
+        root.innerHTML = html;
+        this._getElementById = root.getElementById.bind(root);
+
+        this._button = this._getElementById('card-button');
 
         this._clickHandler  = () => console.log('default click.....');
         this._selectHandler = () => console.log('default select.....');
         this._editHandler   = () => console.log('default edit.....');
 
-        this._root.addEventListener('click', e => {
+        root.addEventListener('click', e => {
             this._clickHandler(this, e);
         });
 
@@ -71,7 +67,7 @@ export class Component_ClientCard extends HTMLElement {
     }
 
     setHeading (name){
-        this._root.getElementById('card-h2').innerHTML = name;
+        this._getElementById('card-h2').innerHTML = name;
         this._name = name;
     }    
 
@@ -80,11 +76,11 @@ export class Component_ClientCard extends HTMLElement {
     }
 
     setText(text) {
-        this._root.getElementById('card-p').innerHTML = text;
+        this._getElementById('card-p').innerHTML = text;
     }
                 
     setThumbnail (url) { 
-        this._root.getElementById('card-img').src = url;
+        this._getElementById('card-img').src = url;
     }
 }
 customElements.define('component-card-client', Component_ClientCard);

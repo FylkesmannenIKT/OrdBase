@@ -1,13 +1,12 @@
+    <link rel="stylesheet" href="../static/font-awesome.min.trimmed.css">
     <style>    
-@import url('./node_modules/font-awesome/css/font-awesome.min.css');
-
-
+        
 
         :host {
             width:100%;
             
             --fieldset-count: 0;
-            --input-height: 55px;
+            --input-height: 65px;
         }
 
         button {
@@ -24,14 +23,13 @@
             width:100%;
             min-height: 75px;
             font-size: var(--ordbase-button-font-size);
-
+            
             border: 10px solid transparent;
             border-width: 0px 0px 0px 10px;
+
+            border-bottom: 1px solid black;
         }
 
-        button span {
-            flex: 0 0 100px;
-        }
 
         button:focus,
         button:hover {
@@ -40,10 +38,13 @@
             cursor: pointer;
         }
 
-
         button.selected:focus,
         button.selected {
             border-color: var(--ordbase-color-select);
+        }
+
+        #card-translation-key {
+            flex: 0 0 100px;
         }
 
         #array-languagekey-complete {
@@ -55,9 +56,12 @@
 
         .languagekey-complete {
             display: flex;
-            flex: 0 0 100px;
-            margin: 0px 20px 0px 20px;
+            flex: 0 0 75px;
+            margin: 0px 8px 0px 5px;
+            justify-content: center;
+            font-size: 1.9rem;
         }
+        .languagekey-complete span { margin-right: 5px;}
 
         .fa-check {
             color: var(--ordbase-color-success);
@@ -99,7 +103,7 @@
             width: 400px;
         }
 
-        input.check-iscomplete {
+        input.checkbox-complete {
             cursor: pointer;
             width:30px;
             height:30px;
@@ -188,7 +192,7 @@
                 <label for  = "form-translation-{{ languageCode }}">Key</label><br>
                 <input class="text-translation" id= "form-translation-{{ languageCode  }}" type="text" data-min-size="20" value="">
  
-                <input class="check-iscomplete" type="checkbox"> <span class="checkbox-text">Complete </span></input>
+                <input class="checkbox-complete" type="checkbox"> <span class="checkbox-text">Complete </span></input>
             </fieldset>
         </template>
         

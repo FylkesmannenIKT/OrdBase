@@ -11,7 +11,7 @@ import { Component_ContainerGenerator } from '../components/generator-container.
 import { Component_LanguageFlipper }    from '../components/flipper-language.js';
 import { Component_ClientForm }         from '../components/form-client.js';
 
-import { load_selectClient } from './selectClient.js';
+import { load_selectClient } from './load-selectClient.js';
 
 export function load_newClient(clientKey) {
 
@@ -73,7 +73,7 @@ export function load_newClient(clientKey) {
     view.setLanguageFlipper(flipper);
     view.setClientForm(form);
     App.setHeader(header);
-    App.switchView(view);
+    App.setView(view);
     form.focus();
 }
 

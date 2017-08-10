@@ -1,11 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
+<html lang="no-nb">
+    <head>   
+
+        <script type="module" src="./dist/bundle.js"></script>        
+        <script>
+            /* Preloading client data for the first view to load faster - JSolsvik 09.08.17 */
+            var preload_clientArrayPromise = fetch('api/client', { method: 'GET'} ).then(res => { return res.json(); });
+        </script>
+
+        <style>
+            /*
+            *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
+            *  Google Fonts Mulit - @doc https://fonts.google.com/specimen/Muli?selection.family=Muli
+            */
+            @font-face {
+                font-family: 'FontAwesome';
+                src: url('./static/fontawesome-webfonttrimmed.woff2?v=4.7.0') format('woff2'); /*Super modern browsers*/ 
+                font-weight: normal;
+                font-style: normal;
+            }
+            @font-face {
+                font-family: 'Muli';
+                src: url('./static/Muli-Regular.woff2') format('woff2');
+                font-weight: normal;
+                font-style: normal;
+            }
+
+            /* Main color set */
+            :root {
+                --ordbase-color-dark:    #3e4444;
+                --ordbase-color-light:   #f2ede9;
+                --ordbase-color-white:   #ffffff;
+                --ordbase-color-success: #4CAF50;
+                --ordbase-color-danger:  #d9534f;
+                --ordbase-color-select:  #55b8ff;
+                --ordbase-color-fresh:   #ffc107;
+
+                --ordbase-button-height:    40px;
+                
+                --ordbase-button-font-size: 2.5rem;
+                --ordbase-input-font-size:  2.2rem;
+
+                --ordbase-h1-font-size:    3.6rem;
+                --ordbase-h2-font-size:    2.2rem;
+                --ordbase-h3-font-size:    1.5rem;
+                --ordbase-form-font-size:    1rem;
+            }
+
+            html, body {
+                font-family: 'Muli', sans-serif;
+                margin: auto;
+                font-size: 62.5%;   
+                color: var(--ordbase-color-dark);
+
+                height: 100%;
+            }
+
+            main {
+                height: 100%;
+            }
+
+        </style>
+
         <meta charset="utf-8">
         <title>Editor - OrdBase</title>
-        <link rel="stylesheet" href="./shared.css">
-        <script type="module" src="./bundle.js"></script>
-
     </head>
     <body>      
         <header id="ordbase-header"> </header>

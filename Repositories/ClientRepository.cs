@@ -30,21 +30,6 @@ namespace OrdBaseCore.Repositories
         			.ToArray();
         } 
 
-        public IEnumerable<string> GetContainers(ClientQuery query)
-        {
-            return (from cl in _context.ClientContainer
-                    where cl.ClientKey == query.ClientKey || query.ClientKey == null
-                    select cl.ContainerKey)
-                    .ToArray();
-        }     
-
-        public IEnumerable<string> GetLanguages(ClientQuery query) 
-        {
-            return (from cl in _context.ClientLanguage
-                    where cl.ClientKey == query.ClientKey || query.ClientKey == null
-                    select cl.LanguageKey)
-                    .ToArray();
-        }
 
         //
         // CREATE, Update, delete
@@ -96,54 +81,6 @@ namespace OrdBaseCore.Repositories
         //
         // SET containers and langugaes on client
         //
-        public IActionResult SetContainers(ClientQuery query, IEnumerable<string> containerArray)
-        {
-            var _clientContainers = _context.ClientContainer.Where(cc => cc.ClientKey == query.ClientKey);
-            _context.RemoveRange(_clientContainers);
-            _context.SaveChanges();
-
-            var clientContainers = containerArray.Select(containerKey => new ClientContainer 
-            { 
-                ClientKey = query.ClientKey, 
-                ContainerKey = containerKey,
-            });
-
-            //
-            // @todo Here we make sure that a container has to exist in the Container table, before it can be used as a 
-            //      foreign key in the ClientContainer table. The SetLanguage method should probably also check this,
-            //      but I am currently relying upon the front-end to make sure that only valid languages
-            //      are set as new languages. This will throw an 500 error if  a 
-            //      lanaguage or container does not already exists. - JSolsvik 01.08.17
-            //
-            foreach(var cc in clientContainers) {
-
-                if (_context.Container.Where(c => c.Key == cc.ContainerKey).Count() == 0){
-                    _context.Container.Add(new Container { Key = cc.ContainerKey});
-                }
-            }
-
-            _context.AddRange(clientContainers);
-            _context.SaveChanges();
-
-            return new StatusCodeResult(201);
-        }
-        public IActionResult SetLanguages(ClientQuery query, IEnumerable<string> languageArray)
-        {
-            var _clientLanguages = _context.ClientLanguage.Where(cl => cl.ClientKey == query.ClientKey);
-            _context.RemoveRange(_clientLanguages);
-            _context.SaveChanges();
-
-            var clientLanguages = languageArray.Select(languageKey => new ClientLanguage 
-            { 
-                ClientKey   = query.ClientKey, 
-                LanguageKey = languageKey,
-            });
-
-            _context.AddRange(clientLanguages);
-            _context.SaveChanges();
-
-            return new StatusCodeResult(201);            
-        }
 
         //
         // TESTDATA

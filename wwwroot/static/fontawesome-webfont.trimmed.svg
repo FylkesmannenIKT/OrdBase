@@ -1,0 +1,55 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<svg>
+<metadata>
+Created by FontForge 20120731 at Mon Oct 24 17:37:40 2016
+ By ,,,
+Copyright Dave Gandy 2016. All rights reserved.
+</metadata>
+<defs>
+<font id="FontAwesome" horiz-adv-x="1536" >
+  <font-face 
+    font-family="FontAwesome"
+    font-weight="400"
+    font-stretch="normal"
+    units-per-em="1792"
+    panose-1="0 0 0 0 0 0 0 0 0 0"
+    ascent="1536"
+    descent="-256"
+    bbox="-1.02083 -256.962 2304.6 1537.02"
+    underline-thickness="0"
+    underline-position="0"
+    unicode-range="U+0020-F500"
+  />
+<missing-glyph horiz-adv-x="896" 
+d="M224 112h448v1312h-448v-1312zM112 0v1536h672v-1536h-672z" />
+    <glyph glyph-name=".notdef" horiz-adv-x="896" 
+d="M224 112h448v1312h-448v-1312zM112 0v1536h672v-1536h-672z" />
+    <glyph glyph-name=".null" horiz-adv-x="0" 
+ />
+<glyph glyph-name="reorder" unicode="&#xf0c9;" 
+d="M1536 192v-128q0 -26 -19 -45t-45 -19h-1408q-26 0 -45 19t-19 45v128q0 26 19 45t45 19h1408q26 0 45 -19t19 -45zM1536 704v-128q0 -26 -19 -45t-45 -19h-1408q-26 0 -45 19t-19 45v128q0 26 19 45t45 19h1408q26 0 45 -19t19 -45zM1536 1216v-128q0 -26 -19 -45
+t-45 -19h-1408q-26 0 -45 19t-19 45v128q0 26 19 45t45 19h1408q26 0 45 -19t19 -45z" />
+    <glyph glyph-name="sign_blank" unicode="&#xf0c8;" 
+d="M1536 1120v-960q0 -119 -84.5 -203.5t-203.5 -84.5h-960q-119 0 -203.5 84.5t-84.5 203.5v960q0 119 84.5 203.5t203.5 84.5h960q119 0 203.5 -84.5t84.5 -203.5z" />
+     <glyph glyph-name="arrow_left" unicode="&#xf060;" 
+d="M1536 640v-128q0 -53 -32.5 -90.5t-84.5 -37.5h-704l293 -294q38 -36 38 -90t-38 -90l-75 -76q-37 -37 -90 -37q-52 0 -91 37l-651 652q-37 37 -37 90q0 52 37 91l651 650q38 38 91 38q52 0 90 -38l75 -74q38 -38 38 -91t-38 -91l-293 -293h704q52 0 84.5 -37.5
+t32.5 -90.5z" />
+    <glyph glyph-name="remove" unicode="&#xf00d;" horiz-adv-x="1408" 
+d="M1298 214q0 -40 -28 -68l-136 -136q-28 -28 -68 -28t-68 28l-294 294l-294 -294q-28 -28 -68 -28t-68 28l-136 136q-28 28 -28 68t28 68l294 294l-294 294q-28 28 -28 68t28 68l136 136q28 28 68 28t68 -28l294 -294l294 294q28 28 68 28t68 -28l136 -136q28 -28 28 -68
+t-28 -68l-294 -294l294 -294q28 -28 28 -68z" />
+    <glyph glyph-name="ok" unicode="&#xf00c;" horiz-adv-x="1792" 
+d="M1671 970q0 -40 -28 -68l-724 -724l-136 -136q-28 -28 -68 -28t-68 28l-136 136l-362 362q-28 28 -28 68t28 68l136 136q28 28 68 28t68 -28l294 -295l656 657q28 28 68 28t68 -28l136 -136q28 -28 28 -68z" />
+    <glyph glyph-name="pencil" unicode="&#xf040;" 
+d="M363 0l91 91l-235 235l-91 -91v-107h128v-128h107zM886 928q0 22 -22 22q-10 0 -17 -7l-542 -542q-7 -7 -7 -17q0 -22 22 -22q10 0 17 7l542 542q7 7 7 17zM832 1120l416 -416l-832 -832h-416v416zM1515 1024q0 -53 -37 -90l-166 -166l-416 416l166 165q36 38 90 38
+q53 0 91 -38l235 -234q37 -39 37 -91z" />
+<glyph glyph-name="_473" unicode="&#xf1f8;" horiz-adv-x="1408" 
+d="M512 160v704q0 14 -9 23t-23 9h-64q-14 0 -23 -9t-9 -23v-704q0 -14 9 -23t23 -9h64q14 0 23 9t9 23zM768 160v704q0 14 -9 23t-23 9h-64q-14 0 -23 -9t-9 -23v-704q0 -14 9 -23t23 -9h64q14 0 23 9t9 23zM1024 160v704q0 14 -9 23t-23 9h-64q-14 0 -23 -9t-9 -23v-704
+q0 -14 9 -23t23 -9h64q14 0 23 9t9 23zM480 1152h448l-48 117q-7 9 -17 11h-317q-10 -2 -17 -11zM1408 1120v-64q0 -14 -9 -23t-23 -9h-96v-948q0 -83 -47 -143.5t-113 -60.5h-832q-66 0 -113 58.5t-47 141.5v952h-96q-14 0 -23 9t-9 23v64q0 14 9 23t23 9h309l70 167
+q15 37 54 63t79 26h320q40 0 79 -26t54 -63l70 -167h309q14 0 23 -9t9 -23z" />
+       <glyph glyph-name="plus" unicode="&#xf067;" horiz-adv-x="1408" 
+d="M1408 800v-192q0 -40 -28 -68t-68 -28h-416v-416q0 -40 -28 -68t-68 -28h-192q-40 0 -68 28t-28 68v416h-416q-40 0 -68 28t-28 68v192q0 40 28 68t68 28h416v416q0 40 28 68t68 28h192q40 0 68 -28t28 -68v-416h416q40 0 68 -28t28 -68z" />
+ 
+  </font>
+
+</defs></svg>

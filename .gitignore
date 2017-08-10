@@ -1,16 +1,18 @@
 .vs/
 .DS_Store
 
-
 # json
-config.json
+appsettings.json
 package-lock.json
 
 # Generated files
 bin/
 obj/
 bundle.js
-migrations/
+bundle.min.js
+
+# @note Migrations are sometimes ignored, sometimes not. It depends on stable they are. - JSolsvik 08.08.17
+# migrations/
 
 # Packages
 node_modules/

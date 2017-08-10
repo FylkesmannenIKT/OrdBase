@@ -15,6 +15,7 @@ namespace OrdBaseCore.Controllers
             _languageRepo = languageRepo;
         }
 
+        [ResponseCache(CacheProfileName="api_cache")]  
         [HttpGet("api/language")]
         public IEnumerable<Language> Get([FromQuery] string languageKey)
         {
@@ -29,5 +30,22 @@ namespace OrdBaseCore.Controllers
                 
             return _languageRepo.Create(language);
         }
+
+        [ResponseCache(CacheProfileName="api_cache")]  
+        [HttpGet("api/language/active")]
+        public IEnumerable<ClientLanguage> GetClientLanguageArray([FromQuery] ClientQuery query) 
+        {
+            return _languageRepo.GetClientLanguageArray(query);
+        }
+
+        [HttpPut("api/language/active")]
+        public IActionResult SetClientLanguageArray([FromQuery] ClientQuery query, [FromBody] IEnumerable<ClientLanguage> clientLanguageArray) 
+        {
+            if (clientLanguageArray == null)
+                return  BadRequest();
+
+            return _languageRepo.SetClientLanguageArray(query, clientLanguageArray);
+        }
+    
     }
 }

@@ -55,31 +55,31 @@
             <pre>
 
  ____________________________________                               
-| Components                         |
+| <a class="dir05">components/</a>                         |
 |------------------------------------|
-| <a class="link01">card-client.html</a>              |
-| <a class="link01">card-client.js</a>                 |
+| <a class="dir01">card-client.html</a>              |
+| <a class="dir01">card-client.js</a>                 |
 |------------------------------------|
-| <a class="link01">card-translation.html</a>       |
-| <a class="link01">card-translation.js</a>          |
+| <a class="dir01">card-translation.html</a>       |
+| <a class="dir01">card-translation.js</a>          |
 |------------------------------------|
-| <a class="link01">flipper-language.html</a>       |
-| <a class="link01">flipper-language.js</a>          |
+| <a class="dir01">flipper-language.html</a>       |
+| <a class="dir01">flipper-language.js</a>          |
 |------------------------------------|
-| <a class="link01">form-client.html</a>              |
-| <a class="link01">form-client.js</a>                 |
+| <a class="dir01">form-client.html</a>              |
+| <a class="dir01">form-client.js</a>                 |
 |------------------------------------|
-| <a class="link01">generator-container.html</a>   |                ___________________________________
-| <a class="link01">generator-container.js</a>      |               | ViewComponents                   |
+| <a class="dir01">generator-container.html</a>   |                ___________________________________
+| <a class="dir01">generator-container.js</a>      |               | <a class="dir05">views/</a>                   |
 |------------------------------------|               |----------------------------------|
-| <a class="link01">generator-translation.html</a> |               | <a class="link02">edit-client.html</a>            |
-| <a class="link01">generator-translation.js</a>    |              | <a class="link02">edit-client.js</a>               |
+| <a class="dir01">generator-translation.html</a> |               | <a class="dir02">edit-client.html</a>            |
+| <a class="dir01">generator-translation.js</a>    |              | <a class="dir02">edit-client.js</a>               |
 |------------------------------------|               |----------------------------------|
-| <a class="link01">header.html</a>                    |               | <a class="link02">select-client.html</a>          |             __________________________________ 
-| <a class="link01">header.js</a>                       |               | <a class="link02">select-client.js</a>            |             | Network                          |
+| <a class="dir01">header.html</a>                    |               | <a class="dir02">select-client.html</a>          |             __________________________________ 
+| <a class="dir01">header.js</a>                       |               | <a class="dir02">select-client.js</a>            |             | <a class="dir05">lib/</a>                          |
 |------------------------------------|               |----------------------------------|             |----------------------------------|
-| <a class="link01">picker-container.html</a>       |               | <a class="link02">select-translation.html</a>   |             | <a class="link03">Route.js</a>                       |
-| <a class="link01">picker-container.js</a>          |               | <a class="link02">select-translation.js</a>     |              | <a class="link03">Fetch.js</a>                      |
+| <a class="dir01">picker-container.html</a>       |               | <a class="dir02">select-translation.html</a>   |             | <a class="dir03">Route.js</a>                       |
+| <a class="dir01">picker-container.js</a>          |               | <a class="dir02">select-translation.js</a>     |              | <a class="dir03">Fetch.js</a>                      |
 |____________________________________|               |__________________________________|             |__________________________________|  
                   |                                                |                                                   |
                   |                                                |                                                   |
@@ -87,24 +87,24 @@
                   |                                                |                                                   |             
                   |                                                |                                                   |          
                   |                                 _______________|__________________                                 |      
-                  |                                | App                              |                                | 
+                  |                                | <a class="dir05">app/</a>                              |                                | 
                   |________________________________|----------------------------------|________________________________|
-                                                   | <a class="link04">App.js</a>                         |
-                                                   | <a class="link04">loadSelectClient.js</a>        |
-                                                   | <a class="link04">loadNewClient.js</a>            |
-                                                   | <a class="link04">loadEditClient.js</a>           |
-                                                   | <a class="link04">loadSelectTranslation.js</a>  |
+                                                   | <a class="dir04">App.js</a>                         |
+                                                   | <a class="dir04">load-selectClient.js</a>        |
+                                                   | <a class="dir04">load-newClient.js</a>            |
+                                                   | <a class="dir04">load-editClient.js</a>           |
+                                                   | <a class="dir04">load-selectTranslation.js</a>  |
                                                    |__________________________________|    
                                                                    |             
                                                                    |
                                                                     ---------------  <b>webpack babel es2016</b>
                                                                    |
                                                     _______________|_________________                               
-                                                   |  Webpacked app                   |
+                                                   |  <a class="dir06">wwwroot/</a>                  |
                                                    |----------------------------------|                             
-                                                   | <a class="link05">bundle.demo.js</a>               |
-                                                   | <a class="link05">index.html</a>                    |
-                                                   | <a class="link05">index.css</a>                     |
+                                                   | <a class="dir05">bundle.demo.js</a>               |
+                                                   | <a class="dir05">index.html</a>                    |
+                                                   | <a class="dir05">index.css</a>                     |
                                                    |__________________________________|  
                                                                    |
                                                                    |
@@ -119,7 +119,7 @@
          _______________|_________________                               
         | IIS Proxy server                 |  
         |----------------------------------|
-        | <a class="link06">web.config</a>                    |
+        | <a class="dir06">web.config</a>                    |
         |__________________________________|    
                         |
                         |
@@ -128,32 +128,32 @@
          _______________|__________________                               
         | .net core Kestrel server         |  
         |----------------------------------|
-        | <a class="link06">Program.cs</a>                    |
-        | <a class="link06">OrdBaseCore.csproj</a>                    |
+        | <a class="dir06">Program.cs</a>                    |
+        | <a class="dir06">OrdBaseCore.csproj</a>                    |
         |__________________________________|    
                         |
          _______________|__________________                               
         | ASP MVC middleware               |  
         |----------------------------------|
-        | <a class="link06">Startup.cs</a>                    |
+        | <a class="dir06">Startup.cs</a>                    |
         |__________________________________|                       __________________________________
-                        |                                         | Models                           |
+                        |                                         | <a class="dir06">Models/</a>                           |
          _______________|__________________                       |----------------------------------|      
-        | ASP MVC Controllers              |                      | <a class="link09">TranslationDb.cs</a>            |           
-        |----------------------------------|                      | <a class="link09">Translation.cs</a>               |      
-        | <a class="link07">TranslationController.cs</a> |                      | <a class="link09">TranslationGroup.cs</a>         |                           
-        | <a class="link07">ClientController.cs</a>        |                      | <a class="link09">Client.cs</a>                     |                             
-        | <a class="link07">ContainerController.cs</a>    |______________________| <a class="link09">Container.cs</a>                 |  
-        | <a class="link07">LanguageController.cs</a>     |                      | <a class="link09">Language.cs</a>                 |      
+        | <a class="dir06">Controllers/</a>              |                      | <a class="dir09">TranslationDb.cs</a>            |           
+        |----------------------------------|                      | <a class="dir09">Translation.cs</a>               |      
+        | <a class="dir07">TranslationController.cs</a> |                      | <a class="dir09">TranslationGroup.cs</a>         |                           
+        | <a class="dir07">ClientController.cs</a>        |                      | <a class="dir09">Client.cs</a>                     |                             
+        | <a class="dir07">ContainerController.cs</a>    |______________________| <a class="dir09">Container.cs</a>                 |  
+        | <a class="dir07">LanguageController.cs</a>     |                      | <a class="dir09">Language.cs</a>                 |      
         |__________________________________|                      |__________________________________|      
                         |                                                |        |                
          _______________|__________________                              |        | 
-        | Repositories                     |_____________________________|         ------- <b>dotnet ef migrations add</b>
+        | <a class="dir06">Repositories/</a>                     |_____________________________|         ------- <b>dotnet ef migrations add</b>
         |----------------------------------|                                      |
-        | <a class="link08">TranslationRepository.cs</a> |                       ________________|________________________                         
-        | <a class="link08">ClientRepository.cs</a>        |                      | Migrations                             |                              
-        | <a class="link08">ContainerRepository.cs</a>    |                      |----------------------------------------|
-        | <a class="link08">LanguageRepository.cs</a>     |                      | <a class="link10">TranslationDbModelSnapshot.cs</a> |               
+        | <a class="dir08">TranslationRepository.cs</a> |                       ________________|________________________                         
+        | <a class="dir08">ClientRepository.cs</a>        |                      | <a class="dir06">Migrations/</a>                             |                              
+        | <a class="dir08">ContainerRepository.cs</a>    |                      |----------------------------------------|
+        | <a class="dir08">LanguageRepository.cs</a>     |                      | <a class="dir10">TranslationDbModelSnapshot.cs</a> |               
         |__________________________________|                      |________________________________________|        
                         |                                                         |
                         |                                                         |
@@ -163,7 +163,7 @@
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - SQL/localhost
   <i>Sql database</i>                                      |
                                      ______________ |__________________                               
-                                    | <a class="link06">config.demo.json</a>            |
+                                    | <a class="dir06">config.demo.json</a>            |
                                     |__________________________________|  
                                                     |
                                                      ------- <b>http://ordbase.fylkesmannen.sql</b>
@@ -190,7 +190,7 @@
 
 
                                 _________________________________      __________________________________
-                               | <a class="link09">ClientContainer.cs</a>        |    | <a class="link09">ClientLanguage.cs</a>            |                                          
+                               | <a class="dir09">ClientContainer.cs</a>        |    | <a class="dir09">ClientLanguage.cs</a>            |                                          
                                |---------------------------------|    |-----------------------------------|      
                                | string clientKey    { PPK, FK } |    | string    clientKey   { PPK, FK } |      
                                | string containerKey { PPK, FK } |    | ISO_639-1 languageKey { PPK, FK } |      
@@ -203,7 +203,7 @@
                                        |                  |                   |                   |
                                   1..1 |                  | 1..1         1..1 |                   | 1..1
          ______________________________|___        _______|___________________|______       ______|___________________________                                                                                                                                       
-        | <a class="link09">Container.cs</a>                 |      | <a class="link09">Client.cs</a>                     |     | <a class="link09">Language.cs</a>                   |                                 
+        | <a class="dir09">Container.cs</a>                 |      | <a class="dir09">Client.cs</a>                     |     | <a class="dir09">Language.cs</a>                   |                                 
         |----------------------------------|      |----------------------------------|     |----------------------------------| 
         | string key       { PK }          |      | string key         { PK }        |     | ISO_639-1 key       { PK }       |                               
         |__________________________________|      | string apiKey      { AK }        |     | string    name                   |                               
@@ -214,7 +214,7 @@
                           |                                         |                                        |
                           |                                         | 0..*                                   |
                           |                 0..*   _________________|________________  0..*                  |        
-                          |_______________________| <a class="link09">Translation.cs</a>               |______________________|  
+                          |_______________________| <a class="dir09">Translation.cs</a>               |______________________|  
                                                   |----------------------------------|
                                                   | string clientKey     { PPK, FK } |
                                                   | string languageKey   { PPK, FK } |
@@ -255,16 +255,16 @@
         const BASE_PATH = 'https://github.com/Arxcis/OrdBase/blob/master';
 
         const DIRECTORY = [
-            { class: '.link01', path: 'wwwroot/components'},
-            { class: '.link02', path: 'wwwroot/views'},
-            { class: '.link03', path: 'wwwroot/lib'},
-            { class: '.link04', path: 'wwwroot/app'},
-            { class: '.link05', path: 'wwwroot'},
-            { class: '.link06', path: ''},
-            { class: '.link07', path: 'Controllers'},
-            { class: '.link08', path: 'Repositories'},
-            { class: '.link09', path: 'Models'},
-            { class: '.link10', path: 'Migrations'},
+            { class: '.dir01', path: 'wwwroot/components'},
+            { class: '.dir02', path: 'wwwroot/views'},
+            { class: '.dir03', path: 'wwwroot/lib'},
+            { class: '.dir04', path: 'wwwroot/app'},
+            { class: '.dir05', path: 'wwwroot'},
+            { class: '.dir06', path: ''},
+            { class: '.dir07', path: 'Controllers'},
+            { class: '.dir08', path: 'Repositories'},
+            { class: '.dir09', path: 'Models'},
+            { class: '.dir10', path: 'Migrations'},
         ];
         
         for(let i = 0; i < DIRECTORY.length; i++) {

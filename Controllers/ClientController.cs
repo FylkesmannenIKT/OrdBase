@@ -21,24 +21,13 @@ namespace OrdBaseCore.Controllers
         //
         // GET api/client/*
         //
-    	[HttpGet("api/client")]
+        [ResponseCache(CacheProfileName="api_cache")]  
+        [HttpGet("api/client")]
     	public IEnumerable<Client> Get([FromQuery] ClientQuery query)
     	{
     		return _clientRepo.Get(query);
     	}
-
-        [HttpGet("api/client/containers")]        
-        public IEnumerable<string> GetContainers([FromQuery] ClientQuery query) 
-        {
-            return _clientRepo.GetContainers(query);
-        }
-
-        [HttpGet("api/client/languages")] 
-        public IEnumerable<string> GetLanguages([FromQuery] ClientQuery query) 
-        {
-            return _clientRepo.GetLanguages(query);
-        }
-
+        
         //
         // CREATE, UPDATE, DELETE api/client/*
         //
@@ -66,25 +55,5 @@ namespace OrdBaseCore.Controllers
             return _clientRepo.Delete(query);
         }
 
-        //
-        // SET containers and languages connected to client
-        //
-        [HttpPost("api/client/containers")]
-        public IActionResult  SetContainers([FromQuery] ClientQuery query, [FromBody] string[] containerArray)
-        {
-            if (containerArray ==  null)
-                return  BadRequest();
-
-            return _clientRepo.SetContainers(query, containerArray);
-        }
-
-        [HttpPost("api/client/languages")]         
-        public IActionResult SetLanguages([FromQuery] ClientQuery query, [FromBody] string[] languageArray) 
-        {
-            if (languageArray == null)
-                return  BadRequest();
-
-            return _clientRepo.SetLanguages(query, languageArray);
-        }
     }
 }

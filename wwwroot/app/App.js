@@ -3,7 +3,8 @@
 // COMPILE WITH BABEL - https://css-tricks.com/transpiling-es6/
 // TRanspile with webpack - https://webpack.github.io/docs/tutorials/getting-started/
 
-import { load_selectClient } from './selectClient.js';
+import * as Ordbase from '../lib/Ordbase.js';
+import { load_selectClient } from './load-selectClient.js';
 
 //
 // @file main.js
@@ -26,7 +27,7 @@ export const HTTP_CREATED  = 201;
 export const HTTP_UPDATED  = 204;
 export const HTTP_NOTFOUND = 404;
 
-// keycodes
+// keycodes 
 const KEY_BACKSPACE = 8;
 const KEY_HOME = 36;
 
@@ -34,13 +35,14 @@ const KEY_HOME = 36;
 const MAIN   = document.getElementById('ordbase-main');    
 const HEADER = document.getElementById('ordbase-header');
 
+let languageObserver
 
 export function setHeader(header){
     HEADER.innerHTML = ''; // Clear existing header
     HEADER.appendChild(header);
 }
-
-export function switchView(view) {
+    
+export function setView(view) {
     MAIN.innerHTML = '';
     MAIN.appendChild(view);
     return view;
@@ -50,11 +52,13 @@ export function flashError(error) {
     HEADER.firstChild.flashMessage(error);
 }
 
-document.addEventListener('keydown', (e) => {
-    if (e.keyCode === KEY_HOME)    
-        load_selectClient();
-})
+window.addEventListener('DOMContentLoaded', () => {
 
-window.addEventListener('load', () => {
+    // When to reload the home page ???
+    document.addEventListener('keydown', (e) => {
+        if (e.keyCode === KEY_HOME)    
+            load_selectClient();
+    })
+    
     load_selectClient();
 });

@@ -131,6 +131,13 @@ export class Component_TranslationCard extends HTMLElement {
         return this._root.getElementById('card-translation-key').innerHTML;
     }
 
+    setSubmitButtontext(text) {
+        this._root.getElementById('button-submit').innerHTML = text;
+    }
+    setCheckboxText(text) {
+        this._checkboxText = text;
+    }
+
 
     getFormData() {
         return {
@@ -151,13 +158,15 @@ export class Component_TranslationCard extends HTMLElement {
     makeFieldset({ languageKey, text, isComplete}) {
 
         let fragment = this.__template__fieldset.content.cloneNode(true);
-        
-        fragment.querySelector('label').setAttribute('for', `form-translation-${languageKey}`);  
-        fragment.querySelector('label').innerHTML = languageKey;                                  
-        fragment.querySelector('input[type="text"]').setAttribute('id',  `form-translation-${languageKey}`);
-        fragment.querySelector('input[type="text"]').value = text;
-        fragment.querySelector('input[type="checkbox"]').checked = isComplete;
-        fragment.querySelector('fieldset').classList.add('generated');
+        let _querySelector = fragment.querySelector.bind(fragment);
+
+        _querySelector('label').setAttribute('for', `form-translation-${languageKey}`);  
+        _querySelector('label').innerHTML = languageKey;                                  
+        _querySelector('input[type="text"]').setAttribute('id',  `form-translation-${languageKey}`);
+        _querySelector('input[type="text"]').value = text;
+        _querySelector('input[type="checkbox"]').checked = isComplete;
+        _querySelector('.checkbox-text').innerHTML = this._checkboxText;
+        _querySelector('fieldset').classList.add('generated');
 
         this._form.insertBefore(fragment, this._root.getElementById('fieldset-button-submit'));
     }
@@ -173,12 +182,6 @@ export class Component_TranslationCard extends HTMLElement {
             fragment.querySelector('i').classList.add('fa-check');
         }
         this._root.getElementById('array-languagekey-complete').appendChild(fragment);
-    }
-
-    getTranslationGroup() {
-        return {
-
-        }
     }
 }
 customElements.define('component-card-translation', Component_TranslationCard);

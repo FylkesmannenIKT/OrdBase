@@ -30,7 +30,6 @@ export function GET({ route = force() } = force()) {
 // @function DELETE
 //
 export function DELETE({ route = force()} = force()) {
-    
     console.log('fetch.DELETE:', '\nroute', route);
 
     return fetch(route, { method: 'DELETE' });
@@ -47,7 +46,23 @@ export function PUT({ route = force(), data = force()} = force()) {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        method: 'PUT',                 // POST or PUT
+        method: 'PUT',                 
+        body: JSON.stringify(data),
+    });
+}
+
+//
+// @function PATCH
+//
+export function PATCH({ route = force(), data = force()} = force()) {
+    console.log('fetch.PATCH:', '\nroute', route, '\ndata', data);
+
+    return fetch(route, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'PATCH',                 
         body: JSON.stringify(data),
     });
 }
@@ -57,12 +72,13 @@ export function PUT({ route = force(), data = force()} = force()) {
 //
 export function POST({ route = force(), data = force()} = force()) {
     console.log('fetch.POST:', '\nroute', route, '\ndata', data);
+
     return fetch(route, {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        method: 'POST',                 // POST or PUT
+        method: 'POST',                 
         body: JSON.stringify(data),
     });
 }

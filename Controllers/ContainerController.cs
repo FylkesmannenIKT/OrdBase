@@ -16,16 +16,33 @@ namespace OrdBaseCore.Controllers
             _containerRepo = containerRepo;
         }
 
-		[Route("api/container")]
+	    [ResponseCache(CacheProfileName="api_cache")]  
+        [Route("api/container")]
 		public IEnumerable<Container> Get([FromQuery] string containerKey) 
 		{
             return _containerRepo.Get(containerKey);
         }
 
-        [Route("api/container/noempty")]
-        public IEnumerable<Container> GetNoEmpty([FromQuery] string clientKey)
+        [Route("api/container/nonempty")]
+        public IEnumerable<Container> GetNonEmpty([FromQuery] ClientQuery query)
         {
-            return _containerRepo.GetNoEmpty(clientKey);
+            return _containerRepo.GetNonEmpty(query);
+        }
+
+        [ResponseCache(CacheProfileName="api_cache")]  
+        [HttpGet("api/container/active")]
+        public IEnumerable<ClientContainer> GetClientContainerArray([FromQuery] ClientQuery query) 
+        {
+            return _containerRepo.GetClientContainerArray(query);
+        }
+
+        [HttpPut("api/container/active")]
+        public IActionResult  SetClientContainerArray([FromQuery] ClientQuery query, [FromBody] IEnumerable<ClientContainer> clientContainerArray)
+        {
+            if (clientContainerArray ==  null)
+                return  BadRequest();
+
+            return _containerRepo.SetClientContainerArray(query, clientContainerArray);
         }
     }
 }

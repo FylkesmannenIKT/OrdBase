@@ -6,6 +6,7 @@
 // 'npm install <package> -g' "webpack": "^3.3.0",
 // 'npm install <package> -g' "webpack-dev-server": "^2.5.1",
 
+var webpack = require('webpack');
 
 module.exports = {
   
@@ -14,7 +15,7 @@ module.exports = {
     },
 
     output: {
-        filename: "bundle.js",
+        filename: "dist/bundle.js",
     },
 
     module: {
@@ -37,9 +38,15 @@ module.exports = {
                     collapseWhitespace: true,
                 }
             },
+            {
+                test: /\.css$/,
+                use: [ 'style-loader', 'css-loader' ]
+            }
         ],
+
     },
-    watch: true,
+    watch: false,
+
 
     resolve: {
         modules: ["node_modules", "app", "components", "views", "lib"],

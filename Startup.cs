@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.ResponseCaching;
 
 // Extensions
 using Microsoft.Extensions.DependencyInjection;
@@ -44,7 +48,7 @@ namespace OrdBaseCore {
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("config.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
@@ -69,9 +73,22 @@ namespace OrdBaseCore {
                 
             );
 
+            // @doc response caching middleware - https://docs.microsoft.com/en-us/aspnet/core/performance/caching/middleware
             services.AddDirectoryBrowser();
-            services.AddMvc();
+            services.AddMvc((options) => {
+                options.CacheProfiles.Add("api_cache", new CacheProfile() {  
+                    Duration = 60 * 60 * 24,  
+                        Location = ResponseCacheLocation.Any  
+                });
+            });
+            services.AddResponseCaching();
 
+            // @note GZIP compression service
+            // @doc https://www.softfluent.com/blog/dev/Enabling-gzip-compression-with-ASP-NET-Core
+            services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
+            services.AddResponseCompression();
+
+            // @note add Repositories as services
             services.AddTransient<IClientData,      ClientRepository>();
             services.AddTransient<IContainerData,   ContainerRepository>();
             services.AddTransient<ILanguageData,    LanguageRepository>();
@@ -87,6 +104,7 @@ namespace OrdBaseCore {
                               ILoggerFactory loggerFactory,
                               TranslationDb context)
         {
+            // @note Failed to make logging to console work - JSolsvik 09.08.17
             loggerFactory.AddConsole()
                          .AddDebug();
 
@@ -95,12 +113,22 @@ namespace OrdBaseCore {
             }
 
             // TranslationDb.Seed(context);
+            app.UseResponseCompression();
 
-            app.UseFileServer();
-            app.UseMvc();            
+            // @doc caching static files - https://andrewlock.net/adding-cache-control-headers-to-static-files-in-asp-net-core/
+            app.UseDefaultFiles();
+            app.UseStaticFiles(new StaticFileOptions  
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    const int durationInSeconds = 60 * 60 * 24;
+                    ctx.Context.Response.Headers[HeaderNames.CacheControl] = "public,max-age=" + durationInSeconds;
+                }
+            });
+            app.UseMvc();
+            app.UseResponseCaching();   
        }
     }
-
     //
     // @note This is needed for Entity Framework to be able to do migrations.
     //       The class makes it possible for EF to get the DbContext, but this should

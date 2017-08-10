@@ -39,13 +39,13 @@ export class Component_ContainerGenerator extends HTMLElement {
     //
     constructor() {
         super();
-        this._root = this.createShadowRoot();
-        this._root.innerHTML  = html;
-        this._buttonTemplate = this._root.getElementById('template-item');
+        let root = this.createShadowRoot();
+        root.innerHTML  = html;
+        this._buttonTemplate = root.getElementById('template-item');
 
-        this._generatedItems = this._root.getElementById('div-generated-items')
-        this._input  = this._root.getElementById('generator-input');
-        this._button = this._root.getElementById('button-activate');
+        this._generatedItems = root.getElementById('div-generated-items')
+        this._input  = root.getElementById('generator-input');
+        this._button = root.getElementById('button-activate');
         this._faIcon = this._button.querySelector('i');
 
         //
@@ -87,14 +87,14 @@ export class Component_ContainerGenerator extends HTMLElement {
         //
         this.addEventListener('keydown', e => {
             if (e.keyCode == UP) {
-                let activeElement = this._root.activeElement;
+                let activeElement = root.activeElement;
                 if (activeElement.parentElement == this._generatedItems && activeElement.previousElementSibling != null){
                     activeElement.previousElementSibling.focus();
                 }
             }
             else if (e.keyCode == DOWN) {
 
-                let activeElement = this._root.activeElement;
+                let activeElement = root.activeElement;
                 if (activeElement.parentElement == this._generatedItems && activeElement.nextElementSibling != null){
                     activeElement.nextElementSibling.focus();
                 }

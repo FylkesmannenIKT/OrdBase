@@ -21,18 +21,21 @@ namespace OrdBaseCore.Controllers
         //
         // GET translation
         //
+        [ResponseCache(CacheProfileName="api_cache")]  
         [HttpGet("api/translation")]
     	public IEnumerable<Translation> Get([FromQuery] TranslationQuery query)
         {   
             return _translationRepo.Get(query); 
         }
 
+        [ResponseCache(CacheProfileName="api_cache")]  
         [HttpGet("api/translation/group")]
         public IEnumerable<TranslationGroup> GetGroup([FromQuery] TranslationGroupQuery query) 
         {
             return  _translationRepo.GetGroup(query);
         }   
 
+        [ResponseCache(CacheProfileName="api_cache")]  
         [HttpGet("api/translation/meta")]        
         [HttpGet("api/translation/group/meta")]
         public IEnumerable<TranslationGroupMeta> GetGroupMeta([FromQuery] TranslationGroupQuery query)
@@ -40,6 +43,7 @@ namespace OrdBaseCore.Controllers
             return _translationRepo.GetGroupMeta(query);
         } 
 
+        [ResponseCache(CacheProfileName="api_cache")]  
         [HttpGet("api/translation/keyvalue")]
         public IEnumerable<KeyValuePair<string,string>> GetKeyValue([FromQuery] TranslationQuery query)
         {

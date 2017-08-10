@@ -1,24 +1,40 @@
-    <style>
-        @import url('/node_modules/font-awesome/css/font-awesome.min.css');
 
-        #btn-header-left.selectable i { color: var(--ordbase-color-success); }
-        #btn-header-left.editable   i { color: var(--ordbase-color-select); }
-        #btn-header-left.deleteable i { color: var(--ordbase-color-danger); }
-        #btn-header-left.newable    i { color: var(--ordbase-color-fresh); }
+<style>
+    .fa {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
 
-        .icon-button:hover .fa-trash, 
-        .icon-button:focus .fa-trash, 
-        .icon-button:hover .fa-times,
-        .icon-button:focus .fa-times { color: var(--ordbase-color-danger); }
-        
-        .icon-button:hover .fa-arrow-left,
-        .icon-button:focus .fa-arrow-left { color: var(--ordbase-color-success); }
+    /* @note pulling content from font-awesome.woff2 file directly here, to make loading of first page faster, because post-poning the need to load the font-awesome.css docuemnt */
+    .fa-plus:before   { content: "\f067"; }
+    .fa-square:before { content: "\f0c8"; }
+    .fa-times:before  { content: "\f00d"; }
+    .fa-pencil:before { content: "\f040"; }
+.fa-arrow-left:before { content: "\f060"; }
+     .fa-trash:before { content: "\f1f8"; }
+     
+    #btn-header-left.selectable i { color: var(--ordbase-color-success); }
+    #btn-header-left.editable   i { color: var(--ordbase-color-select); }
+    #btn-header-left.deleteable i { color: var(--ordbase-color-danger); }
+    #btn-header-left.newable    i { color: var(--ordbase-color-fresh); }
 
-        .icon-button:hover .fa-pencil ,
-        .icon-button:focus .fa-pencil { color: var(--ordbase-color-select); }
-        .icon-button:hover .fa-plus, 
-        .icon-button:focus .fa-plus   { color: var(--ordbase-color-fresh); }
- 
+    .icon-button:hover .fa-trash, 
+    .icon-button:focus .fa-trash, 
+    .icon-button:hover .fa-times,
+    .icon-button:focus .fa-times { color: var(--ordbase-color-danger); }
+    
+    .icon-button:hover .fa-arrow-left,
+    .icon-button:focus .fa-arrow-left { color: var(--ordbase-color-success); }
+
+    .icon-button:hover .fa-pencil ,
+    .icon-button:focus .fa-pencil { color: var(--ordbase-color-select); }
+    .icon-button:hover .fa-plus, 
+    .icon-button:focus .fa-plus   { color: var(--ordbase-color-fresh); }
+
 
         /* --- HEADER --- */
         #button-row {           
@@ -128,11 +144,11 @@
         </div>
 
         <button id="btn-header-right1" class="icon-button">
-            <i class="fa" aria-hidden="true"></i>
+            <i id="btn-header-right1-i" class="fa" aria-hidden="true"></i>
         </button>
 
         <button id="btn-header-right2" class="icon-button">
-            <i class="fa" aria-hidden="true"></i>
+            <i id="btn-header-right2-i" class="fa" aria-hidden="true"></i>
         </button>
     </div>
 
