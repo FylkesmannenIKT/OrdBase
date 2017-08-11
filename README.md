@@ -8,17 +8,96 @@ Questions about the software: jonasjso@stud.ntnu.no
 # Documentation
 
 **Table of contents** <br>
-[1. System overview](#system-overview) <br>
-[2. Data model](#data-model) <br>
-[3. API Reference](#api-reference) <br>
+[1. API Reference](#api-reference) <br>
+[2. System overview](#system-overview) <br>
+[3. Data model](#data-model) <br>
 [4. Development environment](#development-environment) <br>
 [5. Performance](#performance) <br>
+
+<br>
+<div id="api-reference"></div>
+
+## 1. API Reference
+Last updated: 04.08.17 by Jonas Solsvik
+
+This is a pretty naive implementation of a Restful API.
+
+| Method | Description |
+|-------|--------------|
+|GET    | read entry   |
+|POST   | create entry |
+|PUT    | update entry |
+|DELETE | delete entry |
+
+@note I have learned that POST should only be used when creating new entries which have server generated URL for access. When the client decides where the new entry will be accessed, PUT should have been used. Also PATCH should be used, when only parts of a database entry is updated. When I figured this out, it was to late to change it, so this is left for future implementors. - JSolsvik 08.08.17 
+
+### Base url
+```url
+https://localhost:5000/api
+```
+
+The URL convention for accessing an entry is like this:
+```
+api/{resource}/{optional modifier}/?{query parameters}
+```
+
+
+
+### Translation
+
+| Method | Path                     | Parameter                                                   | Details                                     |
+|--------| -------------------------|-------------------------------------------------------------| ------------------------------------------- |
+| GET    | api/translation          | query { clientKey, languageKey, containerKey, translationKey } | [link](./DOCS/api/translation/GET-translation.md) |
+| GET    | api/translation/keyvalue | query { clientKey, languageKey, containerKey, translationKey } | [link](./DOCS/api/translation/GET-translation-keyvalue.md) |
+| GET    | api/translation/group    | query { clientKey, languageKey, containerKey }                  | [link](./DOCS/api/translation/GET-translation-group.md)  |
+| GET    | api/translation/meta     | query { clientKey, languageKey, containerKey }                | [link](./DOCS/api/translation/GET-translation-meta.md)  |
+| POST   | api/translation          | json { Translation   }                                      | [link](./docs/api/translation/POST-translation.md) |
+| POST   | api/translation/array    | json { Translation[] }                                      | [link](./docs/api/translation/POST-translation-array.md) |
+| PUT    | api/translation          | query { clientKey, languageKey, translationKey, translationKey }<br> json { Translation }   | [link](./docs/api/translation/PUT-translation.md)|
+| PUT    | api/translation/group    | query { clientKey, languageKey, translationKey <br> json { Translation[] }                  | [link](./docs/api/translation/PUT-translation-array.md)|
+| DELETE | api/translation          | query { clientKey, languageKey, translationKey, translationKey } |   [link](./docs/api/translation/DELETE-translation.md) |
+| DELETE | api/t  ranslation/group  | query { clientKey, languageKey, translationKey }                  | [link](./docs/api/translation/DELETE-translation-group.md) |
+
+<br>
+
+
+
+### Client
+| Method | Path                     | Parameter                   | Details                        |
+|--------| -------------------------|---------------------------- | ------------------------------ |
+| GET    | api/client               | query { clientKey }         | [link](docs/api/client/GET-client.md)    |
+| POST   | api/client               | json { Client   }           | [link](docs/api/client/POST-client.md)    |   
+| PUT    | api/client               | query { clientKey } <br> json { Client   }     | [link](docs/api/client/PUT-client.md)    |  
+| DELETE | api/client               | query { clientKey }         | [link](docs/api/client/DELETE-client.md)    | 
+
+<br>
+
+
+### Language
+| Method | Path                 | Parameter                   | Details                                     |
+|--------| ------------------   | --------------------------- | ------------------------------------------- |
+| GET    | api/language         | query { languageKey }       | [link](docs/api/language/GET-language.md)
+| GET    | api/language/active  | query { clientKey   }       | [link](docs/api/language/GET-language-active.md)
+| POST   | api/language         | json  { Language    }       | [link](docs/api/language/POST-language.md)
+| PUT    | api/language/active  | query { clientKey   } <br> json  { Language[]  }       | [link](docs/api/language/POST-language-active.md)
+
+<br>
+
+### Container
+
+| Method | Path                   | Parameter              | Details                         |
+|--------| ---------------------- | ---------------------- | ------------------------------- |
+| GET    | api/container          | query { containerKey } | [link](docs/api/container/GET-container.md)
+| GET    | api/container/nonempty | query { clientKey }    | [link](docs/api/container/GET-container-nonempty.md)
+| GET    | api/container/active   | query { clientKey }    | [link](docs/api/container/GET-container-active.md)
+| PUT   | api/container/active   | query { clientKey   } <br> json { Container[] }  | [link](docs/api/container/POST-container-active.md)
+
 
 <br>
 
 <div id="system-overview"></div>
 
-## 1. System overview
+## 2. System overview
 Last updated: 04.08.17 by Jonas Solsvik
 
 ### [Requirements.pdf](./docs/OrdBase_Bestillingsdokument.pdf)
@@ -29,7 +108,7 @@ Last updated: 04.08.17 by Jonas Solsvik
 
 <div id="data-model"></div>
 
-## 2. Data model
+## 3. Data model
 Last updated: 04.08.17 by Jonas Solsvik
 ### [Data model diagram](https://arxcis.github.io/OrdBase#model-diagram)
 
@@ -238,83 +317,6 @@ class TranslationGroupMeta
 ```
 
 
-<br>
-<div id="api-reference"></div>
-
-## 3. API Reference
-Last updated: 04.08.17 by Jonas Solsvik
-
-This is a pretty naive implementation of a Restful API.
-
-| Method | Description |
-|-------|--------------|
-|GET    | read entry   |
-|POST   | create entry |
-|PUT    | update entry |
-|DELETE | delete entry |
-
-@note I have learned that POST should only be used when creating new entries which have server generated URL for access. When the client decides where the new entry will be accessed, PUT should have been used. Also PATCH should be used, when only parts of a database entry is updated. When I figured this out, it was to late to change it, so this is left for future implementors. - JSolsvik 08.08.17 
-
-### Base url
-```url
-https://localhost:5000/api
-```
-
-The URL convention for accessing an entry is like this:
-```
-api/{resource}/{optional modifier}/?{query parameters}
-```
-
-
-
-### Translation
-
-| Method | Path                     | Parameter                                                   | Details                                     |
-|--------| -------------------------|-------------------------------------------------------------| ------------------------------------------- |
-| GET    | api/translation          | query { clientKey, languageKey, containerKey, translationKey } | [link](./DOCS/api/translation/GET-translation.md) |
-| GET    | api/translation/keyvalue | query { clientKey, languageKey, containerKey, translationKey } | [link](./DOCS/api/translation/GET-translation-keyvalue.md) |
-| GET    | api/translation/group    | query { clientKey, languageKey, containerKey }                  | [link](./DOCS/api/translation/GET-translation-group.md)  |
-| GET    | api/translation/meta     | query { clientKey, languageKey, containerKey }                | [link](./DOCS/api/translation/GET-translation-meta.md)  |
-| POST   | api/translation          | json { Translation   }                                      | [link](./docs/api/translation/POST-translation.md) |
-| POST   | api/translation/array    | json { Translation[] }                                      | [link](./docs/api/translation/POST-translation-array.md) |
-| PUT    | api/translation          | query { clientKey, languageKey, translationKey, translationKey }<br> json { Translation }   | [link](./docs/api/translation/PUT-translation.md)|
-| PUT    | api/translation/group    | query { clientKey, languageKey, translationKey <br> json { Translation[] }                  | [link](./docs/api/translation/PUT-translation-array.md)|
-| DELETE | api/translation          | query { clientKey, languageKey, translationKey, translationKey } |   [link](./docs/api/translation/DELETE-translation.md) |
-| DELETE | api/t  ranslation/group  | query { clientKey, languageKey, translationKey }                  | [link](./docs/api/translation/DELETE-translation-group.md) |
-
-<br>
-
-
-
-### Client
-| Method | Path                     | Parameter                   | Details                        |
-|--------| -------------------------|---------------------------- | ------------------------------ |
-| GET    | api/client               | query { clientKey }         | [link](docs/api/client/GET-client.md)    |
-| POST   | api/client               | json { Client   }           | [link](docs/api/client/POST-client.md)    |   
-| PUT    | api/client               | query { clientKey } <br> json { Client   }     | [link](docs/api/client/PUT-client.md)    |  
-| DELETE | api/client               | query { clientKey }         | [link](docs/api/client/DELETE-client.md)    | 
-
-<br>
-
-
-### Language
-| Method | Path                 | Parameter                   | Details                                     |
-|--------| ------------------   | --------------------------- | ------------------------------------------- |
-| GET    | api/language         | query { languageKey }       | [link](docs/api/language/GET-language.md)
-| GET    | api/language/active  | query { clientKey   }       | [link](docs/api/language/GET-language-active.md)
-| POST   | api/language         | json  { Language    }       | [link](docs/api/language/POST-language.md)
-| POST   | api/language/active  | query { clientKey   } <br> json  { Language[]  }       | [link](docs/api/language/POST-language-active.md)
-
-<br>
-
-### Container
-
-| Method | Path                   | Parameter              | Details                         |
-|--------| ---------------------- | ---------------------- | ------------------------------- |
-| GET    | api/container          | query { containerKey } | [link](docs/api/container/GET-container.md)
-| GET    | api/container/nonempty | query { clientKey }    | [link](docs/api/container/GET-container-nonempty.md)
-| GET    | api/container/active   | query { clientKey }    | [link](docs/api/container/GET-container-active.md)
-| POST   | api/container/active   | query { clientKey   } <br> json { Container[] }  | [link](docs/api/container/POST-container-active.md)
 
 <br>
 <div id="development-environment"></div>

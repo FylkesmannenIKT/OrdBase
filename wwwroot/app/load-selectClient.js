@@ -1,9 +1,9 @@
 'use strict';
 
 import * as App from './App.js';
-import * as Route from '../lib/Route.js';
-import { force } from  '../lib/Util.js'; 
 import * as Ordbase from '../lib/Ordbase.js';
+import * as TranslatePlugin from '../lib/Ordbase-translate-plugin.js';
+import { force } from  '../lib/Util.js'; 
 
 import { View_SelectClient }      from '../views/select-client.js';
 import { Component_ClientCard   } from '../components/card-client.js';
@@ -23,8 +23,8 @@ export function load_selectClient() {
     //
     // -1. Set up Ordbase
     //
-    Ordbase.OnLanguageChange(() => { load_selectClient(); });
-    Ordbase.async_loadContainer('Ordbase', 'select_client_page');
+    TranslatePlugin.OnLanguageChange(() => { load_selectClient(); });
+    TranslatePlugin.async_loadContainer('Ordbase', 'SelectClient');
 
     //
     // 0. Create component instances
@@ -62,7 +62,7 @@ export function load_selectClient() {
     //
     // 3. Set up header
     //
-    Ordbase.translate('select_client', text => {  header.setTheme({ textSmall: 'Ordbase', textBig: text, selectable: true }) });
+    TranslatePlugin.translate('selectClient', text => {  header.setTheme({ textSmall: 'Ordbase', textBig: text, selectable: true }) });
     header.setIcons({ button1: App.ICON_PENCIL, button2: App.ICON_PLUS });   
     header.setEventHandlers({
 
@@ -72,13 +72,13 @@ export function load_selectClient() {
             
             if (!cardArray[0].isEditable()) {
                 cardArray.forEach(card => card.setEditable());           
-                Ordbase.translate('edit_client', text => header.setTheme({ textBig: text, editable: true }));
+                TranslatePlugin.translate('editClient', text => header.setTheme({ textBig: text, editable: true }));
                 header.setIcons({ button1: '', button2: App.ICON_TIMES, });
                 header.setEventHandlers({
 
                     button2_onclick: e => { 
                         cardArray.forEach(card => card.setSelectable());            
-                        Ordbase.translate('select_client', text => header.setTheme({textBig: text, selectable: true}));
+                        TranslatePlugin.translate('selectClient', text => header.setTheme({textBig: text, selectable: true}));
                         header.setIcons({ button1: App.ICON_PENCIL, button2: App.ICON_PLUS, });       
                         header.setEventHandlers({ button2_onclick: e => { load_newClient() }});        
                         view.focus();            
@@ -106,11 +106,11 @@ function async_client_getArray({ success = force('success') }) {
 
     // @note preload_clientArrayPromise is declared in index.html to make initial loading faster - JSolsvik 09.08.17
     if (!preload_clientArrayPromise) {
-        Route.client_get().then(clientArray => {
+        Ordbase.client_get().then(clientArray => {
             if (clientArray.length > 0)  
                 success(clientArray);
             else
-                App.flashError(Ordbase.translate('error_no_clients'));
+                App.flashError(TranslatePlugin.translate('errorNoClients'));
         })
         .catch(err => App.flashError(err));
     }
@@ -120,7 +120,7 @@ function async_client_getArray({ success = force('success') }) {
                 success(clientArray);
             }
             else { 
-                App.flashError(Ordbase.translate('error_no_clients'));
+                App.flashError(TranslatePlugin.translate('errorNoClients'));
             }   
         });
         preload_clientArrayPromise = null;

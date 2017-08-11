@@ -55,7 +55,7 @@
             <pre>
 
  ____________________________________                               
-| <a class="dir05">components/</a>                         |
+| <a class="dir05">components/</a>                    |
 |------------------------------------|
 | <a class="dir01">card-client.html</a>              |
 | <a class="dir01">card-client.js</a>                 |
@@ -70,41 +70,41 @@
 | <a class="dir01">form-client.js</a>                 |
 |------------------------------------|
 | <a class="dir01">generator-container.html</a>   |                ___________________________________
-| <a class="dir01">generator-container.js</a>      |               | <a class="dir05">views/</a>                   |
+| <a class="dir01">generator-container.js</a>      |               | <a class="dir05">views/</a>                         |
 |------------------------------------|               |----------------------------------|
 | <a class="dir01">generator-translation.html</a> |               | <a class="dir02">edit-client.html</a>            |
 | <a class="dir01">generator-translation.js</a>    |              | <a class="dir02">edit-client.js</a>               |
-|------------------------------------|               |----------------------------------|
-| <a class="dir01">header.html</a>                    |               | <a class="dir02">select-client.html</a>          |             __________________________________ 
-| <a class="dir01">header.js</a>                       |               | <a class="dir02">select-client.js</a>            |             | <a class="dir05">lib/</a>                          |
-|------------------------------------|               |----------------------------------|             |----------------------------------|
-| <a class="dir01">picker-container.html</a>       |               | <a class="dir02">select-translation.html</a>   |             | <a class="dir03">Route.js</a>                       |
-| <a class="dir01">picker-container.js</a>          |               | <a class="dir02">select-translation.js</a>     |              | <a class="dir03">Fetch.js</a>                      |
-|____________________________________|               |__________________________________|             |__________________________________|  
+|------------------------------------|               |----------------------------------|             ________________________________________
+| <a class="dir01">header.html</a>                    |               | <a class="dir02">select-client.html</a>          |             | <a class="dir05">lib/</a>                                |
+| <a class="dir01">header.js</a>                       |               | <a class="dir02">select-client.js</a>            |             | ------------------------------------ |
+|------------------------------------|               |----------------------------------|             | <a class="dir03">Ordbase-translate-plugin.js</a> |
+| <a class="dir01">picker-container.html</a>       |               | <a class="dir02">select-translation.html</a>   |             | <a class="dir03">Ordbase.js</a>                        |
+| <a class="dir01">picker-container.js</a>          |               | <a class="dir02">select-translation.js</a>     |              | <a class="dir03">Fetch.js</a>                          |
+|____________________________________|               |__________________________________|             |______________________________________|  
                   |                                                |                                                   |
                   |                                                |                                                   |
                   |                                                |                                                   |
                   |                                                |                                                   |             
                   |                                                |                                                   |          
                   |                                 _______________|__________________                                 |      
-                  |                                | <a class="dir05">app/</a>                              |                                | 
+                  |                                | <a class="dir05">app/</a>                            |                                | 
                   |________________________________|----------------------------------|________________________________|
                                                    | <a class="dir04">App.js</a>                         |
-                                                   | <a class="dir04">load-selectClient.js</a>        |
-                                                   | <a class="dir04">load-newClient.js</a>            |
-                                                   | <a class="dir04">load-editClient.js</a>           |
-                                                   | <a class="dir04">load-selectTranslation.js</a>  |
+                                                   | <a class="dir04">load-selectClient.js</a>       |
+                                                   | <a class="dir04">load-newClient.js</a>           |
+                                                   | <a class="dir04">load-editClient.js</a>         |
+                                                   | <a class="dir04">load-selectTranslation.js</a>|
                                                    |__________________________________|    
                                                                    |             
                                                                    |
-                                                                    ---------------  <b>webpack babel es2016</b>
+                                                                    ---------------  <b>webpack babel es2016 + uglify --compress --mangle</b>
                                                                    |
                                                     _______________|_________________                               
-                                                   |  <a class="dir06">wwwroot/</a>                  |
+                                                   |  <a class="dir06">wwwroot/</a>                     |
                                                    |----------------------------------|                             
                                                    | <a class="dir05">bundle.demo.js</a>               |
                                                    | <a class="dir05">index.html</a>                    |
-                                                   | <a class="dir05">index.css</a>                     |
+                                                   | <a class="dir05">package.json</a>                 |
                                                    |__________________________________|  
                                                                    |
                                                                    |
@@ -129,7 +129,7 @@
         | .net core Kestrel server         |  
         |----------------------------------|
         | <a class="dir06">Program.cs</a>                    |
-        | <a class="dir06">OrdBaseCore.csproj</a>                    |
+        | <a class="dir06">OrdBaseCore.csproj</a>          |
         |__________________________________|    
                         |
          _______________|__________________                               
@@ -137,21 +137,21 @@
         |----------------------------------|
         | <a class="dir06">Startup.cs</a>                    |
         |__________________________________|                       __________________________________
-                        |                                         | <a class="dir06">Models/</a>                           |
+                        |                                         | <a class="dir06">Models/</a>                        |
          _______________|__________________                       |----------------------------------|      
-        | <a class="dir06">Controllers/</a>              |                      | <a class="dir09">TranslationDb.cs</a>            |           
+        | <a class="dir06">Controllers/</a>                 |                      | <a class="dir09">TranslationDb.cs</a>            |           
         |----------------------------------|                      | <a class="dir09">Translation.cs</a>               |      
         | <a class="dir07">TranslationController.cs</a> |                      | <a class="dir09">TranslationGroup.cs</a>         |                           
         | <a class="dir07">ClientController.cs</a>        |                      | <a class="dir09">Client.cs</a>                     |                             
         | <a class="dir07">ContainerController.cs</a>    |______________________| <a class="dir09">Container.cs</a>                 |  
-        | <a class="dir07">LanguageController.cs</a>     |                      | <a class="dir09">Language.cs</a>                 |      
+        | <a class="dir07">LanguageController.cs</a>     |                      | <a class="dir09">Language.cs</a>                   |      
         |__________________________________|                      |__________________________________|      
                         |                                                |        |                
          _______________|__________________                              |        | 
-        | <a class="dir06">Repositories/</a>                     |_____________________________|         ------- <b>dotnet ef migrations add</b>
+        | <a class="dir06">Repositories/</a>                |_____________________________|         ------- <b>dotnet ef migrations add</b>
         |----------------------------------|                                      |
         | <a class="dir08">TranslationRepository.cs</a> |                       ________________|________________________                         
-        | <a class="dir08">ClientRepository.cs</a>        |                      | <a class="dir06">Migrations/</a>                             |                              
+        | <a class="dir08">ClientRepository.cs</a>        |                      | <a class="dir06">Migrations/</a>                         |                              
         | <a class="dir08">ContainerRepository.cs</a>    |                      |----------------------------------------|
         | <a class="dir08">LanguageRepository.cs</a>     |                      | <a class="dir10">TranslationDbModelSnapshot.cs</a> |               
         |__________________________________|                      |________________________________________|        
@@ -163,7 +163,7 @@
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - SQL/localhost
   <i>Sql database</i>                                      |
                                      ______________ |__________________                               
-                                    | <a class="dir06">config.demo.json</a>            |
+                                    | <a class="dir06">appsettings.demo.json</a>     |
                                     |__________________________________|  
                                                     |
                                                      ------- <b>http://ordbase.fylkesmannen.sql</b>

@@ -1,7 +1,7 @@
 'use strict';
 
 import * as App   from './App.js';
-import * as Route from '../lib/Route.js';
+import * as Ordbase from '../lib/Ordbase.js';
 import { force }  from '../lib/Util.js'; 
 
 import { View_EditClient }  from '../views/edit-client.js';
@@ -83,7 +83,7 @@ export function load_newClient(clientKey) {
 //
 function async_language_getArray({ success = force('success')}) {
 
-    Route.language_get().then(languageArray => {
+    Ordbase.language_get().then(languageArray => {
 
         if (languageArray.length > 0) {
             success(languageArray);
@@ -104,13 +104,13 @@ function async_client_create({ success        = force('success'),
                                containerKeyArray = force('containerKeyArray'), 
                                languageKeyArray  = force('languageKeyArray'), }) {
 
-    Route.client_create({client: client})
+    Ordbase.client_create({client: client})
     .then(res => {
         console.log('client_create(): ', res.status)
 
         if (res.status == App.HTTP_CREATED) {
 
-            Route.container_setClientContainerArray({
+            Ordbase.container_setClientContainerArray({
                 clientKey: client.key, 
                 clientContainerArray: containerKeyArray.map(containerKey => { return {containerKey: containerKey, clientKey: client.key }})
             }).then(res => {
@@ -125,7 +125,7 @@ function async_client_create({ success        = force('success'),
                 
             }).catch(error => console.error(error));
 
-            Route.language_setClientLanguageArray({
+            Ordbase.language_setClientLanguageArray({
                 clientKey:  client.key, 
                 clientLanguageArray: languageKeyArray.map(languageKey => { return { languageKey: languageKey, clientKey: client.key }}) 
             }).then(res => {

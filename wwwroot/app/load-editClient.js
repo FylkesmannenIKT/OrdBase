@@ -1,7 +1,7 @@
 'use strict';
 
 import * as App from './App.js';
-import * as Route from '../lib/Route.js';
+import * as Ordbase from '../lib/Ordbase.js';
 import { force } from '../lib/Util.js'; 
 
 import { View_EditClient }        from '../views/edit-client.js';
@@ -116,10 +116,10 @@ function async_container_getClientContainerKeyArray_container_getNonEmptyArray({
 
     let containerKeyArray = null;
 
-    Route.container_getClientContainerArray({clientKey: clientKey})
+    Ordbase.container_getClientContainerArray({clientKey: clientKey})
     .then(clientContainerArray => {
         containerKeyArray = clientContainerArray.map(clientContainer => { return clientContainer.containerKey; });
-        return Route.container_getNonEmpty({ clientKey: clientKey });
+        return Ordbase.container_getNonEmpty({ clientKey: clientKey });
     })
     .then(containerNoEmptyArray => {
         success(containerKeyArray, containerNoEmptyArray);
@@ -135,10 +135,10 @@ function async_language_getArray_client_getClientLanguageKeyArray({  success = f
                                                                    clientKey = force('clientKey'), }) {
 
     let languageArray = null;
-    Route.language_get()
+    Ordbase.language_get()
     .then(_languageArray => {
         languageArray = _languageArray;
-        return Route.language_getClientLanguageArray({clientKey: clientKey});
+        return Ordbase.language_getClientLanguageArray({clientKey: clientKey});
     })
     .then(clientLanguageArray => {
         success(languageArray, clientLanguageArray.map(clientLanguage => { return clientLanguage.languageKey; }));    
@@ -153,7 +153,7 @@ function async_language_getArray_client_getClientLanguageKeyArray({  success = f
 function async_clientGet({ success = force('success'),
                               clientKey = force('clientKey'), }) {
 
-    Route.client_get({clientKey: clientKey})
+    Ordbase.client_get({clientKey: clientKey})
     .then(clientArray => {
         let client = clientArray[0];
         success(client);
@@ -172,11 +172,11 @@ function async_client_update({ success = force('success'),
                                languageKeyArray  = force('languageKeyArray')
     }) {
 
-    Route.client_update({clientKey: client.key, client: client}).then(res => {
+    Ordbase.client_update({clientKey: client.key, client: client}).then(res => {
         console.log('client_update():', res.status);
         if (res.status == App.HTTP_UPDATED) {
 
-            Route.container_setClientContainerArray({
+            Ordbase.container_setClientContainerArray({
                 clientKey: client.key, 
                 clientContainerArray: containerKeyArray.map(containerKey => { return {containerKey: containerKey, clientKey: client.key }})
             }).then(res => {

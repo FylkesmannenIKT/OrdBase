@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 // AspNetCore
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.ResponseCaching;
+using Microsoft.Net.Http.Headers;
 
 // Extensions
 using Microsoft.Extensions.DependencyInjection;
@@ -29,9 +30,6 @@ using OrdBaseCore.Models;
 using OrdBaseCore.IData;
 using OrdBaseCore.Repositories;
 
-
-// @doc Set up MySql service - https://damienbod.com/2016/08/26/asp-net-core-1-0-with-mysql-and-entity-framework-core/
-// @doc scoped vs transient vs singleton - https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection#service-lifetimes-and-registration-options
 
 namespace OrdBaseCore {
 
@@ -73,7 +71,6 @@ namespace OrdBaseCore {
                 
             );
 
-            // @doc response caching middleware - https://docs.microsoft.com/en-us/aspnet/core/performance/caching/middleware
             services.AddDirectoryBrowser();
             services.AddMvc((options) => {
                 options.CacheProfiles.Add("api_cache", new CacheProfile() {  
@@ -81,14 +78,15 @@ namespace OrdBaseCore {
                         Location = ResponseCacheLocation.Any  
                 });
             });
+            // @doc response caching middleware - https://docs.microsoft.com/en-us/aspnet/core/performance/caching/middleware
             services.AddResponseCaching();
 
-            // @note GZIP compression service
-            // @doc https://www.softfluent.com/blog/dev/Enabling-gzip-compression-with-ASP-NET-Core
+            // @doc GZIP compression service - https://www.softfluent.com/blog/dev/Enabling-gzip-compression-with-ASP-NET-Core
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
             services.AddResponseCompression();
 
             // @note add Repositories as services
+            // @doc scoped vs transient vs singleton - https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection#service-lifetimes-and-registration-options
             services.AddTransient<IClientData,      ClientRepository>();
             services.AddTransient<IContainerData,   ContainerRepository>();
             services.AddTransient<ILanguageData,    LanguageRepository>();
@@ -112,7 +110,6 @@ namespace OrdBaseCore {
                 app.UseDeveloperExceptionPage();
             }
 
-            // TranslationDb.Seed(context);
 
             app.UseDefaultFiles();
             // @doc caching static files  https://andrewlock.net/adding-cache-control-headers-to-static-files-in-asp-net-core/
@@ -127,6 +124,9 @@ namespace OrdBaseCore {
             app.UseMvc();
             app.UseResponseCompression();
             app.UseResponseCaching();   
+
+            // @note Only use this when the database is empty.
+            //TranslationDb.Seed(context); 
        }
     }
     //
@@ -136,6 +136,8 @@ namespace OrdBaseCore {
     //       framework does not use the standard way.
     //       Perhaps this class can be removed in the future, when we find a way for entity framework
     //       to use the standard way of obtaining the DbContext.  - JSolsvik 30.06.2017
+    //
+    //       @doc Set up MySql service - https://damienbod.com/2016/08/26/asp-net-core-1-0-with-mysql-and-entity-framework-core/
     //
     public class MigrationsContextFactory : IDbContextFactory<TranslationDb>
     {

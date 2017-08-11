@@ -1,4 +1,4 @@
-# GET - api/client
+# POST - api/client
 
 Last updated: 08.08.17 by Jonas Solsvik
 

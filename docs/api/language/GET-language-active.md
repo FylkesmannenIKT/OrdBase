@@ -1,4 +1,4 @@
-# GET - api/language
+# GET - api/language/active
 
 Last updated: 08.08.17 by Jonas Solsvik
 
@@ -6,7 +6,7 @@ Last updated: 08.08.17 by Jonas Solsvik
 **URL**
 
 ```url
-http://localhost:5000/api/container/
+http://localhost:5000/api/language/active
 ``` 
 
 
