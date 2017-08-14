@@ -8,7 +8,6 @@ package-lock.json
 # Generated files
 bin/
 obj/
-bundle.js
 bundle.min.js
 
 # @note Migrations are sometimes ignored, sometimes not. It depends on stable they are. - JSolsvik 08.08.17
