@@ -19,7 +19,7 @@ import * as Fetch from './Fetch.js';
 export function client_get({ clientKey = '' } = {}) {
 
     return Fetch.GET({  
-        route: `api/client/?clientKey=${clientKey}`, 
+        route: `api/client?clientKey=${clientKey}`, 
     });
 }
 
@@ -38,7 +38,7 @@ export function client_update({ clientKey = force('clientKey'),
                                 client    = force('client') } = {}) {  
 
     return Fetch.PUT({
-        route: `api/client/?clientKey=${clientKey}`,
+        route: `api/client?clientKey=${clientKey}`,
         data:  client, 
     });
 }
@@ -46,7 +46,7 @@ export function client_update({ clientKey = force('clientKey'),
 export function client_delete({ clientKey = force('clientKey'), } = {}) {
 
     return Fetch.DELETE({
-        route: `api/client/?clientKey=${clientKey}`,
+        route: `api/client?clientKey=${clientKey}`,
     });
 }
 
@@ -66,7 +66,7 @@ export function translation_get({ clientKey      = '',
     const queryString = `clientKey=${clientKey}&languageKey=${languageKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
     
     return Fetch.GET({  
-        route: `api/translation/?${queryString}`,
+        route: `api/translation?${queryString}`,
     }); 
 }
 
@@ -78,7 +78,7 @@ export function translation_getGroup({ clientKey      = '',
     const queryString = `clientKey=${clientKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
 
     return Fetch.GET({
-        route: `api/translation/group/?${queryString}`,
+        route: `api/translation/group?${queryString}`,
     })
 }
 
@@ -89,7 +89,7 @@ export function translation_getGroupMeta({ clientKey      = '',
     const queryString = `clientKey=${clientKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
 
     return Fetch.GET({
-        route: `api/translation/group/meta/?${queryString}`,
+        route: `api/translation/group/meta?${queryString}`,
     })
 }
 
@@ -122,7 +122,7 @@ export function translation_update({ clientKey      = force('clientKey'),
     const queryString = `clientKey=${clientKey}&languageKey=${languageKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
 
     return Fetch.PUT({
-        route: `api/translation/?${queryString}`,       
+        route: `api/translation?${queryString}`,       
         data:  translation 
     });
 }
@@ -135,7 +135,7 @@ export function translation_updateArray({ clientKey        = force('clientKey'),
     const queryString = `clientKey=${clientKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
 
     return Fetch.PUT({
-        route: `api/translation/array/?${queryString}`,       
+        route: `api/translation/array?${queryString}`,       
         data:  translationArray
     });
 }
@@ -148,7 +148,7 @@ export function translation_delete({ clientKey      = force('clientKey'),
     const queryString = `clientKey=${clientKey}&languageKey=${languageKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
 
     return Fetch.DELETE({
-        route: `api/translation/?${queryString}`
+        route: `api/translation?${queryString}`
     });
 }
 
@@ -159,7 +159,7 @@ export function translation_deleteGroup({ clientKey      = force('clientKey'),
     const queryString = `clientKey=${clientKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
 
     return Fetch.DELETE({
-        route: `api/translation/group/?${queryString}`, 
+        route: `api/translation/group?${queryString}`, 
     });
 }
 
@@ -169,20 +169,20 @@ export function translation_deleteGroup({ clientKey      = force('clientKey'),
 //
 export function container_get({ containerKey = '' } = {}) {
     return Fetch.GET({  
-        route: `api/container/?containerKey=${containerKey}`,
+        route: `api/container?containerKey=${containerKey}`,
     });
 }
 
 export function container_getNonEmpty({ clientKey = ''} = {}) {
     return Fetch.GET({
-        route: `api/container/nonempty/?clientKey=${clientKey}`,
+        route: `api/container/nonempty?clientKey=${clientKey}`,
     });
 } 
 
 export function container_getClientContainerArray({ clientKey = force('clientKey') } = {}) {
 
     return Fetch.GET({ 
-        route: `api/container/active/?clientKey=${clientKey}`, 
+        route: `api/container/active?clientKey=${clientKey}`, 
     });
 };
 
@@ -190,7 +190,7 @@ export function container_setClientContainerArray({ clientKey            = force
                                                     clientContainerArray = force('clientContainerArray') } = {}) {
 
     return Fetch.PUT({ 
-        route: `api/container/active/?clientKey=${clientKey}`, 
+        route: `api/container/active?clientKey=${clientKey}`, 
         data:  clientContainerArray,
     });
 }
@@ -202,7 +202,7 @@ export function container_setClientContainerArray({ clientKey            = force
 //
 export function language_get ({ languageKey = '' } = {}) {
     return Fetch.GET({  
-        route: `api/language/?languageKey=${languageKey}`,
+        route: `api/language?languageKey=${languageKey}`,
     });
 }
 
@@ -216,14 +216,14 @@ export function languages_create ({ language = force('language') } = {}) {
 export function language_getClientLanguageArray({ clientKey = force('clientKey') } = {}) {
 
     return Fetch.GET({ 
-        route: `api/language/active/?clientKey=${clientKey}`, 
+        route: `api/language/active?clientKey=${clientKey}`, 
     });
 };
 
 export function language_setClientLanguageArray({ clientKey           = force('clientKey'),  
                                                   clientLanguageArray = force('clientLanguageArray') } = {}) {
     return Fetch.PUT({ 
-        route: `api/language/active/?clientKey=${clientKey}`, 
+        route: `api/language/active?clientKey=${clientKey}`, 
         data:  clientLanguageArray,
     });
 }

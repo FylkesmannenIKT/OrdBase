@@ -7,7 +7,7 @@ let languageChangeObserver = null;
 export function async_loadContainer(clientKey, containeKey) {
     let languageKey = html.getAttribute('lang');
 
-    let url = `api/translation/keyvalue/?clientKey=${clientKey}&languageKey=${languageKey}&containeKey=${containeKey}`;
+    let url = `api/translation/keyvalue?clientKey=${clientKey}&languageKey=${languageKey}&containeKey=${containeKey}`;
     console.log(url);
 
     containerPromise = fetch(url, { method: 'GET' })
