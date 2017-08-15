@@ -339,7 +339,7 @@ function makeTranslationCard({ cardPrototype = force('cardPrototype'),
 function async_language_getClientLanguageKeyArray({ clientKey = force('clientKey'), 
                                                     success   = force('success') }){
         
-    Route.language_getClientLanguageArray({clientKey: clientKey}).then(clientLanguageArray => {
+    Ordbase.language_getClientLanguageArray({clientKey: clientKey}).then(clientLanguageArray => {
         success(clientLanguageArray.map(clientLanguage => { return  clientLanguage.languageKey; }));
     })
     .catch(err => console.error(err));      
@@ -354,7 +354,7 @@ function async_translation_getGroup({ success       = force('success'),
                                          containerKey  = force('containerKey'),
                                          translationKey = force('translationKey'), }) {
 
-    Route.translation_getGroup({clientKey: clientKey,
+    Ordbase.translation_getGroup({clientKey: clientKey,
                                 containerKey: containerKey,
                                 translationKey: translationKey}).then((groupArray) => {
       if (groupArray.length > 0) {
@@ -374,7 +374,7 @@ function async_translation_getGroup({ success       = force('success'),
 function async_container_getClientContainerKeyArray ({  success  = force('success'),
                                                      clientKey   = force('clientKey') }) {
 
-    Route.container_getClientContainerArray({clientKey: clientKey}).then(clientContainerArray => {        
+    Ordbase.container_getClientContainerArray({clientKey: clientKey}).then(clientContainerArray => {        
         if (clientContainerArray.length > 0) 
             success(clientContainerArray.map(clientContainer => { return clientContainer.containerKey }));
         else {
@@ -391,7 +391,7 @@ function async_translation_getGroupMetaArray({ success      = force('success'),
                                                clientKey    = force('clientKey'), 
                                                containerKey = force('containerKey') }) {
 
-    Route.translation_getGroupMeta({clientKey:    clientKey, 
+    Ordbase.translation_getGroupMeta({clientKey:    clientKey, 
                                     containerKey: containerKey}).then(groupMetaArray => {
         success(groupMetaArray);
     })
@@ -406,7 +406,7 @@ function async_translation_getGroupMeta({ success      = force('success'),
                                              containerKey = force('containerKey'),
                                              translationKey = force('translationKey')}) {
 
-    Route.translation_getGroupMeta(arguments[0]).then(groupMetaArray => {
+    Ordbase.translation_getGroupMeta(arguments[0]).then(groupMetaArray => {
         let groupMeta = groupMetaArray[0];
         success(groupMeta)
     })
@@ -419,14 +419,14 @@ function async_translation_getGroupMeta({ success      = force('success'),
 function async_translation_createArray({ success         = force('success'), 
                                             translationArray = force('translationArray')}) {
 
-    Route.translation_createArray({ translationArray: translationArray }).then(res => {
+    Ordbase.translation_createArray({ translationArray: translationArray }).then(res => {
 
         if(res.status != App.HTTP_CREATED) {
             App.flashError(`${res.status}: Was not able to create new translations...`);
             throw new Error('translation_createArray(): ', res.status);
         }
 
-        return Route.translation_getGroupMeta({ clientKey: translationArray[0].clientKey, 
+        return Ordbase.translation_getGroupMeta({ clientKey: translationArray[0].clientKey, 
                                                 containerKey: translationArray[0].containerKey, 
                                                 translationKey: translationArray[0].key }); 
     })
@@ -443,7 +443,7 @@ function async_translation_createArray({ success         = force('success'),
 
 function    async_translation_updateArray({ success= force('success'), translationArray = force('translationArray') }) {
 
-    Route.translation_updateArray({ translationArray: translationArray, 
+    Ordbase.translation_updateArray({ translationArray: translationArray, 
                                     clientKey: translationArray[0].clientKey, 
                                     containerKey: translationArray[0].containerKey, 
                                     translationKey: translationArray[0].key })
@@ -468,7 +468,7 @@ function async_translation_delete({  success        = force('success'),
                                         containerKey   = force('containerKey'), 
                                         translationKey = force('translationKey'), }) {
 
-    Route.translation_deleteGroup({clientKey: clientKey, 
+    Ordbase.translation_deleteGroup({clientKey: clientKey, 
                                    containerKey: containerKey, 
                                    translationKey: translationKey})
     .then(res => {

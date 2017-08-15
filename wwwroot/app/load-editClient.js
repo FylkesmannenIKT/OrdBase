@@ -189,7 +189,7 @@ function async_client_update({ success = force('success'),
                 
             }).catch(error => console.error(error));
 
-            Route.language_setClientLanguageArray({
+            Ordbase.language_setClientLanguageArray({
                 clientKey:  client.key, 
                 clientLanguageArray: languageKeyArray.map(languageKey => { return { languageKey: languageKey, clientKey: client.key }}) 
             }).then(res => {
