@@ -73,10 +73,10 @@ namespace OrdBaseCore {
 
             services.AddDirectoryBrowser();
             services.AddMvc((options) => {
-                options.CacheProfiles.Add("api_cache", new CacheProfile() {  
-                    Duration = 60 * 60 * 24,  
-                        Location = ResponseCacheLocation.Any  
-                });
+                //options.CacheProfiles.Add("api_cache", new CacheProfile() {  
+                //    Duration = 60 * 60 * 24,  
+                //        Location = ResponseCacheLocation.Any  
+                //});
             });
             // @doc response caching middleware - https://docs.microsoft.com/en-us/aspnet/core/performance/caching/middleware
             services.AddResponseCaching();
