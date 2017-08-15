@@ -189,14 +189,14 @@ window.addEventListener('DOMContentLoaded', () => {
 /* harmony export (immutable) */ __webpack_exports__["c"] = client_update;
 /* unused harmony export client_delete */
 /* unused harmony export translation_get */
-/* unused harmony export translation_getGroup */
-/* unused harmony export translation_getGroupMeta */
+/* harmony export (immutable) */ __webpack_exports__["l"] = translation_getGroup;
+/* harmony export (immutable) */ __webpack_exports__["m"] = translation_getGroupMeta;
 /* unused harmony export translation_create */
-/* unused harmony export translation_createArray */
+/* harmony export (immutable) */ __webpack_exports__["j"] = translation_createArray;
 /* unused harmony export translation_update */
-/* unused harmony export translation_updateArray */
+/* harmony export (immutable) */ __webpack_exports__["n"] = translation_updateArray;
 /* unused harmony export translation_delete */
-/* unused harmony export translation_deleteGroup */
+/* harmony export (immutable) */ __webpack_exports__["k"] = translation_deleteGroup;
 /* unused harmony export container_get */
 /* harmony export (immutable) */ __webpack_exports__["e"] = container_getNonEmpty;
 /* harmony export (immutable) */ __webpack_exports__["d"] = container_getClientContainerArray;
@@ -228,7 +228,7 @@ window.addEventListener('DOMContentLoaded', () => {
 function client_get({ clientKey = '' } = {}) {
 
     return __WEBPACK_IMPORTED_MODULE_1__Fetch_js__["b" /* GET */]({
-        route: `api/client/?clientKey=${clientKey}`
+        route: `api/client?clientKey=${clientKey}`
     });
 }
 
@@ -247,7 +247,7 @@ function client_update({ clientKey = Object(__WEBPACK_IMPORTED_MODULE_0__Util_js
     client = Object(__WEBPACK_IMPORTED_MODULE_0__Util_js__["a" /* force */])('client') } = {}) {
 
     return __WEBPACK_IMPORTED_MODULE_1__Fetch_js__["d" /* PUT */]({
-        route: `api/client/?clientKey=${clientKey}`,
+        route: `api/client?clientKey=${clientKey}`,
         data: client
     });
 }
@@ -255,7 +255,7 @@ function client_update({ clientKey = Object(__WEBPACK_IMPORTED_MODULE_0__Util_js
 function client_delete({ clientKey = Object(__WEBPACK_IMPORTED_MODULE_0__Util_js__["a" /* force */])('clientKey') } = {}) {
 
     return __WEBPACK_IMPORTED_MODULE_1__Fetch_js__["a" /* DELETE */]({
-        route: `api/client/?clientKey=${clientKey}`
+        route: `api/client?clientKey=${clientKey}`
     });
 }
 
@@ -274,7 +274,7 @@ function translation_get({ clientKey = '',
     const queryString = `clientKey=${clientKey}&languageKey=${languageKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
 
     return __WEBPACK_IMPORTED_MODULE_1__Fetch_js__["b" /* GET */]({
-        route: `api/translation/?${queryString}`
+        route: `api/translation?${queryString}`
     });
 }
 
@@ -285,7 +285,7 @@ function translation_getGroup({ clientKey = '',
     const queryString = `clientKey=${clientKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
 
     return __WEBPACK_IMPORTED_MODULE_1__Fetch_js__["b" /* GET */]({
-        route: `api/translation/group/?${queryString}`
+        route: `api/translation/group?${queryString}`
     });
 }
 
@@ -296,7 +296,7 @@ function translation_getGroupMeta({ clientKey = '',
     const queryString = `clientKey=${clientKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
 
     return __WEBPACK_IMPORTED_MODULE_1__Fetch_js__["b" /* GET */]({
-        route: `api/translation/group/meta/?${queryString}`
+        route: `api/translation/group/meta?${queryString}`
     });
 }
 
@@ -328,7 +328,7 @@ function translation_update({ clientKey = Object(__WEBPACK_IMPORTED_MODULE_0__Ut
     const queryString = `clientKey=${clientKey}&languageKey=${languageKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
 
     return __WEBPACK_IMPORTED_MODULE_1__Fetch_js__["d" /* PUT */]({
-        route: `api/translation/?${queryString}`,
+        route: `api/translation?${queryString}`,
         data: translation
     });
 }
@@ -341,7 +341,7 @@ function translation_updateArray({ clientKey = Object(__WEBPACK_IMPORTED_MODULE_
     const queryString = `clientKey=${clientKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
 
     return __WEBPACK_IMPORTED_MODULE_1__Fetch_js__["d" /* PUT */]({
-        route: `api/translation/array/?${queryString}`,
+        route: `api/translation/array?${queryString}`,
         data: translationArray
     });
 }
@@ -354,7 +354,7 @@ function translation_delete({ clientKey = Object(__WEBPACK_IMPORTED_MODULE_0__Ut
     const queryString = `clientKey=${clientKey}&languageKey=${languageKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
 
     return __WEBPACK_IMPORTED_MODULE_1__Fetch_js__["a" /* DELETE */]({
-        route: `api/translation/?${queryString}`
+        route: `api/translation?${queryString}`
     });
 }
 
@@ -365,7 +365,7 @@ function translation_deleteGroup({ clientKey = Object(__WEBPACK_IMPORTED_MODULE_
     const queryString = `clientKey=${clientKey}&containerKey=${containerKey}&translationKey=${translationKey}`;
 
     return __WEBPACK_IMPORTED_MODULE_1__Fetch_js__["a" /* DELETE */]({
-        route: `api/translation/group/?${queryString}`
+        route: `api/translation/group?${queryString}`
     });
 }
 
@@ -374,20 +374,20 @@ function translation_deleteGroup({ clientKey = Object(__WEBPACK_IMPORTED_MODULE_
 //
 function container_get({ containerKey = '' } = {}) {
     return __WEBPACK_IMPORTED_MODULE_1__Fetch_js__["b" /* GET */]({
-        route: `api/container/?containerKey=${containerKey}`
+        route: `api/container?containerKey=${containerKey}`
     });
 }
 
 function container_getNonEmpty({ clientKey = '' } = {}) {
     return __WEBPACK_IMPORTED_MODULE_1__Fetch_js__["b" /* GET */]({
-        route: `api/container/nonempty/?clientKey=${clientKey}`
+        route: `api/container/nonempty?clientKey=${clientKey}`
     });
 }
 
 function container_getClientContainerArray({ clientKey = Object(__WEBPACK_IMPORTED_MODULE_0__Util_js__["a" /* force */])('clientKey') } = {}) {
 
     return __WEBPACK_IMPORTED_MODULE_1__Fetch_js__["b" /* GET */]({
-        route: `api/container/active/?clientKey=${clientKey}`
+        route: `api/container/active?clientKey=${clientKey}`
     });
 };
 
@@ -395,7 +395,7 @@ function container_setClientContainerArray({ clientKey = Object(__WEBPACK_IMPORT
     clientContainerArray = Object(__WEBPACK_IMPORTED_MODULE_0__Util_js__["a" /* force */])('clientContainerArray') } = {}) {
 
     return __WEBPACK_IMPORTED_MODULE_1__Fetch_js__["d" /* PUT */]({
-        route: `api/container/active/?clientKey=${clientKey}`,
+        route: `api/container/active?clientKey=${clientKey}`,
         data: clientContainerArray
     });
 }
@@ -405,7 +405,7 @@ function container_setClientContainerArray({ clientKey = Object(__WEBPACK_IMPORT
 //
 function language_get({ languageKey = '' } = {}) {
     return __WEBPACK_IMPORTED_MODULE_1__Fetch_js__["b" /* GET */]({
-        route: `api/language/?languageKey=${languageKey}`
+        route: `api/language?languageKey=${languageKey}`
     });
 }
 
@@ -419,14 +419,14 @@ function languages_create({ language = Object(__WEBPACK_IMPORTED_MODULE_0__Util_
 function language_getClientLanguageArray({ clientKey = Object(__WEBPACK_IMPORTED_MODULE_0__Util_js__["a" /* force */])('clientKey') } = {}) {
 
     return __WEBPACK_IMPORTED_MODULE_1__Fetch_js__["b" /* GET */]({
-        route: `api/language/active/?clientKey=${clientKey}`
+        route: `api/language/active?clientKey=${clientKey}`
     });
 };
 
 function language_setClientLanguageArray({ clientKey = Object(__WEBPACK_IMPORTED_MODULE_0__Util_js__["a" /* force */])('clientKey'),
     clientLanguageArray = Object(__WEBPACK_IMPORTED_MODULE_0__Util_js__["a" /* force */])('clientLanguageArray') } = {}) {
     return __WEBPACK_IMPORTED_MODULE_1__Fetch_js__["d" /* PUT */]({
-        route: `api/language/active/?clientKey=${clientKey}`,
+        route: `api/language/active?clientKey=${clientKey}`,
         data: clientLanguageArray
     });
 }
@@ -679,7 +679,7 @@ let languageChangeObserver = null;
 function async_loadContainer(clientKey, containeKey) {
     let languageKey = html.getAttribute('lang');
 
-    let url = `api/translation/keyvalue/?clientKey=${clientKey}&languageKey=${languageKey}&containeKey=${containeKey}`;
+    let url = `api/translation/keyvalue?clientKey=${clientKey}&languageKey=${languageKey}&containeKey=${containeKey}`;
     console.log(url);
 
     containerPromise = fetch(url, { method: 'GET' }).then(container => {
@@ -1334,7 +1334,7 @@ customElements.define('component-card-client', Component_ClientCard);
 /* 14 */
 /***/ (function(module, exports) {
 
-module.exports = "<style>:host{--box-shadow-color:var(--ordbase-color-success);--box-shadow-min:20px;--box-shadow-max:70px 3px;--animation-speed:.3s;width:250px;height:220px;flex-shrink:0;padding:20px 10px 10px 10px;color:var(--ordbase-color-dark)}button{background-color:transparent;border:none;padding:0;cursor:pointer;color:var(--ordbase-color-dark);background-color:var(--ordbase-color-white)!important}h2{margin-bottom:0;margin-top:7px;padding:0 5px 0 10px}p{font-size:13px;padding:0 5px 0 10px}@keyframes focusAnimation{from{box-shadow:0 0 var(--box-shadow-min) var(--box-shadow-color)}to{box-shadow:0 0 var(--box-shadow-max) var(--box-shadow-color)}}@keyframes defocusAnimation{from{box-shadow:0 0 var(--box-shadow-max) var(--box-shadow-color)}to{box-shadow:0 0 var(--box-shadow-min) var(--box-shadow-color)}}button.animated{animation-name:defocusAnimation;animation-duration:var(--animation-speed)}button.animated:focus,button.animated:hover{animation-name:focusAnimation;animation-duration:var(--animation-speed)}button{--box-shadow-color:var(--ordbase-color-success);box-shadow:0 0 var(--box-shadow-min) var(--ordbase-color-success)}button:focus,button:hover{box-shadow:0 0 var(--box-shadow-max) var(--ordbase-color-success)}.editable{--box-shadow-color:var(--ordbase-color-select);box-shadow:0 0 var(--box-shadow-min) var(--ordbase-color-select)}.editable:focus,.editable:hover{box-shadow:0 0 var(--box-shadow-max) var(--ordbase-color-select)}.deleteable{--box-shadow-color:var(--ordbase-color-danger);box-shadow:0 0 var(--box-shadow-min) var(--ordbase-color-danger)}.deleteable:focus,.deleteable:hover{box-shadow:0 0 var(--box-shadow-max) var(--ordbase-color-danger)}</style> <button id=card-button> <img widt=250 height=125 id=card-img alt=\"Bilde av fylkesmannen\" src=xxxHTMLLINKxxx0.098122356561766820.992116844282839xxx> <h2 id=card-h2> {{ ddd }}</h2> <p id=card-p> {{ text }}</p> </button>";
+module.exports = "<style>:host{--box-shadow-color:var(--ordbase-color-success);--box-shadow-min:20px;--box-shadow-max:70px 3px;--animation-speed:.3s;width:250px;height:220px;flex-shrink:0;padding:20px 10px 10px 10px;color:var(--ordbase-color-dark)}button{background-color:transparent;border:none;padding:0;cursor:pointer;color:var(--ordbase-color-dark);background-color:var(--ordbase-color-white)!important}h2{margin-bottom:0;margin-top:7px;padding:0 5px 0 10px}p{font-size:13px;padding:0 5px 0 10px}@keyframes focusAnimation{from{box-shadow:0 0 var(--box-shadow-min) var(--box-shadow-color)}to{box-shadow:0 0 var(--box-shadow-max) var(--box-shadow-color)}}@keyframes defocusAnimation{from{box-shadow:0 0 var(--box-shadow-max) var(--box-shadow-color)}to{box-shadow:0 0 var(--box-shadow-min) var(--box-shadow-color)}}button.animated{animation-name:defocusAnimation;animation-duration:var(--animation-speed)}button.animated:focus,button.animated:hover{animation-name:focusAnimation;animation-duration:var(--animation-speed)}button{--box-shadow-color:var(--ordbase-color-success);box-shadow:0 0 var(--box-shadow-min) var(--ordbase-color-success)}button:focus,button:hover{box-shadow:0 0 var(--box-shadow-max) var(--ordbase-color-success)}.editable{--box-shadow-color:var(--ordbase-color-select);box-shadow:0 0 var(--box-shadow-min) var(--ordbase-color-select)}.editable:focus,.editable:hover{box-shadow:0 0 var(--box-shadow-max) var(--ordbase-color-select)}.deleteable{--box-shadow-color:var(--ordbase-color-danger);box-shadow:0 0 var(--box-shadow-min) var(--ordbase-color-danger)}.deleteable:focus,.deleteable:hover{box-shadow:0 0 var(--box-shadow-max) var(--ordbase-color-danger)}</style> <button id=card-button> <img widt=250 height=125 id=card-img alt=\"Bilde av fylkesmannen\" src=xxxHTMLLINKxxx0.8601363911030020.16684921548070308xxx> <h2 id=card-h2> {{ ddd }}</h2> <p id=card-p> {{ text }}</p> </button>";
 
 /***/ }),
 /* 15 */
@@ -1543,7 +1543,7 @@ function async_client_update({ success = Object(__WEBPACK_IMPORTED_MODULE_2__lib
                 console.log('client_setContainers(): ', res.status);
             }).catch(error => console.error(error));
 
-            Route.language_setClientLanguageArray({
+            __WEBPACK_IMPORTED_MODULE_1__lib_Ordbase_js__["i" /* language_setClientLanguageArray */]({
                 clientKey: client.key,
                 clientLanguageArray: languageKeyArray.map(languageKey => {
                     return { languageKey: languageKey, clientKey: client.key };
@@ -2100,7 +2100,7 @@ function makeTranslationCard({ cardPrototype = Object(__WEBPACK_IMPORTED_MODULE_
 function async_language_getClientLanguageKeyArray({ clientKey = Object(__WEBPACK_IMPORTED_MODULE_3__lib_Util_js__["a" /* force */])('clientKey'),
     success = Object(__WEBPACK_IMPORTED_MODULE_3__lib_Util_js__["a" /* force */])('success') }) {
 
-    Route.language_getClientLanguageArray({ clientKey: clientKey }).then(clientLanguageArray => {
+    __WEBPACK_IMPORTED_MODULE_1__lib_Ordbase_js__["h" /* language_getClientLanguageArray */]({ clientKey: clientKey }).then(clientLanguageArray => {
         success(clientLanguageArray.map(clientLanguage => {
             return clientLanguage.languageKey;
         }));
@@ -2115,7 +2115,7 @@ function async_translation_getGroup({ success = Object(__WEBPACK_IMPORTED_MODULE
     containerKey = Object(__WEBPACK_IMPORTED_MODULE_3__lib_Util_js__["a" /* force */])('containerKey'),
     translationKey = Object(__WEBPACK_IMPORTED_MODULE_3__lib_Util_js__["a" /* force */])('translationKey') }) {
 
-    Route.translation_getGroup({ clientKey: clientKey,
+    __WEBPACK_IMPORTED_MODULE_1__lib_Ordbase_js__["l" /* translation_getGroup */]({ clientKey: clientKey,
         containerKey: containerKey,
         translationKey: translationKey }).then(groupArray => {
         if (groupArray.length > 0) {
@@ -2133,7 +2133,7 @@ function async_translation_getGroup({ success = Object(__WEBPACK_IMPORTED_MODULE
 function async_container_getClientContainerKeyArray({ success = Object(__WEBPACK_IMPORTED_MODULE_3__lib_Util_js__["a" /* force */])('success'),
     clientKey = Object(__WEBPACK_IMPORTED_MODULE_3__lib_Util_js__["a" /* force */])('clientKey') }) {
 
-    Route.container_getClientContainerArray({ clientKey: clientKey }).then(clientContainerArray => {
+    __WEBPACK_IMPORTED_MODULE_1__lib_Ordbase_js__["d" /* container_getClientContainerArray */]({ clientKey: clientKey }).then(clientContainerArray => {
         if (clientContainerArray.length > 0) success(clientContainerArray.map(clientContainer => {
             return clientContainer.containerKey;
         }));else {
@@ -2149,7 +2149,7 @@ function async_translation_getGroupMetaArray({ success = Object(__WEBPACK_IMPORT
     clientKey = Object(__WEBPACK_IMPORTED_MODULE_3__lib_Util_js__["a" /* force */])('clientKey'),
     containerKey = Object(__WEBPACK_IMPORTED_MODULE_3__lib_Util_js__["a" /* force */])('containerKey') }) {
 
-    Route.translation_getGroupMeta({ clientKey: clientKey,
+    __WEBPACK_IMPORTED_MODULE_1__lib_Ordbase_js__["m" /* translation_getGroupMeta */]({ clientKey: clientKey,
         containerKey: containerKey }).then(groupMetaArray => {
         success(groupMetaArray);
     }).catch(err => console.error(err));
@@ -2163,7 +2163,7 @@ function async_translation_getGroupMeta({ success = Object(__WEBPACK_IMPORTED_MO
     containerKey = Object(__WEBPACK_IMPORTED_MODULE_3__lib_Util_js__["a" /* force */])('containerKey'),
     translationKey = Object(__WEBPACK_IMPORTED_MODULE_3__lib_Util_js__["a" /* force */])('translationKey') }) {
 
-    Route.translation_getGroupMeta(arguments[0]).then(groupMetaArray => {
+    __WEBPACK_IMPORTED_MODULE_1__lib_Ordbase_js__["m" /* translation_getGroupMeta */](arguments[0]).then(groupMetaArray => {
         let groupMeta = groupMetaArray[0];
         success(groupMeta);
     }).catch(err => console.error(err));
@@ -2175,14 +2175,14 @@ function async_translation_getGroupMeta({ success = Object(__WEBPACK_IMPORTED_MO
 function async_translation_createArray({ success = Object(__WEBPACK_IMPORTED_MODULE_3__lib_Util_js__["a" /* force */])('success'),
     translationArray = Object(__WEBPACK_IMPORTED_MODULE_3__lib_Util_js__["a" /* force */])('translationArray') }) {
 
-    Route.translation_createArray({ translationArray: translationArray }).then(res => {
+    __WEBPACK_IMPORTED_MODULE_1__lib_Ordbase_js__["j" /* translation_createArray */]({ translationArray: translationArray }).then(res => {
 
         if (res.status != __WEBPACK_IMPORTED_MODULE_0__App_js__["HTTP_CREATED"]) {
             __WEBPACK_IMPORTED_MODULE_0__App_js__["flashError"](`${res.status}: Was not able to create new translations...`);
             throw new Error('translation_createArray(): ', res.status);
         }
 
-        return Route.translation_getGroupMeta({ clientKey: translationArray[0].clientKey,
+        return __WEBPACK_IMPORTED_MODULE_1__lib_Ordbase_js__["m" /* translation_getGroupMeta */]({ clientKey: translationArray[0].clientKey,
             containerKey: translationArray[0].containerKey,
             translationKey: translationArray[0].key });
     }).then(groupMetaArray => {
@@ -2197,7 +2197,7 @@ function async_translation_createArray({ success = Object(__WEBPACK_IMPORTED_MOD
 
 function async_translation_updateArray({ success = Object(__WEBPACK_IMPORTED_MODULE_3__lib_Util_js__["a" /* force */])('success'), translationArray = Object(__WEBPACK_IMPORTED_MODULE_3__lib_Util_js__["a" /* force */])('translationArray') }) {
 
-    Route.translation_updateArray({ translationArray: translationArray,
+    __WEBPACK_IMPORTED_MODULE_1__lib_Ordbase_js__["n" /* translation_updateArray */]({ translationArray: translationArray,
         clientKey: translationArray[0].clientKey,
         containerKey: translationArray[0].containerKey,
         translationKey: translationArray[0].key }).then(res => {
@@ -2219,7 +2219,7 @@ function async_translation_delete({ success = Object(__WEBPACK_IMPORTED_MODULE_3
     containerKey = Object(__WEBPACK_IMPORTED_MODULE_3__lib_Util_js__["a" /* force */])('containerKey'),
     translationKey = Object(__WEBPACK_IMPORTED_MODULE_3__lib_Util_js__["a" /* force */])('translationKey') }) {
 
-    Route.translation_deleteGroup({ clientKey: clientKey,
+    __WEBPACK_IMPORTED_MODULE_1__lib_Ordbase_js__["k" /* translation_deleteGroup */]({ clientKey: clientKey,
         containerKey: containerKey,
         translationKey: translationKey }).then(res => {
 
