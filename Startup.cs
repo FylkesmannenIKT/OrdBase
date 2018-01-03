@@ -121,6 +121,7 @@ namespace OrdBaseCore {
                     ctx.Context.Response.Headers[HeaderNames.CacheControl] = "public,max-age=" + durationInSeconds;
                 }
             });
+            app.UseCors(builder => builder.AllowAnyOrigin());
             app.UseMvc();
             app.UseResponseCompression();
             app.UseResponseCaching();   
